@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doctor's Prescription</title>
+    <style>
+      @media print {
+        @page {
+          size: A4;
+          margin: 20mm;
+        }
+      }
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        max-width: 210mm; /* A4 width in mm */
+        margin: auto;
+      }
+      p {
+        font-size: 12px;
+        margin: 5px 0;
+      }
+      .container {
+        border: 1px solid #ddd;
+        padding: 20px;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+      header {
+        margin-bottom: 20px;
+      }
+      .date {
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+      h2 {
+        font-size: 18px;
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f4f4f4;
+      }
+      footer {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+      .header-content div {
+        flex: 1;
+        margin-right: 20px;
+      }
+      .header-content div:last-child {
+        margin-right: 0;
+      }
+      .header-content img {
+        max-width: 120px;
+        height: auto;
+      }
+      .header-content p {
+        margin: 5px 0;
+      }
+      .patient-qr {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-bottom: 1px solid #ddd;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      .patient-details {
+        flex: 1;
+      }
+      .qr-code {
+        text-align: right;
+      }
+      .qr-code img {
+        max-width: 100px;
+        height: auto;
+      }
+      .qr-code p {
+        font-weight: bold;
+        margin-top: 10px;
+      }
+      .signature-section {
+        text-align: right;
+        margin-top: 30px;
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+      }
+      .signature-section p {
+        margin: 5px 0;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="header-content">
+          <div>
+            <!-- Logo -->
+            <img
+              src="https://img.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_53876-136743.jpg"
+              alt="Clinic Logo"
+            />
+          </div>
+          <div>
+            <h1>Dr. Jane Smith</h1>
+            <p style="font-weight: bold">Clinic Address:</p>
+            <p>456 Health St, Anytown, USA</p>
+            <p style="font-weight: bold">Phone:</p>
+            <p>(123) 456-7890</p>
+          </div>
+          <div>
+            <p style="font-weight: bold">Appointment Number:</p>
+            <p>AP-123456</p>
+            <p style="font-weight: bold">Registration Number:</p>
+            <p>12ABCDE3456F1Z2</p>
+            <br />
+            <div class="date">Date: September 18, 2024</div>
+          </div>
+        </div>
+
+        <div class="patient-qr">
+          <div class="patient-details">
+            <p style="font-weight: bold">Patient Details:</p>
+            <h3 style="margin: 0">John Doe</h3>
+            <p>Date of Birth: January 1, 1980</p>
+            <p>Gender: Male</p>
+            <p>Address: 123 Main St, Anytown, USA</p>
+          </div>
+          <div class="qr-code">
+            <img
+              src="https://support.thinkific.com/hc/article_attachments/360042081334/5d37325ea1ff6.png"
+              alt="Payment QR Code"
+            />
+            <p>Scan to Pay</p>
+          </div>
+        </div>
+      </header>
+
+      <section>
+        <h3>Prescription Details</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Medication</th>
+              <th>Dosage & Instructions</th>
+              <th>Duration</th>
+              <th>Total Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Medicine A</td>
+              <td>
+                500 mg <br />
+                <small>Take twice daily with food</small>
+              </td>
+              <td>10 days</td>
+              <td>20 tablets</td>
+            </tr>
+            <tr>
+              <td>Medicine B</td>
+              <td>
+                250 mg <br />
+                <small>Take once daily before bedtime</small>
+              </td>
+              <td>15 days</td>
+              <td>15 tablets</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section style="margin-top: 20px">
+        <h3>Notes</h3>
+        <p>
+          Please remember to follow the dosage instructions carefully. If you
+          experience any side effects or have questions about your medication,
+          contact the clinic immediately.
+        </p>
+        <p>
+          For any follow-up appointments or concerns, please reach out to the
+          clinic at (123) 456-7890.
+        </p>
+      </section>
+
+      <!-- Signature Section -->
+      <div class="signature-section">
+        <p>Doctor's Signature:</p>
+        <br /><br />
+        <p>______________________________</p>
+        <p>Dr. Jane Smith</p>
+      </div>
+    </div>
+  </body>
+</html>

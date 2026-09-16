@@ -1,0 +1,92 @@
+ 
+.container-invoice
+{
+    max-width: 560px;
+    width: 100%;
+    margin: 0 auto;
+    overflow: auto;
+    height: 100vh;
+}
+.container-invoice .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.container-invoice .header img {
+    max-width: 180px;
+}
+
+.container-invoice .invoice-info {
+    text-align: right;
+}
+.container-invoice .invoice-info p{
+    margin-bottom: 0;
+}
+
+
+.container-invoice .patient-details {
+    margin-top: 20px;
+}
+
+.container-invoice .patient-details p {
+    margin: 0;
+}
+ 
+.container-invoice .total {
+    text-align: right;
+    padding-right: 20px;
+}
+
+.container-invoice .payment-qr {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.container-invoice .payment-qr img {
+    max-width: 150px;
+}
+
+.container-invoice .footer-message {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.container-invoice .footer-message p {
+    margin: 5px 0;
+}
+
+.container-invoice table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.container-invoice table, .container-invoice th, .container-invoice td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+} 
+
+/* Mobile view adjustments */
+@media (max-width: 600px) {
+    
+    .container-invoice {
+        padding: 10px;
+    }
+    .container-invoice .header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .container-invoice .invoice-info {
+        text-align: center;
+    }
+    
+    .container-invoice .total {
+        text-align: left;
+        padding-right: 0;
+    }
+}

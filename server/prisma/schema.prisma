@@ -1,0 +1,261 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Clinic {
+  id                Int           @id @default(autoincrement())
+  name              String
+  number            String?
+  registration_date String?
+  gst_number        String?
+  phone             String?
+  email             String?
+  address_line1     String?
+  address_line2     String?
+  city              String?
+  state             String?
+  zipcode           String?
+  logo_url          String?
+  favicon_url       String?
+  scanner_url       String?
+  created_at        DateTime      @default(now())
+  updated_at        DateTime      @updated_at
+
+  users             User[]
+  doctors           Doctor[]
+  employees         Employee[]
+  patients          Patient[]
+  appointments      Appointment[]
+  medicines         Medicine[]
+  packages          Package[]
+  invoices          Invoice[]
+  notes             Note[]
+  assets            Asset[]
+  prescriptions     Prescription[]
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  clinic_id     Int
+  clinic        Clinic    @relation(fields: [clinic_id], references: [id], onDelete: Cascade)
+  email         String    @unique
+  password      String
+  first_name    String
+  last_name     String
+  mobile        String?
+  role          String    @default("ADMIN") // ADMIN, DOCTOR, EMPLOYEE
+  date_of_birth String?
+  gender        String?   @default("MALE")
+  address_line1 String?
+  city          String?
+  zipcode       String?
+  permissions   String?   // JSON string of permissions array
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updated_at
+
+  doctor_profile Doctor?
+}
+
+model Doctor {
+  id             Int           @id @default(autoincrement())
+  clinic_id      Int
+  clinic         Clinic        @relation(fields: [clinic_id], references: [id], onDelete: Cascade)
+  user_id        Int?          @unique
+  user           User?         @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  first_name     String
+  last_name      String
+  email          String?
+  mobile         String?
+  specialization String?
+  qualification  String?
+  experience     String?
+  photo_url      String?
+  address_line1  String?
+  city           String?
+  state          String?
+  zipcode        String?
+  created_at     DateTime      @default(now())
+  updated_at     DateTime      @updated_at
+
+  appointments   Appointment[]
+  prescriptions  Prescription[]
+}
+
+model Employee {
+  id              Int       @id @default(autoincrement())
+  clinic_id       Int
+  clinic          Clinic    @relation(fields: [clinic_id], references: [id], onDelete: Cascade)
+  first_name      String
+  last_name       String
+  email           String?
+  mobile          String?
+  designation     String?
+  department      String?
+  date_of_joining String?
+  address_line1   String?
+  city            String?
+  state           String?
+  zipcode         String?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updated_at
+}
+
+model Package {
+  id              Int       @id @default(autoincrement())
+  clinic_id       Int
+  clinic          Clinic    @relation(fields: [clinic_id], references: [id], onDelete: Cascade)
+  name            String
+  amount          Float
+  seating_count   Int       @default(1)
+  available_count Int?      @default(1)
+  description     String?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updated_at
+
+  patients        Patient[]
+}
+
+model Patient {
+  id                 Int           @id @default(autoincrement())
+  clinic_id          Int
+  clinic             Clinic        @relation(fields: [clinic_id], references: [id], onDelete: Cascade)
+  name               String
+  mobile             String
+  email              String?
+  gender             String        @default("MALE")
+  date_of_birth      String?
+  registration_date  String?
+  description        String?
+  status             String        @default("Active")
+  package_id         Int?
+  package            Package?      @relation(fields: [package_id], references: [id], onDelete: SetNull)
+  package_start_date String?
+  package_end_date   String?
+  is_expiring_soon   Boolean       @default(false)
+  address_line1      String?
+  address_line2      String?
+  city               String?
+  state              String?
+  zipcode            String?
+  created_at         DateTime      @default(now())
+  updated_at         DateTime      @updated_at
+
+  appointments       Appointment[]
+  invoices           Invoice[]
+  prescriptions      Prescription[]
+}
+
+model Appointment {
+  id               Int            @id @default(autoincrement())
+  clinic_id        Int
+  clinic           Clinic         @relation(fields: [clinic_id], references: [id], onDelete: Cascade)
+  patient_id       Int
+  patient          Patient        @relation(fields: [patient_id], references: [id], onDelete: Cascade)
+  doctor_id        Int?
+  doctor           Doctor?        @relation(fields: [doctor_id], references: [id], onDelete: SetNull)
+  date             String         // YYYY-MM-DD
+  time             String         // e.g. "10:30 AM"
+  status           String         @default("UPCOMING") // UPCOMING, COMPLETED, CANCELLED
+  details          String?
+  diagnosis        String?
+  medical_history  String?
+  created_at       DateTime       @default(now())
+  updated_at       DateTime       @updated_at
+
+  prescriptions    Prescription[]
+}
+
+model Medicine {
+  id          Int      @id @default(autoincrement())
+  clinic_id   Int
+  clinic      Clinic   @relation(fields: [clinic_id], references: [id], onDelete: Cascade)
+  name        String
+  type        String   @default("Tablet") // Tablet, Syrup, Injection, Capsule
+  dosage      String?
+  description String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updated_at
+}
+
+model MasterMedicine {
+  id          Int      @id @default(autoincrement())
+  name        String
+  type        String   @default("Tablet")
+  description String?
+}
+
+model Prescription {
+  id             Int          @id @default(autoincrement())
+  clinic_id      Int
+  clinic         Clinic       @relation(fields: [clinic_id], references: [id], onDelete: Cascade)
+  appointment_id Int
+  appointment    Appointment  @relation(fields: [appointment_id], references: [id], onDelete: Cascade)
+  patient_id     Int
+  patient        Patient      @relation(fields: [patient_id], references: [id], onDelete: Cascade)
+  doctor_id      Int?
+  doctor         Doctor?      @relation(fields: [doctor_id], references: [id], onDelete: SetNull)
+  medicine_name  String
+  dosage         String?
+  frequency      String?
+  duration       String?
+  instructions   String?
+  created_at     DateTime     @default(now())
+  updated_at     DateTime     @updated_at
+}
+
+model Invoice {
+  id                 Int           @id @default(autoincrement())
+  clinic_id          Int
+  clinic             Clinic        @relation(fields: [clinic_id], references: [id], onDelete: Cascade)
+  patient_id         Int
+  patient            Patient       @relation(fields: [patient_id], references: [id], onDelete: Cascade)
+  amount             Float
+  paid_by            String        @default("ONLINE") // ONLINE, CASH, CHEQUE
+  transaction_number String?
+  payment_date       String        // YYYY-MM-DD
+  description        String?
+  status             String        @default("PAID")
+  created_at         DateTime      @default(now())
+  updated_at         DateTime      @updated_at
+
+  invoice_items      InvoiceItem[]
+}
+
+model InvoiceItem {
+  id          Int      @id @default(autoincrement())
+  invoice_id  Int
+  invoice     Invoice  @relation(fields: [invoice_id], references: [id], onDelete: Cascade)
+  description String
+  quantity    Int      @default(1)
+  unit_price  Float
+  total_price Float
+}
+
+model Note {
+  id          Int      @id @default(autoincrement())
+  clinic_id   Int
+  clinic      Clinic   @relation(fields: [clinic_id], references: [id], onDelete: Cascade)
+  title       String
+  description String
+  date        String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updated_at
+}
+
+model Asset {
+  id          Int      @id @default(autoincrement())
+  clinic_id   Int
+  clinic      Clinic   @relation(fields: [clinic_id], references: [id], onDelete: Cascade)
+  entity_type String   // "patient", "appointment", "clinic_logo", "clinic_favicon", "clinic_scanner"
+  entity_id   Int
+  file_name   String
+  file_url    String
+  file_type   String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updated_at
+}

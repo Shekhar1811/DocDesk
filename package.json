@@ -1,0 +1,30 @@
+{
+  "name": "docdesk-monorepo",
+  "version": "1.0.0",
+  "description": "DocDesk - Full-Stack Hospital & Multi-Specialty Clinic Practice Management SaaS Platform",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix client && npm install --prefix server",
+    "dev:client": "npm start --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "build:client": "npm run build --prefix client",
+    "prisma:generate": "npm run prisma:generate --prefix server",
+    "prisma:push": "npm run prisma:push --prefix server",
+    "seed": "npm run seed --prefix server"
+  },
+  "keywords": [
+    "healthcare-saas",
+    "clinic-management-system",
+    "hospital-management",
+    "ehr",
+    "emr",
+    "practice-management",
+    "react",
+    "nodejs",
+    "express",
+    "prisma",
+    "postgresql"
+  ],
+  "author": "Shekhar Bhadre <shekharbhadre@gmail.com>",
+  "license": "MIT"
+}
