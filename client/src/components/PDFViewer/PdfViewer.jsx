@@ -206,9 +206,9 @@ const PdfViewer = ({ invoice }) => {
               </table>
               <br />
               <div className="footer-message text-center">
-              <p>Thank you for your visit!</p>
-              <p>We hope to see you again soon!</p>
-            </div>
+                <p>Thank you for choosing {invoice?.clinic?.name || "DocDesk Hospital & Clinic"}.</p>
+                <p>Wishing you good health and a speedy recovery!</p>
+              </div>
             </section>
 
             {/* <div

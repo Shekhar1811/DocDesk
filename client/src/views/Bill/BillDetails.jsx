@@ -38,16 +38,17 @@ const Bill = () => {
   }, []);
 
   const handleSend = (invoice) => {
-    const mobile = invoice?.patient?.mobile;
-    // Create WhatsApp link 
-    const message = `Dear ${invoice?.patient?.name}, Your invoice no. ${invoice.id}  of Rs. ${invoice.amount} is now due. Please make the payment as soon as possible. If you have already paid, ignore it. The invoice URL is https://${window.location.hostname}/print-invoice/${invoice.rnd_number}   Thank you!`;
-  // Open WhatsApp Web with the message
-   // window.open(whatsappLink, '_blank');  
+    const rawMobile = invoice?.patient?.mobile || "";
+    const cleanMobile = rawMobile.replace(/[^\d]/g, "");
+    const invoiceId = invoice?.id || "";
+    // Create WhatsApp link with real invoice ID
+    const message = `Dear ${invoice?.patient?.name || "Patient"}, Your invoice no. ${invoiceId} of Rs. ${invoice?.amount || 0} is now due. Please make the payment as soon as possible. If you have already paid, please ignore this message. The invoice URL is https://${window.location.host}/print-invoice/${invoiceId}\n\nThank you!`;
     const encodedMessage = encodeURIComponent(message);
-    const whatsappWebUrl = (is_mobile)? `https://api.whatsapp.com/send?phone=${mobile}&text=${encodedMessage}` : `https://web.whatsapp.com/send?phone=${mobile}&text=${encodedMessage}`;
+    const whatsappWebUrl = is_mobile
+      ? `https://api.whatsapp.com/send?phone=${cleanMobile}&text=${encodedMessage}`
+      : `https://web.whatsapp.com/send?phone=${cleanMobile}&text=${encodedMessage}`;
 
-
-   return whatsappWebUrl;
+    return whatsappWebUrl;
   };
 
   const printDocument = () => {
@@ -146,7 +147,7 @@ const Bill = () => {
                     <Col className="text-end">
                     {showInvoice && (
                         <a href={handleSend(invoice)} className="btn btn-primary me-2" target="_blank" rel="noopener noreferrer">
-                        <i class="fa-brands fa-whatsapp"></i>Share on WhatsApp
+                        <i className="fa-brands fa-whatsapp me-1"></i>Share on WhatsApp
                       </a>
                       )}
                       <Button

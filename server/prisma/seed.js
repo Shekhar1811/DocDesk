@@ -161,7 +161,7 @@ async function main() {
       first_name: "Aarav",
       last_name: "Mehta",
       email: "aarav.mehta@docdesk.health",
-      mobile: "+91 98234 11223",
+      mobile: "+91 99999 10001",
       specialization: "Cardiologist",
       qualification: "MBBS, MD (Cardiology)",
       experience: "14 Years",
@@ -175,7 +175,7 @@ async function main() {
       first_name: "Pooja",
       last_name: "Sharma",
       email: "pooja.sharma@docdesk.health",
-      mobile: "+91 98332 44556",
+      mobile: "+91 99999 10002",
       specialization: "Pediatrician",
       qualification: "MBBS, DCH",
       experience: "9 Years",
@@ -188,7 +188,7 @@ async function main() {
       first_name: "Vikram",
       last_name: "Deshmukh",
       email: "vikram.d@docdesk.health",
-      mobile: "+91 98112 77889",
+      mobile: "+91 99999 10003",
       specialization: "Orthopedic Surgeon",
       qualification: "MBBS, MS (Ortho), Fellowship (Joint Replacement)",
       experience: "16 Years",
@@ -201,7 +201,7 @@ async function main() {
       first_name: "Ananya",
       last_name: "Iyer",
       email: "ananya.iyer@docdesk.health",
-      mobile: "+91 98451 99001",
+      mobile: "+91 99999 10004",
       specialization: "Dermatologist",
       qualification: "MBBS, MD (Dermatology)",
       experience: "8 Years",
@@ -214,7 +214,7 @@ async function main() {
       first_name: "Rohan",
       last_name: "Kulkarni",
       email: "rohan.k@docdesk.health",
-      mobile: "+91 98670 22334",
+      mobile: "+91 99999 10005",
       specialization: "General Physician",
       qualification: "MBBS, MD (Internal Medicine)",
       experience: "11 Years",
@@ -266,9 +266,9 @@ async function main() {
 
   // 5. Create Employees
   const employeeData = [
-    { first_name: "Sunita", last_name: "Patil", email: "sunita@docdesk.health", mobile: "+91 97654 32111", designation: "Head Nurse", department: "ICU & Nursing", date_of_joining: "2023-03-01", city: "Mumbai" },
-    { first_name: "Amit", last_name: "Jadhav", email: "amit@docdesk.health", mobile: "+91 98221 44552", designation: "Pharmacist", department: "Pharmacy", date_of_joining: "2023-06-15", city: "Mumbai" },
-    { first_name: "Neha", last_name: "Chopra", email: "neha@docdesk.health", mobile: "+91 98190 66773", designation: "Receptionist", department: "Front Desk & Billing", date_of_joining: "2024-01-10", city: "Mumbai" },
+    { first_name: "Sunita", last_name: "Patil", email: "sunita@docdesk.health", mobile: "+91 99999 20001", designation: "Head Nurse", department: "ICU & Nursing", date_of_joining: "2023-03-01", city: "Mumbai" },
+    { first_name: "Amit", last_name: "Jadhav", email: "amit@docdesk.health", mobile: "+91 99999 20002", designation: "Pharmacist", department: "Pharmacy", date_of_joining: "2023-06-15", city: "Mumbai" },
+    { first_name: "Neha", last_name: "Chopra", email: "neha@docdesk.health", mobile: "+91 99999 20003", designation: "Receptionist", department: "Front Desk & Billing", date_of_joining: "2024-01-10", city: "Mumbai" },
   ];
 
   for (const emp of employeeData) {
@@ -285,14 +285,14 @@ async function main() {
 
   // 6. Create Patients
   const patientData = [
-    { name: "Rajesh Malhotra", mobile: "+91 98201 55661", email: "rajesh.m@gmail.com", gender: "MALE", date_of_birth: "1982-04-12", city: "Mumbai", line1: "Colaba Causeway" },
-    { name: "Sneha Kapoor", mobile: "+91 98334 77882", email: "sneha.k@gmail.com", gender: "FEMALE", date_of_birth: "1993-11-28", city: "Thane", line1: "Ghodbunder Road" },
-    { name: "Kunal Singhania", mobile: "+91 98192 33445", email: "kunal.s@gmail.com", gender: "MALE", date_of_birth: "1978-07-05", city: "Mumbai", line1: "Worli Sea Face" },
-    { name: "Priya Nair", mobile: "+91 98450 11223", email: "priya.n@gmail.com", gender: "FEMALE", date_of_birth: "1988-09-19", city: "Navi Mumbai", line1: "Vashi Sector 17" },
-    { name: "Deepak Joshi", mobile: "+91 98671 99884", email: "deepak.j@gmail.com", gender: "MALE", date_of_birth: "1965-02-14", city: "Pune", line1: "Kalyani Nagar" },
-    { name: "Meera Sen", mobile: "+91 98211 44332", email: "meera.sen@gmail.com", gender: "FEMALE", date_of_birth: "1997-12-03", city: "Mumbai", line1: "Santacruz East" },
-    { name: "Arjun Rampal", mobile: "+91 98339 00112", email: "arjun.r@gmail.com", gender: "MALE", date_of_birth: "1985-06-22", city: "Mumbai", line1: "Bandra Kurla Complex" },
-    { name: "Kavita Rao", mobile: "+91 98110 55443", email: "kavita.rao@gmail.com", gender: "FEMALE", date_of_birth: "1972-10-30", city: "Mumbai", line1: "Lokhandwala Complex" },
+    { name: "Rajesh Malhotra", mobile: "+91 99999 00001", email: "rajesh.m@gmail.com", gender: "MALE", date_of_birth: "1982-04-12", city: "Mumbai", line1: "Colaba Causeway" },
+    { name: "Sneha Kapoor", mobile: "+91 99999 00002", email: "sneha.k@gmail.com", gender: "FEMALE", date_of_birth: "1993-11-28", city: "Thane", line1: "Ghodbunder Road" },
+    { name: "Kunal Singhania", mobile: "+91 99999 00003", email: "kunal.s@gmail.com", gender: "MALE", date_of_birth: "1978-07-05", city: "Mumbai", line1: "Worli Sea Face" },
+    { name: "Priya Nair", mobile: "+91 99999 00004", email: "priya.n@gmail.com", gender: "FEMALE", date_of_birth: "1988-09-19", city: "Navi Mumbai", line1: "Vashi Sector 17" },
+    { name: "Deepak Joshi", mobile: "+91 99999 00005", email: "deepak.j@gmail.com", gender: "MALE", date_of_birth: "1965-02-14", city: "Pune", line1: "Kalyani Nagar" },
+    { name: "Meera Sen", mobile: "+91 99999 00006", email: "meera.sen@gmail.com", gender: "FEMALE", date_of_birth: "1997-12-03", city: "Mumbai", line1: "Santacruz East" },
+    { name: "Arjun Rampal", mobile: "+91 99999 00007", email: "arjun.r@gmail.com", gender: "MALE", date_of_birth: "1985-06-22", city: "Mumbai", line1: "Bandra Kurla Complex" },
+    { name: "Kavita Rao", mobile: "+91 99999 00008", email: "kavita.rao@gmail.com", gender: "FEMALE", date_of_birth: "1972-10-30", city: "Mumbai", line1: "Lokhandwala Complex" },
   ];
 
   for (let i = 0; i < patientData.length; i++) {

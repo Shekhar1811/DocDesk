@@ -96,8 +96,8 @@ return (
       </div>
 
       <div className="footer-message">
-        <p>Thank you for your visit!</p>
-        <p>We hope to see you again soon!</p>
+        <p>Thank you for choosing {invoice?.clinic?.name || "DocDesk Hospital & Clinic"}.</p>
+        <p>Wishing you good health and a speedy recovery!</p>
       </div>
     </div>
   );
