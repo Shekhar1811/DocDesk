@@ -14,8 +14,8 @@
 
 ## 🌟 Live Demo & Recruiter Access
 
-- **Live Application:** [Deploy on Vercel](#deployment-guide)
-- **API Endpoint:** [Deploy on Railway](#deployment-guide)
+- **Live Application:** [Deploying on Vercel](#deployment-guide)
+- **Live API Endpoint:** [https://docdesk-lkqe.onrender.com/api/health](https://docdesk-lkqe.onrender.com/api/health)
 
 ### 🔑 Test Demo Credentials
 | Role | Email | Password | Access Scope |
