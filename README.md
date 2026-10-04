@@ -1,20 +1,25 @@
-# 🏥 DocDesk — Clinic & Hospital Practice Management SaaS Platform
+<p align="center">
+  <img src="client/public/docdesk-wide-logo.png" alt="DocDesk Banner" width="460" />
+</p>
+
+# 🏥 DocDesk — Smart Clinic & Hospital Management SaaS Platform
 
 [![React](https://img.shields.io/badge/React-18.3-blue.svg?logo=react)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-20.x-green.svg?logo=node.js)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-4.21-lightgrey.svg?logo=express)](https://expressjs.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-ORM-teal.svg?logo=prisma)](https://www.prisma.io/)
 [![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791.svg?logo=postgresql)](https://www.postgresql.org/)
-[![Vercel](https://img.shields.io/badge/Deployed-Vercel-black.svg?logo=vercel)](https://vercel.com/)
+[![Vercel](https://img.shields.io/badge/Deployed-Vercel-black.svg?logo=vercel)](https://doc-desk-wheat.vercel.app)
+[![Render](https://img.shields.io/badge/API-Render-black.svg?logo=render)](https://docdesk-lkqe.onrender.com)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-> **DocDesk** is an enterprise-grade **B2B Practice Management & Clinical Operations SaaS Platform** engineered for multi-specialty clinics, diagnostic centers, and outpatient hospital chains. Built to automate healthcare workflows from patient check-in to digital prescription dispensing and revenue billing.
+> **DocDesk** is an enterprise-grade **B2B Smart Clinic & Hospital Management SaaS Platform** engineered for multi-specialty clinics, diagnostic centers, and outpatient hospital chains. Built to automate healthcare workflows from patient check-in to digital prescription dispensing and revenue billing.
 
 ---
 
 ## 🌟 Live Demo & Recruiter Access
 
-- **Live Application:** [Deploying on Vercel](#deployment-guide)
+- **Live Web Application:** [https://doc-desk-wheat.vercel.app](https://doc-desk-wheat.vercel.app)
 - **Live API Endpoint:** [https://docdesk-lkqe.onrender.com/api/health](https://docdesk-lkqe.onrender.com/api/health)
 
 ### 🔑 Test Demo Credentials
@@ -29,11 +34,11 @@
 
 ```mermaid
 graph TD
-    A[Clients: Web Browser / Tablet] -->|HTTPS / REST| B[Vercel: React 18 SPA]
-    B -->|Bearer JWT Authentication| C[Railway / Cloud: Express.js API Gateway]
-    C -->|Prisma ORM Queries| D[(PostgreSQL: Supabase Database)]
-    C -->|Multer / Secure Uploads| E[Cloudinary CDN: Clinical Documents & Scans]
-    B -->|PDF Generation Engine| F[Print Invoices & QR Payment Receipt]
+    A[Clients: Web Browser / Tablet / Mobile] -->|HTTPS / REST| B[Vercel: React 18 SPA]
+    B -->|Bearer JWT Authentication| C[Render: Express.js API Gateway]
+    C -->|Prisma ORM Queries| D[(Supabase: Managed PostgreSQL Database)]
+    C -->|Multer / Secure Uploads| E[Cloudinary / Server CDN: Clinical Docs & Assets]
+    B -->|PDF Generation Engine| F[Print Invoices & QR Payment Receipts]
 ```
 
 ---
@@ -175,21 +180,24 @@ npm start --prefix client
 
 ## 🌐 Deployment Guide
 
-### Deploy Backend (Railway / Render)
-1. Link your GitHub repository `Shekhar1811/DocDesk` on [Railway](https://railway.app).
+### Deploy Backend (Render Web Service)
+1. Link your GitHub repository `Shekhar1811/DocDesk` on [Render](https://render.com).
 2. Set **Root Directory** to `server`.
-3. Add Environment Variables:
-   - `DATABASE_URL`: Your Supabase PostgreSQL URI
-   - `JWT_SECRET`: A secure random string
-4. Deploy! Your backend URL will be: `https://[your-railway-app].up.railway.app`
+3. Set **Build Command** to `npm install && npx prisma generate`.
+4. Set **Start Command** to `node src/index.js`.
+5. Add Environment Variables:
+   - `DATABASE_URL`: Your Supabase PostgreSQL Pooler connection string.
+   - `JWT_SECRET`: A secure random secret key.
+6. Deploy! Production API is live at `https://docdesk-lkqe.onrender.com`.
 
 ### Deploy Frontend (Vercel)
 1. Import repository `Shekhar1811/DocDesk` on [Vercel](https://vercel.com).
 2. Set **Root Directory** to `client`.
 3. Framework Preset: **Create React App**.
-4. Add Environment Variable:
-   - `REACT_APP_API_URL`: `https://[your-railway-app].up.railway.app/`
-5. Deploy!
+4. Build settings: `node scripts/build.js`.
+5. Add Environment Variable:
+   - `REACT_APP_API_URL`: `https://docdesk-lkqe.onrender.com/`
+6. Deploy! Production App is live at `https://doc-desk-wheat.vercel.app`.
 
 ---
 
