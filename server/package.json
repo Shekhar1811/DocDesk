@@ -22,7 +22,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^5.20.0",
+    "@prisma/client": "^6.19.3",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.41.3",
     "cors": "^2.8.5",
@@ -36,6 +36,6 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.7",
-    "prisma": "^5.20.0"
+    "prisma": "^6.19.3"
   }
 }

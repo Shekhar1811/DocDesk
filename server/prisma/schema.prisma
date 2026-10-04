@@ -24,7 +24,7 @@ model Clinic {
   favicon_url       String?
   scanner_url       String?
   created_at        DateTime      @default(now())
-  updated_at        DateTime      @updated_at
+  updated_at        DateTime      @updatedAt
 
   users             User[]
   doctors           Doctor[]
@@ -56,7 +56,7 @@ model User {
   zipcode       String?
   permissions   String?   // JSON string of permissions array
   created_at    DateTime  @default(now())
-  updated_at    DateTime  @updated_at
+  updated_at    DateTime  @updatedAt
 
   doctor_profile Doctor?
 }
@@ -80,7 +80,7 @@ model Doctor {
   state          String?
   zipcode        String?
   created_at     DateTime      @default(now())
-  updated_at     DateTime      @updated_at
+  updated_at     DateTime      @updatedAt
 
   appointments   Appointment[]
   prescriptions  Prescription[]
@@ -102,7 +102,7 @@ model Employee {
   state           String?
   zipcode         String?
   created_at      DateTime  @default(now())
-  updated_at      DateTime  @updated_at
+  updated_at      DateTime  @updatedAt
 }
 
 model Package {
@@ -115,7 +115,7 @@ model Package {
   available_count Int?      @default(1)
   description     String?
   created_at      DateTime  @default(now())
-  updated_at      DateTime  @updated_at
+  updated_at      DateTime  @updatedAt
 
   patients        Patient[]
 }
@@ -143,7 +143,7 @@ model Patient {
   state              String?
   zipcode            String?
   created_at         DateTime      @default(now())
-  updated_at         DateTime      @updated_at
+  updated_at         DateTime      @updatedAt
 
   appointments       Appointment[]
   invoices           Invoice[]
@@ -165,7 +165,7 @@ model Appointment {
   diagnosis        String?
   medical_history  String?
   created_at       DateTime       @default(now())
-  updated_at       DateTime       @updated_at
+  updated_at       DateTime       @updatedAt
 
   prescriptions    Prescription[]
 }
@@ -179,7 +179,7 @@ model Medicine {
   dosage      String?
   description String?
   created_at  DateTime @default(now())
-  updated_at  DateTime @updated_at
+  updated_at  DateTime @updatedAt
 }
 
 model MasterMedicine {
@@ -205,7 +205,7 @@ model Prescription {
   duration       String?
   instructions   String?
   created_at     DateTime     @default(now())
-  updated_at     DateTime     @updated_at
+  updated_at     DateTime     @updatedAt
 }
 
 model Invoice {
@@ -221,7 +221,7 @@ model Invoice {
   description        String?
   status             String        @default("PAID")
   created_at         DateTime      @default(now())
-  updated_at         DateTime      @updated_at
+  updated_at         DateTime      @updatedAt
 
   invoice_items      InvoiceItem[]
 }
@@ -244,7 +244,7 @@ model Note {
   description String
   date        String?
   created_at  DateTime @default(now())
-  updated_at  DateTime @updated_at
+  updated_at  DateTime @updatedAt
 }
 
 model Asset {
@@ -257,5 +257,5 @@ model Asset {
   file_url    String
   file_type   String?
   created_at  DateTime @default(now())
-  updated_at  DateTime @updated_at
+  updated_at  DateTime @updatedAt
 }
