@@ -166,9 +166,55 @@ function SignIn() {
             {...formik.getFieldProps("rememberMe")}
             checked={formik.values.rememberMe}
           /> */}
+          {/* Recruiter Quick Access Card */}
+          <div
+            className="rounded-3 p-3 my-3 text-start shadow-sm"
+            style={{
+              backgroundColor: "rgba(255, 255, 255, 0.12)",
+              border: "1px solid rgba(255, 255, 255, 0.25)",
+              backdropFilter: "blur(6px)",
+            }}
+          >
+            <div className="d-flex align-items-center justify-content-between mb-2">
+              <span className="text-white fw-bold small text-uppercase" style={{ letterSpacing: "0.5px" }}>
+                🎯 Recruiter 1-Click Access
+              </span>
+              <span className="badge bg-warning text-dark px-2 py-1">Instant Demo</span>
+            </div>
+            <p className="text-white-50 small mb-2" style={{ fontSize: "12px" }}>
+              Click either role below to prefill demo credentials:
+            </p>
+            <div className="d-flex gap-2">
+              <Button
+                type="button"
+                variant="light"
+                size="sm"
+                className="flex-fill fw-bold text-primary shadow-sm"
+                onClick={() => {
+                  formik.setFieldValue("email", "admin@docdesk.demo");
+                  formik.setFieldValue("password", "Demo@1234");
+                }}
+              >
+                🏥 Admin Demo
+              </Button>
+              <Button
+                type="button"
+                variant="outline-light"
+                size="sm"
+                className="flex-fill fw-bold shadow-sm"
+                onClick={() => {
+                  formik.setFieldValue("email", "doctor@docdesk.demo");
+                  formik.setFieldValue("password", "Demo@1234");
+                }}
+              >
+                🩺 Doctor Demo
+              </Button>
+            </div>
+          </div>
+
           <Button
             type="submit"
-            className="btn btn-primary btn-lg w-100 mt-3 mb-3"
+            className="btn btn-primary btn-lg w-100 mt-2 mb-3"
             disabled={loading}
           >
             {loading ? "Loading..." : "Login"}

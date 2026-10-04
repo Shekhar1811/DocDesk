@@ -92,6 +92,69 @@ async function main() {
     });
   }
 
+  // Create Attending Physician / Doctor Demo User
+  const doctorEmail = "doctor@docdesk.demo";
+  let doctorUser = await prisma.user.findUnique({ where: { email: doctorEmail } });
+  if (!doctorUser) {
+    doctorUser = await prisma.user.create({
+      data: {
+        clinic_id: clinic.id,
+        email: doctorEmail,
+        password: hashedPassword,
+        first_name: "Dr. Aarav",
+        last_name: "Mehta",
+        mobile: "+91 98234 11223",
+        role: "DOCTOR",
+        date_of_birth: "1986-05-14",
+        gender: "MALE",
+        address_line1: "Fort",
+        city: "Mumbai",
+        zipcode: "400001",
+        permissions: JSON.stringify([
+          "listHome", "readHome",
+          "listPatient", "readPatient", "editPatient",
+          "listAppointment", "readAppointment", "addAppointment", "editAppointment",
+          "listDoctor", "readDoctor",
+          "listMedicine", "readMedicine",
+          "listNote", "readNote", "addNote", "editNote",
+          "listProfile", "readProfile", "editProfile",
+          "listReport", "readReport"
+        ]),
+      },
+    });
+  }
+
+  // Doctor alias for backward compatibility
+  const doctoDoctor = await prisma.user.findUnique({ where: { email: "doctor@docto.demo" } });
+  if (!doctoDoctor) {
+    await prisma.user.create({
+      data: {
+        clinic_id: clinic.id,
+        email: "doctor@docto.demo",
+        password: hashedPassword,
+        first_name: "Dr. Aarav",
+        last_name: "Mehta",
+        mobile: "+91 98234 11223",
+        role: "DOCTOR",
+        date_of_birth: "1986-05-14",
+        gender: "MALE",
+        address_line1: "Fort",
+        city: "Mumbai",
+        zipcode: "400001",
+        permissions: JSON.stringify([
+          "listHome", "readHome",
+          "listPatient", "readPatient", "editPatient",
+          "listAppointment", "readAppointment", "addAppointment", "editAppointment",
+          "listDoctor", "readDoctor",
+          "listMedicine", "readMedicine",
+          "listNote", "readNote", "addNote", "editNote",
+          "listProfile", "readProfile", "editProfile",
+          "listReport", "readReport"
+        ]),
+      },
+    });
+  }
+
   // 3. Create Doctors
   const doctorData = [
     {
@@ -106,6 +169,7 @@ async function main() {
       city: "Mumbai",
       state: "Maharashtra",
       zipcode: "400001",
+      user_id: doctorUser?.id,
     },
     {
       first_name: "Pooja",
@@ -169,6 +233,11 @@ async function main() {
           clinic_id: clinic.id,
           ...d,
         },
+      });
+    } else if (d.user_id && !existing.user_id) {
+      await prisma.doctor.update({
+        where: { id: existing.id },
+        data: { user_id: d.user_id },
       });
     }
   }
@@ -387,11 +456,65 @@ async function main() {
     }
   }
 
+  // 11. Create Prescriptions for Appointments
+  const allAppointments = await prisma.appointment.findMany({
+    where: { clinic_id: clinic.id },
+  });
+
+  const clinicalPrescriptions = [
+    [
+      { medicine_name: "Amoxicillin 500mg", dosage: "500mg", frequency: "TID (3 times daily)", duration: "5 Days", instructions: "Complete full antibiotic course after food." },
+      { medicine_name: "Paracetamol 650mg", dosage: "650mg", frequency: "SOS (As needed)", duration: "3 Days", instructions: "Take if temperature exceeds 100°F." },
+      { medicine_name: "Pantoprazole 40mg", dosage: "40mg", frequency: "OD (Once daily)", duration: "5 Days", instructions: "Take 30 mins before morning breakfast." },
+    ],
+    [
+      { medicine_name: "Atorvastatin 20mg", dosage: "20mg", frequency: "OD (Once daily)", duration: "30 Days", instructions: "Take at bedtime with water. Lipid panel in 4 weeks." },
+      { medicine_name: "Metformin 500mg", dosage: "500mg", frequency: "BD (Twice daily)", duration: "30 Days", instructions: "Take immediately with main meals." },
+    ],
+    [
+      { medicine_name: "Cetirizine 10mg", dosage: "10mg", frequency: "OD (Once daily)", duration: "7 Days", instructions: "Take at bedtime. Avoid driving if feeling drowsy." },
+      { medicine_name: "Cough Relief Syrup", dosage: "10ml", frequency: "TID (3 times daily)", duration: "5 Days", instructions: "Warm water gargles 3 times a day." },
+    ],
+    [
+      { medicine_name: "Azithromycin 500mg", dosage: "500mg", frequency: "OD (Once daily)", duration: "3 Days", instructions: "Take 1 hour before or 2 hours after meals." },
+      { medicine_name: "Paracetamol 650mg", dosage: "650mg", frequency: "BD (Twice daily)", duration: "3 Days", instructions: "For fever and generalized body ache." },
+    ],
+  ];
+
+  for (let i = 0; i < allAppointments.length; i++) {
+    const appt = allAppointments[i];
+    const existingRx = await prisma.prescription.findFirst({
+      where: { appointment_id: appt.id },
+    });
+    if (!existingRx) {
+      const rxItems = clinicalPrescriptions[i % clinicalPrescriptions.length];
+      for (const rx of rxItems) {
+        await prisma.prescription.create({
+          data: {
+            clinic_id: clinic.id,
+            appointment_id: appt.id,
+            patient_id: appt.patient_id,
+            doctor_id: appt.doctor_id,
+            medicine_name: rx.medicine_name,
+            dosage: rx.dosage,
+            frequency: rx.frequency,
+            duration: rx.duration,
+            instructions: rx.instructions,
+          },
+        });
+      }
+    }
+  }
+
   console.log("✅ DocDesk database seeding completed successfully!");
   console.log("--------------------------------------------------");
-  console.log("🔑 Demo Credentials:");
-  console.log("   Admin Email: admin@docdesk.demo (or admin@docto.demo)");
-  console.log("   Password:    Demo@1234");
+  console.log("🔑 Demo Credentials for Recruiters & Testing:");
+  console.log("   🏥 Admin / Medical Director:");
+  console.log("      Email:    admin@docdesk.demo (or admin@docto.demo)");
+  console.log("      Password: Demo@1234");
+  console.log("   🩺 Attending Physician / Doctor:");
+  console.log("      Email:    doctor@docdesk.demo (or doctor@docto.demo)");
+  console.log("      Password: Demo@1234");
   console.log("--------------------------------------------------");
 }
 
