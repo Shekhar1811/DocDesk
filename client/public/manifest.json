@@ -1,7 +1,7 @@
 {
-  "name": "DocDesk - Clinical Practice & Hospital Operations SaaS",
+  "name": "DocDesk - Smart Clinic & Hospital Management",
   "short_name": "DocDesk",
-  "description": "Multi-specialty clinical practice management SaaS platform streamlining electronic health records, appointments, digital prescriptions, and revenue billing.",
+  "description": "Smart Clinic & Hospital Management platform streamlining electronic health records, appointments, digital prescriptions, and billing.",
   "icons": [
     {
       "src": "favicon.ico",

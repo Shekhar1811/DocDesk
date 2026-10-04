@@ -12,7 +12,7 @@ const Login = () => {
                 <img src="/img/logo.svg" alt="DocDesk" className="img-fluid logo" style={{ width: "56px", height: "56px" }} />
               </div>
               <h1 className="mb-1 fw-bold">DocDesk</h1>
-              <p className="text-white-50 small mb-0">Clinical Practice & Hospital Operations SaaS</p>
+              <p className="text-white-50 small mb-0">Smart Clinic & Hospital Management</p>
             </a>
           </div>
         </div>

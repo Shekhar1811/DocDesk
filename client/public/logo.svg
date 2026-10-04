@@ -40,9 +40,9 @@
       <tspan fill="#ffffff">Doc</tspan><tspan fill="#38bdf8">Desk</tspan>
     </text>
     
-    <!-- Subtitle: Clinical Practice SaaS -->
-    <text x="2" y="64" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="9" font-weight="700" letter-spacing="2" fill="#93c5fd" opacity="0.9">
-      CLINICAL PRACTICE SAAS
+    <!-- Subtitle: Smart Clinic & Hospital Management -->
+    <text x="2" y="63" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="7.5" font-weight="700" letter-spacing="1.2" fill="#93c5fd" opacity="0.95">
+      SMART CLINIC &amp; HOSPITAL MANAGEMENT
     </text>
   </g>
 </svg>
