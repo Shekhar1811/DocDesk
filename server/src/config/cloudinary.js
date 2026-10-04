@@ -21,7 +21,7 @@ if (isCloudinaryConfigured) {
   storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-      folder: "docto-app",
+      folder: "docdesk-app",
       allowed_formats: ["jpg", "jpeg", "png", "gif", "pdf", "webp"],
       resource_type: "auto",
     },

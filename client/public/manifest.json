@@ -1,7 +1,7 @@
 {
-  "name": "Easy Clinic",
-  "short_name": "EClinic",
-  "description": "Doctor Appointment for the patients",
+  "name": "DocDesk - Clinical Practice & Hospital Operations SaaS",
+  "short_name": "DocDesk",
+  "description": "Multi-specialty clinical practice management SaaS platform streamlining electronic health records, appointments, digital prescriptions, and revenue billing.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -21,6 +21,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#1f7681",
   "background_color": "#ffffff"
 }

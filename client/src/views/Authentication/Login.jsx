@@ -7,11 +7,12 @@ const Login = () => {
       <Container className="index d-flex align-items-center justify-content-center flex-grow-1">
         <div className="text-center p-3">
           <div className="mb-5 pb-5">
-            <a href="/sign-in" className="gap-2 text-white text-center">
-              <div className="rounded-pill bg-white p-3 d-inline-block mb-4">
-                <img src="./img/logo.svg" alt="" className="img-fluid logo" />
+            <a href="/sign-in" className="gap-2 text-white text-center text-decoration-none">
+              <div className="rounded-pill bg-white p-3 d-inline-block mb-3 shadow-sm">
+                <img src="/img/logo.svg" alt="DocDesk" className="img-fluid logo" style={{ width: "56px", height: "56px" }} />
               </div>
-              <h1 className="mb-0">Dactorapp</h1>
+              <h1 className="mb-1 fw-bold">DocDesk</h1>
+              <p className="text-white-50 small mb-0">Clinical Practice & Hospital Operations SaaS</p>
             </a>
           </div>
         </div>

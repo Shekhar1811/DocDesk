@@ -1,7 +1,7 @@
 {
-  "name": "docto-backend",
+  "name": "docdesk-backend",
   "version": "1.0.0",
-  "description": "Backend API for Docto Clinic & Hospital Management System",
+  "description": "Backend API for DocDesk Clinic & Hospital Management System",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",

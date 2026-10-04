@@ -1,6 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="118.772" height="118.781" viewBox="0 0 118.772 118.781">
-  <g id="line_copy" data-name="line copy" transform="translate(-2.002 -2)">
-    <path id="Path_2" data-name="Path 2" d="M38.695,2A58.5,58.5,0,0,0,12.436,8.109,4.242,4.242,0,1,0,16.169,15.7,50.905,50.905,0,0,1,89.6,61.39c0,20.7-11.114,43.779-29.695,46.663a13.829,13.829,0,0,1-11.5-2.376,21.211,21.211,0,0,1-5.472-14.932A29.7,29.7,0,0,0,68.39,61.39V35.937A4.242,4.242,0,0,0,64.147,31.7H51.421a4.242,4.242,0,0,0,0,8.484h8.484V61.39a21.211,21.211,0,0,1-42.421,0V40.179h8.484a4.242,4.242,0,0,0,0-8.484H13.242A4.242,4.242,0,0,0,9,35.937V61.39A29.7,29.7,0,0,0,34.453,90.745c.551,9.757,3.309,16.968,8.23,21.211a19.811,19.811,0,0,0,13.744,4.581,36.27,36.27,0,0,0,4.666-.3c24.01-3.479,36.991-30.883,36.991-54.85A59.39,59.39,0,0,0,38.695,2Z" transform="translate(22.69)" fill="#0049cb"/>
-    <path id="Path_3" data-name="Path 3" d="M23.205,74.047a17.265,17.265,0,0,0-5.345.933,50.905,50.905,0,0,1,6.787-61.638,4.242,4.242,0,1,0-6.109-5.854A59.39,59.39,0,0,0,10.734,79.6a16.968,16.968,0,1,0,12.472-5.557Zm0,25.453a8.484,8.484,0,1,1,8.484-8.484A8.484,8.484,0,0,1,23.205,99.5Z" transform="translate(0 12.795)" fill="#0049cb"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="docdeskIconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+  </defs>
+  <!-- Medical Cross Icon -->
+  <rect x="36" y="8" width="28" height="84" rx="10" fill="url(#docdeskIconGrad)" />
+  <rect x="8" y="36" width="84" height="28" rx="10" fill="url(#docdeskIconGrad)" />
+  
+  <!-- ECG Heartbeat Pulse Line -->
+  <path 
+    d="M 12 50 L 30 50 L 38 34 L 50 66 L 60 26 L 68 56 L 74 50 L 88 50" 
+    fill="none" 
+    stroke="#ffffff" 
+    stroke-width="4.5" 
+    stroke-linecap="round" 
+    stroke-linejoin="round"
+  />
 </svg>

@@ -89,18 +89,17 @@ function SignIn() {
   return (
     <div className="bg-primary vh-100 d-flex flex-column">
       <Container className="sign-in p-4">
-      <br />
-    <div className="text-center"> <img src="/logo.svg" width={'200'} alt="" /></div> 
-      <br /> <br />
-        <div className="row align-items-start justify-content-between mb-4">
-         
-        
-          <div className="text-white text-center  ">
-            <span className="mdi mdi-account-circle-outline display-1 text-primary"></span>
-            <h2 className="my-3 fw-bold">Welcome</h2>
-            <p className="  mb-0">
-            Sign in to Continue 
-            </p>
+        <div className="text-center pt-2 pb-2">
+          <img
+            src="/logo.svg"
+            alt="DocDesk - Clinical Practice & Hospital Operations SaaS"
+            style={{ maxWidth: "250px", width: "100%", height: "auto" }}
+          />
+        </div>
+        <div className="row align-items-start justify-content-between mb-3">
+          <div className="text-white text-center">
+            <h2 className="my-2 fw-bold">Welcome Back</h2>
+            <p className="text-white-50 mb-0">Sign in to your clinical workspace</p>
           </div>
         </div>
         <Form onSubmit={formik.handleSubmit}>
