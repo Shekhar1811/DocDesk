@@ -11,25 +11,25 @@ router.patch("/clinics/:id", authMiddleware, clinicController.editClinic);
 router.post(
   "/clinic_logo_uploads/:id",
   authMiddleware,
-  upload.single("assets[0]"),
+  upload.any(),
   clinicController.uploadClinicAsset("logo")
 );
 router.post(
   "/clinic_favicon_uploads/:id",
   authMiddleware,
-  upload.single("assets[0]"),
+  upload.any(),
   clinicController.uploadClinicAsset("favicon")
 );
 router.post(
   "/clinic_scanner_uploads/:id",
   authMiddleware,
-  upload.single("assets[0]"),
+  upload.any(),
   clinicController.uploadClinicAsset("scanner")
 );
 router.post(
   "/clinic_uploads/:id",
   authMiddleware,
-  upload.single("assets[0]"),
+  upload.any(),
   clinicController.uploadClinicAsset("logo")
 );
 

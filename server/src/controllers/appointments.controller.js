@@ -183,7 +183,9 @@ const uploadAppointmentDocs = async (req, res) => {
 
     const createdAssets = [];
     for (const file of files) {
-      const fileUrl = file.path || `/uploads/${file.filename}`;
+      const fileUrl = (file.path && file.path.startsWith("http"))
+        ? file.path
+        : `/uploads/${file.filename}`;
       const asset = await prisma.asset.create({
         data: {
           clinic_id: req.clinicId || 1,

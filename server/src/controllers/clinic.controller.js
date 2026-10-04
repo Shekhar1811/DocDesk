@@ -93,7 +93,9 @@ const uploadClinicAsset = (type) => async (req, res) => {
       return res.status(400).json({ error: true, message: "No file uploaded" });
     }
 
-    const fileUrl = file.path || `/uploads/${file.filename}`;
+    const fileUrl = (file.path && file.path.startsWith("http"))
+      ? file.path
+      : `/uploads/${file.filename}`;
 
     const updateData = {};
     if (type === "logo") updateData.logo_url = fileUrl;
