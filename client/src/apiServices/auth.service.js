@@ -43,10 +43,12 @@ class AuthService {
   }
 
   isLoggedIn = () => {
-    if (localStorage.getItem("user")) {
-      return true;
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      return !!(user && (user.token || user.access_token));
+    } catch (e) {
+      return false;
     }
-    return false;
   };
 
   isAdminUser = () => {

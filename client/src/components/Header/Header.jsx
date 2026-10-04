@@ -17,8 +17,7 @@ const Header = (props) => {
             <Link to="/my-profile" aria-label="Doctor Profile">
               <div className="list-item-avtar">
                 <img
-                  src={IMAGE_URL + userData?.clinic?.favicon?.url}
-                  // src={`/img/clinic-logo/${userData?.clinic?.logo_url}`}
+                  src={userData?.clinic?.favicon?.url ? IMAGE_URL + userData.clinic.favicon.url : "/logo.svg"}
                   alt="Clinic Logo"
                   style={{
                     width: "50px",

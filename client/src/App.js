@@ -82,8 +82,8 @@ function App() {
       }
       favicon.href = faviconUrl;
     };
-    clinic
-      ? changeFavicon(IMAGE_URL + clinic?.favicon?.url)
+    clinic?.favicon?.url
+      ? changeFavicon(IMAGE_URL + clinic.favicon.url)
       : changeFavicon("./favicon.ico");
   }, []);
 

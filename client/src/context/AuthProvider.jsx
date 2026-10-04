@@ -32,11 +32,15 @@ export const useAuth = () => useContext(AuthContext);
 
 function defineAbilityFor(user) {
   return defineAbility((can) => {
-    const permissions = user.permissions;
-    Object.keys(permissions).forEach((action) => {
-      permissions[action].forEach((subject) => {
-        can(action, subject);
+    const permissions = user?.permissions;
+    if (permissions && typeof permissions === "object") {
+      Object.keys(permissions).forEach((action) => {
+        if (Array.isArray(permissions[action])) {
+          permissions[action].forEach((subject) => {
+            can(action, subject);
+          });
+        }
       });
-    });
+    }
   });
 }

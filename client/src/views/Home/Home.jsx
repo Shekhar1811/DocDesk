@@ -31,7 +31,7 @@ const Home = () => {
   }, [days]);
 
   return (
-    <Can not   I="read" this="Home">
+    <Can I="read" this="Home">
       <div className="content-wrapper">
         <br />
         <div className="d-flex">
