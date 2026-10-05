@@ -58,13 +58,12 @@ const Employee = () => {
               </div>
               <div>
                 <Can I="add" an="Employee">
-                  <a
-                    href="/add-employee"
-                    type="button"
+                  <Link
+                    to="/add-employee"
                     className="btn btn-primary"
                   >
                     Add Employee
-                  </a>
+                  </Link>
                 </Can>
               </div>
             </div>
@@ -106,6 +105,7 @@ const Employee = () => {
                             </Link>
                             <Can I="delete" an="Employee">
                               <Link
+                                to="#"
                                 className="delete-icon"
                                 onClick={() =>
                                   showAlert(

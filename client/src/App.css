@@ -132,9 +132,13 @@ li.nav-parent.level-open h2 {
 }
 .btn-primary,
 .btn-outline-primary:hover,
-.btn-outline-primary:focus {
+.btn-outline-primary:focus,
+.btn-outline-primary.active,
+.btn-outline-primary:active,
+.btn-check:checked + .btn-outline-primary {
   background: #0147ff !important;
   border-color: #0147ff !important;
+  color: #ffffff !important;
 }
 .btn-outline-primary {
   background-color: #ffffff !important;
@@ -142,7 +146,10 @@ li.nav-parent.level-open h2 {
   color: #0147ff !important;
 }
 .btn-outline-primary:hover,
-.btn-outline-primary:focus {
+.btn-outline-primary:focus,
+.btn-outline-primary.active,
+.btn-outline-primary:active,
+.btn-check:checked + .btn-outline-primary {
   color: #ffffff !important;
 }
 
@@ -620,14 +627,34 @@ a {
 }
 
 /* Loader */
+.loader-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.loader-container.full-page {
+  min-height: 45vh;
+  padding: 4rem 1rem;
+}
+
 .spinner {
-  width: 56px;
-  height: 56px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  border: 9px solid;
-  border-color: #dbdcef;
-  border-right-color: #474bff;
-  animation: spinner-d3wgkg 1s infinite linear;
+  border: 5px solid #dbdcef;
+  border-right-color: #0147ff;
+  animation: spinner-d3wgkg 0.9s infinite linear;
+}
+
+.spinner.spinner-sm {
+  width: 22px;
+  height: 22px;
+  border-width: 3px;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 @keyframes spinner-d3wgkg {
@@ -637,7 +664,26 @@ a {
   to {
     transform: rotate(360deg);
   }
-  /* to {
-     transform: rotate(1turn);
-   } */
+}
+
+/* Clickable Dashboard Stat Cards */
+.clickable-stat-card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  cursor: pointer;
+  text-decoration: none !important;
+  color: inherit !important;
+  display: block;
+}
+
+.clickable-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(1, 71, 255, 0.08) !important;
+}
+
+.stat-icon-btn {
+  transition: transform 0.18s ease;
+}
+
+.clickable-stat-card:hover .stat-icon-btn {
+  transform: scale(1.08);
 }

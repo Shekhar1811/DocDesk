@@ -103,15 +103,15 @@ const PrescriptionPDFComponent = ({ prescriptions, appointment }) => {
                 <p style={{ fontWeight: "bold", margin: "0" }}>
                   Patient Details:
                 </p>
-                <h4 style={{ margin: "0" }}>{appointment.patient.name}</h4>
+                <h4 style={{ margin: "0" }}>{appointment?.patient?.name || "Patient"}</h4>
                 <p style={{ margin: "0" }}>
                   Date of Birth:{" "}
-                  {moment(appointment.patient.date_of_birth).format(
-                    "MMMM DD, yyyy"
-                  )}
+                  {appointment?.patient?.date_of_birth
+                    ? moment(appointment.patient.date_of_birth).format("MMMM DD, yyyy")
+                    : "N/A"}
                 </p>
                 <p style={{ margin: "0" }}>
-                  Gender: {appointment.patient.gender}
+                  Gender: {appointment?.patient?.gender || "N/A"}
                 </p>
               </div>
               <div className="qr-code" style={{ textAlign: "right" }}>

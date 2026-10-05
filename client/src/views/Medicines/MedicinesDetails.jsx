@@ -55,11 +55,8 @@ const MedicinesDetails = () => {
             </div>
             <Can I="edit" a="Medicine">
               <Link
-                variant="link"
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate(`/edit-medicines/${id}`, { state: med });
-                }}
+                to={`/edit-medicines/${id}`}
+                state={med}
                 className=""
               >
                 <div className="edit-profile-icon bg-primary text-white">

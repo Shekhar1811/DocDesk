@@ -53,6 +53,9 @@ const EditDoctor = () => {
       date_of_birth: doctor?.date_of_birth || "",
       date_of_join: doctor?.date_of_join || "",
       gender: doctor?.gender || "",
+      specialization: doctor?.specialization || "",
+      qualification: doctor?.qualification || "",
+      experience: doctor?.experience || "",
       password: doctor?.password || "",
       cnfPassword: doctor?.password || "",
     },
@@ -67,22 +70,9 @@ const EditDoctor = () => {
         mobile: Yup.string().required("Mobile Number is required"),
       }),
       address: Yup.object().shape({
-        // line1: Yup.string().required("Address Line 1 is required"),
-        // line2: Yup.string().required("Address Line 2 is required"),
         city: Yup.string().required("City is required"),
-        // state: Yup.string().required("State is required"),
-        // zipcode: Yup.string().required("Zip Code is required"),
       }),
-      // date_of_birth: Yup.date().required("Date of Birth is required"),
-      // date_of_join: Yup.date().required("Date of Joining is required"),
       gender: Yup.string().required("Gender is required"),
-      // qualification: Yup.string().required("Qualification is required"),
-      /* password: Yup.string()
-        .required("Password is required")
-        .min(8, "Password must be at least 8 characters"),
-      cnfPassword: Yup.string()
-        .oneOf([Yup.ref("password"), null], "Passwords must match")
-        .required("Confirm Password is required"), */
     }),
     onSubmit: (values) => {
       setLoading(true);
@@ -90,7 +80,7 @@ const EditDoctor = () => {
         .editDoctor(id, values)
         .then((res) => {
           if (res.status === 200) {
-            toast.success("Doctor details updated successfully");
+            alert.success("Doctor details updated successfully");
             navigate(`/doctor-profile/${id}`);
           }
         })
@@ -347,6 +337,36 @@ const EditDoctor = () => {
                     <Form.Control.Feedback type="invalid">
                       {formik.errors.date_of_join}
                     </Form.Control.Feedback>
+                  </Form.Group>
+                </Col>
+                <Col xs={4}>
+                  <Form.Group className="form-group" controlId="specialization">
+                    <Form.Label>Specialization</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="e.g. Cardiologist"
+                      {...formik.getFieldProps("specialization")}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col xs={4}>
+                  <Form.Group className="form-group" controlId="qualification">
+                    <Form.Label>Qualification</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="e.g. MBBS, MD"
+                      {...formik.getFieldProps("qualification")}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col xs={4}>
+                  <Form.Group className="form-group" controlId="experience">
+                    <Form.Label>Experience</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="e.g. 5+ Years"
+                      {...formik.getFieldProps("experience")}
+                    />
                   </Form.Group>
                 </Col>
               </Row>

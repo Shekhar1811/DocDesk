@@ -94,7 +94,7 @@ const Medicines = () => {
                       </Can>
                       <Can I="delete" a="Medicine">
                         <Link
-                          href="#delete"
+                          to="#"
                           className="me-3 text-danger"
                           onClick={() =>
                             showAlert("Medicine", handleDelete, medicine.id)

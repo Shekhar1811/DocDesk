@@ -3,7 +3,7 @@ import { Row, Col, Card, Button, Badge } from "react-bootstrap";
 import dataServices from "../../apiServices/data.services";
 import Loader from "../../components/Loader/Loader";
 import { Can } from "../../context/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { handleValidationError } from "../../components/CommonFunctions";
 import { useAlert } from "react-alert";
 
@@ -12,6 +12,8 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [days, setDays] = useState(1);
   const alert = useAlert();
+  const navigate = useNavigate();
+
   useEffect(() => {
     setLoading(true);
     dataServices
@@ -37,39 +39,46 @@ const Home = () => {
         <div className="d-flex">
           <div>
             <Button
-              variant="outline-primary"
+              variant={days === 1 ? "primary" : "outline-primary"}
               onClick={() => setDays(1)}
-              className={`me-1 ${days === 1 && "active"} `}
+              className="me-2"
             >
               Today
             </Button>
           </div>
           <div>
             <Button
-              variant="outline-primary"
+              variant={days === 7 ? "primary" : "outline-primary"}
               onClick={() => setDays(7)}
-              className={`me-1 ${days === 7 && "active"} `}
+              className="me-2"
             >
               Week
             </Button>
           </div>
           <div>
             <Button
-              variant="outline-primary"
+              variant={days === 30 ? "primary" : "outline-primary"}
               onClick={() => setDays(30)}
-              className={`me-1 ${days === 30 && "active"} `}
+              className="me-2"
             >
               This Month
             </Button>
           </div>
         </div>
         <br />
-        <Row className="g-6 mb-6  ">
+        <Row className="g-6 mb-6">
           <h4>Dashboard</h4>
-          {stats && !loading ? (
+          {loading ? (
+            <div className="py-4">
+              <Loader />
+            </div>
+          ) : stats ? (
             <>
               <Col xl={3} sm={6} className="mb-3">
-                <Card className="shadow border-0">
+                <Card
+                  className="shadow border-0 clickable-stat-card"
+                  onClick={() => navigate("/invoice")}
+                >
                   <Card.Body>
                     <Row>
                       <Col>
@@ -82,30 +91,27 @@ const Home = () => {
                         <small className="mb-0">/-</small>
                       </Col>
                       <Col className="col-auto">
-                        <a
-                          href=""
-                          className="icon icon-shape bg-info text-white text-lg rounded-circle"
-                        >
+                        <div className="icon icon-shape bg-info text-white text-lg rounded-circle d-flex align-items-center justify-content-center">
                           <span className="material-symbols-outlined">
                             payments
                           </span>
-                        </a>
+                        </div>
                       </Col>
                     </Row>
                     <Row>
                       <Col>
                         <div className="mt-2 mb-0 text-sm">
-                          <Badge>Online - {stats.total_online_invoices}</Badge>
+                          <Badge bg="primary">Online - {stats.total_online_invoices}</Badge>
                         </div>
                       </Col>
                       <Col>
                         <div className="mt-2 mb-0 text-sm">
-                          <Badge>Cash - {stats.total_cash_invoices}</Badge>
+                          <Badge bg="success">Cash - {stats.total_cash_invoices}</Badge>
                         </div>
                       </Col>
                       <Col>
                         <div className="mt-2 mb-0 text-sm">
-                          <Badge>Ceque - {stats.total_check_invoices}</Badge>
+                          <Badge bg="secondary">Cheque - {stats.total_check_invoices}</Badge>
                         </div>
                       </Col>
                     </Row>
@@ -113,120 +119,123 @@ const Home = () => {
                 </Card>
               </Col>
               <Col xl={3} sm={6} className="mb-3">
-                <Card className="shadow border-0">
-                  <Card.Body>
-                    <Row>
-                      <Col>
-                        <span className="h6 font-semibold text-muted text-sm d-block mb-2">
-                          Invoice
-                        </span>
-                        <span className="h3 font-bold mb-0">
-                          {stats.total_invoices}
-                        </span>
-                      </Col>
-                      <Can I="list" this="Invoice" passThrough>
-                        {(allowed) => (
+                <Can I="list" this="Invoice" passThrough>
+                  {(allowed) => (
+                    <Card
+                      className="shadow border-0 clickable-stat-card"
+                      onClick={() => allowed && navigate("/invoice")}
+                    >
+                      <Card.Body>
+                        <Row>
+                          <Col>
+                            <span className="h6 font-semibold text-muted text-sm d-block mb-2">
+                              Invoice
+                            </span>
+                            <span className="h3 font-bold mb-0">
+                              {stats.total_invoices}
+                            </span>
+                          </Col>
                           <Col className="col-auto">
-                            <a
-                              href="/invoice"
-                              className="icon icon-shape bg-warning text-white text-lg rounded-circle"
-                              disabled={!allowed}
-                            >
+                            <div className="icon icon-shape bg-warning text-white text-lg rounded-circle d-flex align-items-center justify-content-center">
                               <span className="material-symbols-outlined">
                                 receipt_long
                               </span>
-                            </a>
+                            </div>
                           </Col>
-                        )}
-                      </Can>
-                    </Row>
-                  </Card.Body>
-                </Card>
+                        </Row>
+                      </Card.Body>
+                    </Card>
+                  )}
+                </Can>
               </Col>
               <Col xl={3} sm={6} xs={12} className="mb-3">
-                <Card className="shadow border-0">
-                  <Card.Body>
-                    <Row>
-                      <Can I="list" this="Patient" passThrough>
-                        {(allowed) => (
+                <Can I="list" this="Patient" passThrough>
+                  {(allowed) => (
+                    <Card
+                      className="shadow border-0 clickable-stat-card"
+                      onClick={() => allowed && navigate("/patients")}
+                    >
+                      <Card.Body>
+                        <Row>
                           <Col>
-                            <Link
-                              to="/patients"
-                              className="h6 font-semibold text-muted text-sm d-block mb-2"
-                              disabled={!allowed}
-                            >
-                               Patients
-                            </Link>
+                            <span className="h6 font-semibold text-muted text-sm d-block mb-2">
+                              Patients
+                            </span>
                             <span className="h3 font-bold mb-0">
                               {stats.total_patients}
                             </span>
                           </Col>
-                        )}
-                      </Can>
-                      <Can I="add" this="Patient" passThrough>
-                        {(allowed) => (
-                          <Col className="col-auto">
-                            <Link
-                              to="/add-patient"
-                              className="icon icon-shape bg-info text-white text-lg rounded-circle"
-                              // variant="light"
-                              disabled={!allowed}
-                            >
-                              <span className="material-symbols-outlined">
-                                add
-                              </span>
-                            </Link>
-                          </Col>
-                        )}
-                      </Can>
-                    </Row>
-                  </Card.Body>
-                </Card>
+                          <Can I="add" this="Patient" passThrough>
+                            {(canAdd) => (
+                              <Col className="col-auto">
+                                <Button
+                                  variant="link"
+                                  className="p-0 border-0"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (canAdd) navigate("/add-patient");
+                                  }}
+                                >
+                                  <div className="icon icon-shape bg-info text-white text-lg rounded-circle d-flex align-items-center justify-content-center">
+                                    <span className="material-symbols-outlined">
+                                      add
+                                    </span>
+                                  </div>
+                                </Button>
+                              </Col>
+                            )}
+                          </Can>
+                        </Row>
+                      </Card.Body>
+                    </Card>
+                  )}
+                </Can>
               </Col>
               <Col xl={3} sm={6} xs={12} className="mb-3">
-                <Card className="shadow border-0">
-                  <Card.Body>
-                    <Row>
-                      <Can I="list" this="Appointment" passThrough>
-                        {(allowed) => (
+                <Can I="list" this="Appointment" passThrough>
+                  {(allowed) => (
+                    <Card
+                      className="shadow border-0 clickable-stat-card"
+                      onClick={() => allowed && navigate("/appointments")}
+                    >
+                      <Card.Body>
+                        <Row>
                           <Col>
-                            <Link
-                              to="/appointments"
-                              disabled={!allowed}
-                              className="h6 font-semibold text-muted text-sm d-block mb-2"
-                            >
-                               Appointments
-                            </Link>
+                            <span className="h6 font-semibold text-muted text-sm d-block mb-2">
+                              Appointments
+                            </span>
                             <span className="h3 font-bold mb-0">
                               {stats.total_appointments}
                             </span>
                           </Col>
-                        )}
-                      </Can>
-                      <Can I="add" this="Appointment" passThrough>
-                        {(allowed) => (
-                          <Col className="col-auto">
-                            <Link
-                              to="/request-appointment"
-                              disabled={!allowed}
-                              className="icon icon-shape bg-warning text-white text-lg rounded-circle"
-                              variant="light"
-                            >
-                              <span className="material-symbols-outlined">
-                                add
-                              </span>
-                            </Link>
-                          </Col>
-                        )}
-                      </Can>
-                    </Row>
-                  </Card.Body>
-                </Card>
+                          <Can I="add" this="Appointment" passThrough>
+                            {(canAdd) => (
+                              <Col className="col-auto">
+                                <Button
+                                  variant="link"
+                                  className="p-0 border-0"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (canAdd) navigate("/request-appointment");
+                                  }}
+                                >
+                                  <div className="icon icon-shape bg-warning text-white text-lg rounded-circle d-flex align-items-center justify-content-center">
+                                    <span className="material-symbols-outlined">
+                                      add
+                                    </span>
+                                  </div>
+                                </Button>
+                              </Col>
+                            )}
+                          </Can>
+                        </Row>
+                      </Card.Body>
+                    </Card>
+                  )}
+                </Can>
               </Col>
             </>
-          ) : (
-            loading && <Loader />
-          )}
+          ) : null}
         </Row>
         <br />
         <div className="row row-cols-4 g-2">
@@ -234,14 +243,18 @@ const Home = () => {
             <div className="bg-white text-center rounded-4 p-2 shadow-sm">
               <Can I="list" this="Doctor" passThrough>
                 {(allowed) => (
-                  <a href="/doctors" disabled={!allowed} className="link-dark">
+                  <Link
+                    to={allowed ? "/doctors" : "#"}
+                    className="link-dark text-decoration-none"
+                    style={{ pointerEvents: allowed ? "auto" : "none", opacity: allowed ? 1 : 0.6 }}
+                  >
                     <img
                       src="img/home/doctor.png"
-                      alt=""
+                      alt="Doctor"
                       className="img-fluid px-2"
                     />
-                    <p className="text-truncate small pt-2 m-0">Doctor</p>
-                  </a>
+                    <p className="text-truncate small pt-2 m-0 fw-medium">Doctor</p>
+                  </Link>
                 )}
               </Can>
             </div>
@@ -250,18 +263,18 @@ const Home = () => {
             <div className="bg-white text-center rounded-4 p-2 shadow-sm">
               <Can I="list" this="Appointment" passThrough>
                 {(allowed) => (
-                  <a
-                    href="/appointments"
-                    disabled={!allowed}
-                    className="link-dark"
+                  <Link
+                    to={allowed ? "/appointments" : "#"}
+                    className="link-dark text-decoration-none"
+                    style={{ pointerEvents: allowed ? "auto" : "none", opacity: allowed ? 1 : 0.6 }}
                   >
                     <img
                       src="img/home/schedule.png"
-                      alt=""
+                      alt="Appointment"
                       className="img-fluid px-2"
                     />
-                    <p className="text-truncate small pt-2 m-0">Appointment</p>
-                  </a>
+                    <p className="text-truncate small pt-2 m-0 fw-medium">Appointment</p>
+                  </Link>
                 )}
               </Can>
             </div>
@@ -270,14 +283,18 @@ const Home = () => {
             <div className="bg-white text-center rounded-4 p-2 shadow-sm">
               <Can I="list" this="Invoice" passThrough>
                 {(allowed) => (
-                  <a href="/invoice" disabled={!allowed} className="link-dark">
+                  <Link
+                    to={allowed ? "/invoice" : "#"}
+                    className="link-dark text-decoration-none"
+                    style={{ pointerEvents: allowed ? "auto" : "none", opacity: allowed ? 1 : 0.6 }}
+                  >
                     <img
                       src="img/home/prescription.png"
-                      alt=""
+                      alt="Invoice"
                       className="img-fluid px-2"
                     />
-                    <p className="text-truncate small pt-2 m-0">Invoice</p>
-                  </a>
+                    <p className="text-truncate small pt-2 m-0 fw-medium">Invoice</p>
+                  </Link>
                 )}
               </Can>
             </div>
@@ -286,18 +303,18 @@ const Home = () => {
             <div className="bg-white text-center rounded-4 p-2 shadow-sm">
               <Can I="list" this="Employee" passThrough>
                 {(allowed) => (
-                  <a
-                    href="/employees"
-                    disabled={!allowed}
-                    className="link-dark"
+                  <Link
+                    to={allowed ? "/employees" : "#"}
+                    className="link-dark text-decoration-none"
+                    style={{ pointerEvents: allowed ? "auto" : "none", opacity: allowed ? 1 : 0.6 }}
                   >
                     <img
                       src="img/home/medicine.png"
-                      alt=""
+                      alt="Employee"
                       className="img-fluid px-2"
                     />
-                    <p className="text-truncate small pt-2 m-0">Employee</p>
-                  </a>
+                    <p className="text-truncate small pt-2 m-0 fw-medium">Employee</p>
+                  </Link>
                 )}
               </Can>
             </div>

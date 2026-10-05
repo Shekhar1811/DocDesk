@@ -27,30 +27,20 @@ const PatientProfile = () => {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      dataServices
-        .getPatientsDetails(id)
-        .then((res) => {
-          if (res.status === 200) {
-            setPatient(res.data);
+      Promise.all([
+        dataServices.getPatientsDetails(id),
+        dataServices.getAppointmentHistory(id),
+      ])
+        .then(([patientRes, historyRes]) => {
+          if (patientRes.status === 200) {
+            setPatient(patientRes.data);
+          }
+          if (historyRes.status === 200) {
+            setAppointments(historyRes.data);
           }
         })
         .catch((err) => {
           alert.error(handleValidationError(err));
-          setLoading(false);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-      dataServices
-        .getAppointmentHistory(id)
-        .then((res) => {
-          if (res.status === 200) {
-            setAppointments(res.data);
-          }
-        })
-        .catch((err) => {
-          alert.error(handleValidationError(err));
-          setLoading(false);
         })
         .finally(() => {
           setLoading(false);
@@ -328,7 +318,7 @@ const PatientProfile = () => {
       <Button
         onClick={() =>
           navigate("/diagnosis-history", {
-            state: { appointments, id: patient.id },
+            state: { appointments, id: patient?.id },
           })
         }
       >

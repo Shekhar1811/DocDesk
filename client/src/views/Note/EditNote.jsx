@@ -34,16 +34,24 @@ const EditNote = () => {
 
   // Initialize useFormik hook
   const formik = useFormik({
-    initialValues: { name: note?.name || "" },
+    initialValues: {
+      title: note?.title || note?.name || "",
+      description: note?.description || note?.name || "",
+    },
     validationSchema: Yup.object({
-      name: Yup.string().required("Note is required"),
+      title: Yup.string().required("Title is required"),
+      description: Yup.string().required("Note description is required"),
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
+      setLoading(true);
       dataServices
-        .editNote(id, values)
+        .editNote(id, {
+          title: values.title,
+          description: values.description,
+          name: values.title,
+        })
         .then((res) => {
-          console.log(res);
           if (res.status === 200) {
             alert.success("Note details updated successfully");
             navigate(`/note-details/${id}`);
@@ -67,33 +75,59 @@ const EditNote = () => {
           {note ? (
             <>
               <Row>
-                <Col>
+                <Col sm={12} className="mb-3">
                   <div className="form-group">
-                    <label htmlFor="name">Note</label>
-                    <textarea
-                      name="name"
+                    <label htmlFor="title" className="form-label fw-medium">Title</label>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
                       className={`form-control ${
-                        formik.touched.name && formik.errors.name
+                        formik.touched.title && formik.errors.title
                           ? "is-invalid"
                           : ""
                       }`}
-                      placeholder="Enter Note"
-                      value={formik.values.name}
+                      placeholder="Enter Note Title"
+                      value={formik.values.title}
                       onChange={formik.handleChange}
                     />
-                    {formik.touched.name && formik.errors.name ? (
+                    {formik.touched.title && formik.errors.title ? (
                       <div className="invalid-feedback">
-                        {formik.errors.name}
+                        {formik.errors.title}
+                      </div>
+                    ) : null}
+                  </div>
+                </Col>
+                <Col sm={12} className="mb-3">
+                  <div className="form-group">
+                    <label htmlFor="description" className="form-label fw-medium">Note Description</label>
+                    <textarea
+                      id="description"
+                      name="description"
+                      rows={4}
+                      className={`form-control ${
+                        formik.touched.description && formik.errors.description
+                          ? "is-invalid"
+                          : ""
+                      }`}
+                      placeholder="Enter Note Description"
+                      value={formik.values.description}
+                      onChange={formik.handleChange}
+                    />
+                    {formik.touched.description && formik.errors.description ? (
+                      <div className="invalid-feedback">
+                        {formik.errors.description}
                       </div>
                     ) : null}
                   </div>
                 </Col>
               </Row>
               <Row>
-              <Col >
+                <Col>
                   <Button 
                     type="button" 
-                    className="btn btn-primary w-100" 
+                    variant="outline-secondary"
+                    className="btn w-100" 
                     onClick={(e) => {
                       e.preventDefault();
                       window.history.back();
@@ -103,7 +137,7 @@ const EditNote = () => {
                   </Button>
                 </Col>
                 <Col className="footer mt-auto">
-                  <Button type="submit" className="btn btn-primary w-100">
+                  <Button type="submit" disabled={loading} className="btn btn-primary w-100">
                     Save Changes
                   </Button>
                 </Col>

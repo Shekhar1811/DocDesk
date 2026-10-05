@@ -68,7 +68,7 @@ const Sidebar = (props) => {
                 </div>
                 <div>
                   <Link
-                    href="#"
+                    to="#"
                     onClick={() => props.setShow(false)}
                     className="text-white"
                   >
@@ -78,7 +78,7 @@ const Sidebar = (props) => {
               </div>
             </li>
             <li>
-              <Can not I="read" this="Home">
+              <Can I="read" this="Home">
                 <Link onClick={() => props.setShow(false)} to="/">
                   <span className="material-symbols-outlined  me-3">
                     dashboard
@@ -99,7 +99,7 @@ const Sidebar = (props) => {
               <Can I="list" this="Doctor">
                 <Link onClick={() => props.setShow(false)} to="/doctors">
                   <span className="material-symbols-outlined  me-3">
-                    medication
+                    stethoscope
                   </span>
                   Doctors
                 </Link>
@@ -149,7 +149,7 @@ const Sidebar = (props) => {
               <Can I="list" this="Medicine">
                 <Link onClick={() => props.setShow(false)} to="/medicines">
                   <span className="material-symbols-outlined  me-3">
-                    lab_profile
+                    medication
                   </span>
                   Medicines
                 </Link>
@@ -159,9 +159,9 @@ const Sidebar = (props) => {
               <Can I="list" this="Note">
                 <Link onClick={() => props.setShow(false)} to="/note">
                   <span className="material-symbols-outlined  me-3">
-                    lab_profile
+                    description
                   </span>
-                  Note
+                  Notes
                 </Link>
               </Can>
             </li>
@@ -169,7 +169,7 @@ const Sidebar = (props) => {
               <li>
                 <Link onClick={() => props.setShow(false)} to="/reports">
                   <span className="material-symbols-outlined  me-3">
-                    lab_profile
+                    analytics
                   </span>
                   Reports & Analytics
                 </Link>
@@ -179,7 +179,7 @@ const Sidebar = (props) => {
               <li>
                 <Link onClick={() => props.setShow(false)} to="/clinic-profile">
                   <span className="material-symbols-outlined  me-3">
-                    lab_profile
+                    domain
                   </span>
                   Clinic Profile
                 </Link>

@@ -13,6 +13,7 @@ import { Can } from "./../../context/AuthProvider";
 import Select from "react-select";
 
 const Patient = () => {
+  const [allPatients, setAllPatients] = useState([]);
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(false);
   const [patientOptions, setPatientOptions] = useState([]);
@@ -27,9 +28,10 @@ const Patient = () => {
         if (res.status === 200) {
           const result = res.data;
           setPatients(result);
+          setAllPatients(result);
           const options = result.map((patient) => ({
             value: patient.id,
-            label: patient.contact.name,
+            label: patient.contact?.name || `${patient.contact?.first_name || ""} ${patient.contact?.last_name || ""}`.trim() || `Patient #${patient.id}`,
           }));
           setPatientOptions(options);
         }
@@ -90,14 +92,12 @@ const Patient = () => {
                 options={patientOptions}
                 onChange={(option) => {
                   if (option) {
-                    const result = patients.filter((patient) => {
+                    const result = allPatients.filter((patient) => {
                       return patient.id === option.value;
                     });
-                    setFilteredPatient(patients);
                     setPatients(result);
                   } else {
-                    setPatients(filteredPatient);
-                    setFilteredPatient(null);
+                    setPatients(allPatients);
                   }
                 }}
               />

@@ -102,7 +102,7 @@ class DataService {
     if (days) {
       url += `days=${days}&`;
     }
-    if (days) {
+    if (status && status !== "ALL" && status !== "undefined" && status !== "null") {
       url += `status=${status}&`;
     }
     url = url.slice(0, -1);

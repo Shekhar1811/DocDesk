@@ -38,10 +38,12 @@ const EditClinicProfile = () => {
     },
   ];
 
+  const clinicId = userData?.clinic?.id || 1;
+
   const getClinicProfile = () => {
     setLoading(true);
     dataServices
-      .getClinic(userData.clinic.id)
+      .getClinic(clinicId)
       .then((res) => {
         if (res.status === 200) {
           setUser(res.data);
@@ -61,14 +63,14 @@ const EditClinicProfile = () => {
   };
 
   useEffect(() => {
-    if (userData.clinic.id) {
+    if (clinicId) {
       getClinicProfile();
     }
-  }, []);
+  }, [clinicId]);
 
   const handleUpdateClinicData = () => {
     dataServices
-      .getClinic(userData.clinic.id)
+      .getClinic(clinicId)
       .then((res) => {
         if (res.status === 200) {
           setUser(res.data);

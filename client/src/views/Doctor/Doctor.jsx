@@ -58,9 +58,9 @@ const Doctor = () => {
               </div>
               <Can I="add" an="Doctor">
                 <div>
-                  <a href="/add-doctor" className="btn btn-primary">
+                  <Link to="/add-doctor" className="btn btn-primary">
                     Add Doctor
-                  </a>
+                  </Link>
                 </div>
               </Can>
             </div>
@@ -97,6 +97,7 @@ const Doctor = () => {
                             </Link>
                             <Can I="delete" an="Doctor">
                               <Link
+                                to="#"
                                 className="delete-icon"
                                 onClick={() => handleDelete(doctor.id)}
                               >

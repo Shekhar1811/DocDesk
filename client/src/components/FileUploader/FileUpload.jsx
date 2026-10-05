@@ -146,7 +146,8 @@ const FileUpload = ({ id, onSubmit, uploadApi, setReload }) => {
           onClick={handleSubmit}
           disabled={files?.length === 0 || loading}
         >
-          {loading ? <Loader /> : "Submit Files"}
+          {loading ? <Loader size="sm" className="me-2" /> : null}
+          {loading ? "Uploading..." : "Submit Files"}
         </Button>
       )}
     </Container>

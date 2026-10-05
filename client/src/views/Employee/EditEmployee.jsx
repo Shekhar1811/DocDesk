@@ -78,8 +78,8 @@ const EditEmployee = () => {
         city: employee?.address?.city || "",
         zipcode: employee?.address?.zipcode || "",
       },
-      date_of_birth: employee?.date_of_birth || new Date(),
-      date_of_join: employee?.date_of_join || new Date(),
+      date_of_birth: employee?.date_of_birth || "",
+      date_of_join: employee?.date_of_join || employee?.date_of_joining || "",
       designation: employee?.designation || "",
       gender: employee?.gender || "",
     },
@@ -88,11 +88,15 @@ const EditEmployee = () => {
     onSubmit: (values) => {
       // handle form submission
       setLoading(true);
+      const payload = {
+        ...values,
+        date_of_joining: values.date_of_join,
+      };
       dataServices
-        .editEmployee(id, values)
+        .editEmployee(id, payload)
         .then((res) => {
           if (res.status === 200) {
-            toast.success("Employee details updated successfully");
+            alert.success("Employee details updated successfully");
             navigate(`/employee-profile/${id}`);
           }
         })
@@ -425,12 +429,12 @@ const EditEmployee = () => {
                 </Form.Group>
               </Col>
             </Row> */}
-            <Can I="edit" an="Employee">
-              <Row>
+            <Row>
               <Col className="footer mt-auto">
                 <Button 
                     type="button" 
-                    className="btn btn-primary w-100" 
+                    variant="outline-secondary"
+                    className="btn w-100" 
                     onClick={(e) => {
                       e.preventDefault();
                       window.history.back();
@@ -439,7 +443,7 @@ const EditEmployee = () => {
                     Cancel
                   </Button>
               </Col> 
-              <Col className="footer mt-3">
+              <Col className="footer mt-auto">
                 <Button
                   type="submit"
                   disabled={loading}
@@ -448,8 +452,7 @@ const EditEmployee = () => {
                   Save Changes
                 </Button>
               </Col> 
-              </Row> 
-            </Can>
+            </Row>
           </>
         ) : (
           loading && <Loader />

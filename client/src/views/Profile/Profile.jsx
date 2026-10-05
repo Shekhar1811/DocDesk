@@ -38,16 +38,16 @@ const Profile = () => {
                   <p>
                     <span className="text-muted small">Name</span>
                     <br />
-                    {userData?.contact?.first_name +
-                      " " +
-                      userData?.contact?.last_name}
+                    {(userData?.contact?.first_name || userData?.name)
+                      ? `${userData?.contact?.first_name || ""} ${userData?.contact?.last_name || ""}`.trim() || userData?.name
+                      : "N/A"}
                   </p>
                 </div>
                 <div className="col">
                   <p>
                     <span className="text-muted small">Date of Birth</span>
                     <br />
-                    {userData?.date_of_birth}
+                    {userData?.date_of_birth || "N/A"}
                   </p>
                 </div>
               </div>
@@ -56,14 +56,14 @@ const Profile = () => {
                   <p>
                     <span className="text-muted small">Gender</span>
                     <br />
-                    Male
+                    {userData?.gender || "N/A"}
                   </p>
                 </div>
                 <div className="col">
                   <p>
                     <span className="text-muted small">Phone</span>
                     <br />
-                    {userData?.contact?.mobile}
+                    {userData?.contact?.mobile || "N/A"}
                   </p>
                 </div>
               </div>
@@ -72,14 +72,14 @@ const Profile = () => {
                   <p>
                     <span className="text-muted small">Email</span>
                     <br />
-                    {userData?.contact?.email}
+                    {userData?.contact?.email || userData?.username || "N/A"}
                   </p>
                 </div>
                 <div className="col">
                   <p>
                     <span className="text-muted small">Location</span>
                     <br />
-                    India
+                    {userData?.address?.city || userData?.address?.line1 || userData?.city || userData?.line1 || "N/A"}
                   </p>
                 </div>
               </div>

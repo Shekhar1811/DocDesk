@@ -75,6 +75,9 @@ model Doctor {
   qualification  String?
   experience     String?
   photo_url      String?
+  gender         String?
+  date_of_birth  String?
+  date_of_join   String?
   address_line1  String?
   city           String?
   state          String?
@@ -96,6 +99,8 @@ model Employee {
   mobile          String?
   designation     String?
   department      String?
+  gender          String?
+  date_of_birth   String?
   date_of_joining String?
   address_line1   String?
   city            String?
@@ -161,10 +166,22 @@ model Appointment {
   date             String         // YYYY-MM-DD
   time             String         // e.g. "10:30 AM"
   status           String         @default("UPCOMING") // UPCOMING, COMPLETED, CANCELLED
-  details          String?
-  diagnosis        String?
-  medical_history  String?
-  created_at       DateTime       @default(now())
+  details                String?
+  diagnosis              String?
+  medical_history        String?
+  doctor_note            String?
+  fee                    Float?
+  treatment_plan         String?
+  observation_details    String?
+  investigation_details  String?
+  family_medical_history String?
+  current_condition      String?
+  procedures             String?
+  bp_detail              String?
+  weight                 String?
+  height                 String?
+  seating_no             String?
+  created_at             DateTime       @default(now())
   updated_at       DateTime       @updatedAt
 
   prescriptions    Prescription[]

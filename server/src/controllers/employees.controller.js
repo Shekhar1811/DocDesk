@@ -10,9 +10,12 @@ const formatEmployee = (e) => {
       email: e.email || "",
       mobile: e.mobile || "",
     },
+    gender: e.gender || "",
+    date_of_birth: e.date_of_birth || "",
+    date_of_join: e.date_of_joining || "",
+    date_of_joining: e.date_of_joining || "",
     designation: e.designation || "Staff",
     department: e.department || "Operations",
-    date_of_joining: e.date_of_joining || "",
     address: {
       line1: e.address_line1 || "",
       city: e.city || "Mumbai",
@@ -53,7 +56,8 @@ const getEmployeeDetails = async (req, res) => {
 const addEmployee = async (req, res) => {
   try {
     const clinicId = req.clinicId || (await prisma.clinic.findFirst())?.id || 1;
-    const { contact, designation, department, date_of_joining, address } = req.body;
+    const { contact, designation, department, date_of_joining, date_of_join, gender, date_of_birth, address } = req.body;
+    const joiningDate = date_of_joining || date_of_join || "";
 
     const newEmp = await prisma.employee.create({
       data: {
@@ -62,9 +66,11 @@ const addEmployee = async (req, res) => {
         last_name: contact?.last_name || "",
         email: contact?.email || "",
         mobile: contact?.mobile || "",
+        gender: gender || req.body.gender || "",
+        date_of_birth: date_of_birth ? String(date_of_birth) : (req.body.date_of_birth ? String(req.body.date_of_birth) : null),
         designation: designation || "Clinic Staff",
         department: department || "Operations",
-        date_of_joining: date_of_joining || "",
+        date_of_joining: joiningDate ? String(joiningDate) : null,
         address_line1: address?.line1 || "",
         city: address?.city || "",
         state: address?.state || "",
@@ -82,7 +88,8 @@ const addEmployee = async (req, res) => {
 const editEmployee = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const { contact, designation, department, date_of_joining, address } = req.body;
+    const { contact, designation, department, date_of_joining, date_of_join, gender, date_of_birth, address } = req.body;
+    const rawJoining = date_of_joining !== undefined ? date_of_joining : date_of_join;
 
     const updated = await prisma.employee.update({
       where: { id },
@@ -91,9 +98,11 @@ const editEmployee = async (req, res) => {
         last_name: contact?.last_name !== undefined ? contact.last_name : undefined,
         email: contact?.email !== undefined ? contact.email : undefined,
         mobile: contact?.mobile !== undefined ? contact.mobile : undefined,
+        gender: gender !== undefined ? gender : (req.body.gender !== undefined ? req.body.gender : undefined),
+        date_of_birth: date_of_birth !== undefined ? (date_of_birth ? String(date_of_birth) : null) : (req.body.date_of_birth !== undefined ? (req.body.date_of_birth ? String(req.body.date_of_birth) : null) : undefined),
         designation: designation !== undefined ? designation : undefined,
         department: department !== undefined ? department : undefined,
-        date_of_joining: date_of_joining !== undefined ? date_of_joining : undefined,
+        date_of_joining: rawJoining !== undefined ? (rawJoining ? String(rawJoining) : null) : undefined,
         address_line1: address?.line1 !== undefined ? address.line1 : undefined,
         city: address?.city !== undefined ? address.city : undefined,
         state: address?.state !== undefined ? address.state : undefined,

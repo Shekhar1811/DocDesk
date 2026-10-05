@@ -96,15 +96,15 @@ const EditAppointment = () => {
      ...appointment
     }, */
     initialValues: {
-      patient_id: appointment?.patient.id,
-      doctor_id: appointment?.doctor.id,
-      package_id: appointment?.package.id,
-      details: appointment?.details,
-      date: appointment?.date,
-      time: appointment?.time,
-      height: appointment?.height,
-      weight: appointment?.weight,
-      seating_no: appointment?.seating_no,
+      patient_id: appointment?.patient?.id || "",
+      doctor_id: appointment?.doctor?.id || "",
+      package_id: appointment?.package?.id || "",
+      details: appointment?.details || "",
+      date: appointment?.date || "",
+      time: appointment?.time || "",
+      height: appointment?.height || "",
+      weight: appointment?.weight || "",
+      seating_no: appointment?.seating_no || "",
     },
     enableReinitialize: true,
     validationSchema: validationSchema,
@@ -114,7 +114,7 @@ const EditAppointment = () => {
         .editAppointments(id, values)
         .then((res) => {
           if (res.status === 200) {
-            toast.success("Appointment saved successfully");
+            alert.success("Appointment saved successfully");
             navigate("/appointment-details/" + id);
           }
         })

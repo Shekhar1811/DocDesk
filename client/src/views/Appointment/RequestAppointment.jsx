@@ -77,12 +77,12 @@ const RequestAppointment = () => {
   };
   const formik = useFormik({
     initialValues: {
-      patient_id: data?.patient.id,
-      doctor_id: data?.doctor.id,
-      package_id: data?.package.id,
-      details: data?.details,
-      height: data?.height,
-      weight: data?.weight,
+      patient_id: data?.patient?.id || "",
+      doctor_id: data?.doctor?.id || "",
+      package_id: data?.package?.id || "",
+      details: data?.details || "",
+      height: data?.height || "",
+      weight: data?.weight || "",
       date: moment(new Date()).format("YYYY-MM-DD"),
       time: moment().add(1, "hour").format("HH:mm"),
       status: "ACTIVE",
@@ -95,7 +95,7 @@ const RequestAppointment = () => {
         .addAppointments(values)
         .then((res) => {
           if (res.status === 201) {
-            toast.success("Appointment added successfully");
+            alert.success("Appointment added successfully");
             navigate("/appointments");
           }
         })

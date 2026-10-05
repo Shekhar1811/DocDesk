@@ -4,15 +4,14 @@ import { Form, Row, Col, Button } from "react-bootstrap";
 const MedicalHistory = ({ formik }) => {
   return (
     <div>
-      <Row>
+      <Row className="mb-3">
         <Col>
-          <ul>
-            <li>Diabetes - Diagnosed in 2015</li>
-            <li> Hypertension - Diagnosed in 2015</li>
-            <li>Knee Replacement - Diagnosed in 2015</li>
-            <li> Gallbladder Removal - Diagnosed in 2015</li>
-            <li>Flu Vaccine - Diagnosed in 2015</li>
-          </ul>
+          <div className="alert alert-light border p-2 mb-0 d-flex align-items-center">
+            <span className="material-symbols-outlined text-primary me-2">medical_information</span>
+            <small className="text-muted">
+              Document past clinical diagnoses, prior surgeries, drug allergies, and hereditary family conditions.
+            </small>
+          </div>
         </Col>
       </Row>
       <Row>

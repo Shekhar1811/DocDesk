@@ -28,8 +28,22 @@ const DOCTOR_PERMISSIONS = [
   "listProfile", "readProfile", "editProfile"
 ];
 
+const EMPLOYEE_PERMISSIONS = [
+  "listHome", "readHome",
+  "listPatient", "readPatient", "addPatient", "editPatient",
+  "listAppointment", "readAppointment", "addAppointment", "editAppointment",
+  "listDoctor", "readDoctor",
+  "listInvoice", "readInvoice", "addInvoice",
+  "listPackage", "readPackage",
+  "listMedicine", "readMedicine",
+  "listNote", "readNote", "addNote",
+  "listProfile", "readProfile", "editProfile"
+];
+
 const getDefaultPermissions = (role) => {
-  return role === "DOCTOR" ? DOCTOR_PERMISSIONS : ALL_PERMISSIONS;
+  if (role === "DOCTOR") return DOCTOR_PERMISSIONS;
+  if (role === "EMPLOYEE" || role === "STAFF") return EMPLOYEE_PERMISSIONS;
+  return ALL_PERMISSIONS;
 };
 
 const login = async (req, res) => {
@@ -98,7 +112,7 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { username, email, password, clinic_name, phone } = req.body;
+    const { username, name, email, password, clinic_name, phone } = req.body;
 
     const userEmail = (email || username || "").toLowerCase().trim();
     if (!userEmail || !password) {
@@ -134,14 +148,19 @@ const register = async (req, res) => {
       },
     });
 
+    const fullName = (name || username || "Admin User").trim();
+    const nameParts = fullName.split(" ");
+    const firstName = nameParts[0] || "Admin";
+    const lastName = nameParts.slice(1).join(" ") || "User";
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
         clinic_id: clinic.id,
         email: userEmail,
         password: hashedPassword,
-        first_name: username || "Admin",
-        last_name: "User",
+        first_name: firstName,
+        last_name: lastName,
         role: "ADMIN",
         permissions: JSON.stringify(ALL_PERMISSIONS),
       },

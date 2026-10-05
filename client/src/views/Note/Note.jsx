@@ -48,7 +48,7 @@ const Note = () => {
   return (
     <div className="content-wrapper">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h6 className="mb-2 pb-1 fw-bold text-black">Note</h6>
+        <h6 className="mb-2 pb-1 fw-bold text-black">Notes</h6>
         <Can I="add" a="Note">
           <Link to="/add-note" className="btn btn-primary">
             Add Note
@@ -57,19 +57,22 @@ const Note = () => {
       </div>
       <Can I="list" a="Note">
         <div className="list">
-          {notes ? (
+          {notes && notes.length > 0 ? (
             notes.map((note) => (
-              <div className="list-item ">
+              <div className="list-item mb-2" key={note.id}>
                 <Can I="read" a="Note" passThrough>
                   {(allowed) => (
                     <Link
                       disabled={!allowed}
                       to={`/note-details/${note.id}`}
-                      className="d-flex "
+                      className="d-flex text-decoration-none"
                     >
                       <div className="list-item-content">
-                        <div className="d-flex justify-content-between">
-                          <p>{note.name}</p>
+                        <div className="d-flex flex-column">
+                          <p className="fw-semibold mb-1 text-dark">{note.title || note.name}</p>
+                          {note.description && (
+                            <small className="text-muted text-truncate d-block">{note.description}</small>
+                          )}
                         </div>
                       </div>
                     </Link>
@@ -78,6 +81,7 @@ const Note = () => {
 
                 <Can I="delete" a="Note">
                   <Link
+                    to="#"
                     className="delete-icon"
                     onClick={() => showAlert("Note", handleDelete, note.id)}
                   >
@@ -89,7 +93,9 @@ const Note = () => {
           ) : loading ? (
             <Loader />
           ) : (
-            <p>No packages found</p>
+            <div className="text-center py-4 text-muted">
+              <p className="m-0">No notes found</p>
+            </div>
           )}
         </div>
       </Can>

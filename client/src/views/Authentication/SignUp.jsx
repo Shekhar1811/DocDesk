@@ -1,35 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Button, Container, Row, Col, InputGroup } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import dataServices from "../../apiServices/data.services";
-import { toast } from "react-toastify";
+import { useAlert } from "react-alert";
+import { handleValidationError } from "../../components/CommonFunctions";
 import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const alert = useAlert();
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
-      email: "singh@email.com",
-      name: "Singh",
-      password: "123456789",
+      email: "",
+      name: "",
+      password: "",
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Invalid email address").required("Required"),
       name: Yup.string().required("Required"),
-      password: Yup.string().required("Required"),
+      password: Yup.string().min(6, "Password must be at least 6 characters").required("Required"),
     }),
     onSubmit: (values) => {
-      dataServices.signUp(values).then((res) => {
-        console.log(res);
-        if (res.status == 201) {
-          toast.success("New user added successfully");
-          navigate("/sign-in");
-        } else {
-          toast.error("There was an error while registering. Please try again");
-        }
-      });
+      setLoading(true);
+      dataServices
+        .signUp(values)
+        .then((res) => {
+          if (res.status === 201 || res.status === 200) {
+            alert.success("New user registered successfully! Please sign in.");
+            navigate("/sign-in");
+          } else {
+            alert.error("There was an error while registering. Please try again");
+          }
+        })
+        .catch((err) => {
+          alert.error(handleValidationError(err));
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     },
   });
 
@@ -108,9 +119,10 @@ const SignUp = () => {
 
           <Button
             type="submit"
+            disabled={loading}
             className="btn btn-primary w-100 rounded-4 mb-3"
           >
-            Create Account
+            {loading ? "Creating Account..." : "Create Account"}
           </Button>
           <p className="text-muted text-center small">
             Already have an account?{" "}

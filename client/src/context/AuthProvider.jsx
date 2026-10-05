@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { defineAbility } from "@casl/ability";
 import { createContextualCan } from "@casl/react";
 import tokenService from "../apiServices/token.service";
+import { transformPermissions } from "../components/CommonFunctions";
 
 export const AuthContext = createContext();
 export const AbilityContext = createContext();
@@ -32,7 +33,15 @@ export const useAuth = () => useContext(AuthContext);
 
 function defineAbilityFor(user) {
   return defineAbility((can) => {
-    const permissions = user?.permissions;
+    if (user?.role === "ADMIN" || user?.contact?.role === "ADMIN") {
+      can("manage", "all");
+      return;
+    }
+
+    let permissions = user?.permissions;
+    if (Array.isArray(permissions)) {
+      permissions = transformPermissions(permissions);
+    }
     if (permissions && typeof permissions === "object") {
       Object.keys(permissions).forEach((action) => {
         if (Array.isArray(permissions[action])) {

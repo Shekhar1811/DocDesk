@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import Select from "react-select";
@@ -7,7 +7,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import dataServices from "../../apiServices/data.services";
 import { useAlert } from "react-alert";
 import { handleValidationError } from "../../components/CommonFunctions";
-import { Loader } from "react-bootstrap-typeahead";
+import Loader from "../../components/Loader/Loader";
 import { Can } from "./../../context/AuthProvider";
 
 // Define the options for the Select component
@@ -19,11 +19,28 @@ const typeOptions = [
 
 const EditMedicines = () => {
   const location = useLocation();
-  const med = location.state;
   const { id } = useParams();
   const alert = useAlert();
   const navigate = useNavigate();
+  const [med, setMed] = useState(location.state);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!med && id) {
+      setLoading(true);
+      dataServices
+        .getMedicineDetails(id)
+        .then((res) => {
+          if (res.status === 200) {
+            setMed(res.data);
+          }
+        })
+        .catch((err) => {
+          alert.error(handleValidationError(err));
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [id, med]);
 
   const formik = useFormik({
     initialValues: {
@@ -36,6 +53,7 @@ const EditMedicines = () => {
       type: Yup.string().required("Medicines Type is required"),
     }),
     onSubmit: (values) => {
+      setLoading(true);
       dataServices
         .editMedicine(id, values)
         .then((res) => {

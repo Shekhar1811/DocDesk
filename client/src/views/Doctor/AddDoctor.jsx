@@ -74,8 +74,7 @@ const AddDoctor = () => {
         .addDoctor(values)
         .then((res) => {
           if (res.status === 201) {
-            toast.success("Employee added successfully");
-            console.log("Employee added successfully");
+            alert.success("Doctor added successfully");
             navigate("/doctors");
           }
         })

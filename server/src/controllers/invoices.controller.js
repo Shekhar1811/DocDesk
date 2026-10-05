@@ -183,10 +183,24 @@ const getStats = async (req, res) => {
     const where = {};
     if (clinicId) where.clinic_id = clinicId;
 
+    const patientWhere = {};
+    if (clinicId) patientWhere.clinic_id = clinicId;
+
+    const appointmentWhere = {};
+    if (clinicId) appointmentWhere.clinic_id = clinicId;
+
     if (days) {
       const dayCount = parseInt(days);
-      const startDate = moment().subtract(dayCount, "days").format("YYYY-MM-DD");
+      const startDate = dayCount === 1 
+        ? moment().format("YYYY-MM-DD") 
+        : moment().subtract(dayCount, "days").format("YYYY-MM-DD");
       where.payment_date = {
+        gte: startDate,
+      };
+      appointmentWhere.date = {
+        gte: startDate,
+      };
+      patientWhere.registration_date = {
         gte: startDate,
       };
     }
@@ -200,11 +214,11 @@ const getStats = async (req, res) => {
     const total_invoices = invoices.length;
 
     const total_patients = await prisma.patient.count({
-      where: clinicId ? { clinic_id: clinicId } : undefined,
+      where: patientWhere,
     });
 
     const total_appointments = await prisma.appointment.count({
-      where: clinicId ? { clinic_id: clinicId } : undefined,
+      where: appointmentWhere,
     });
 
     return res.status(200).json({

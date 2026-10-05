@@ -15,16 +15,21 @@ const AddNote = () => {
 
   // Initialize useFormik hook
   const formik = useFormik({
-    initialValues: { name: "" },
+    initialValues: { title: "", description: "" },
     validationSchema: Yup.object({
-      name: Yup.string().required("Note is required"),
+      title: Yup.string().required("Title is required"),
+      description: Yup.string().required("Note description is required"),
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
+      setLoading(true);
       dataServices
-        .addNote(values)
+        .addNote({
+          title: values.title,
+          description: values.description,
+          name: values.title,
+        })
         .then((res) => {
-          console.log(res);
           if (res.status === 201) {
             alert.success("Note added successfully");
             navigate(`/note`);
@@ -42,26 +47,49 @@ const AddNote = () => {
     <div className="content-wrapper">
       <Can I="add" a="Note">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h6 className="mb-2 pb-1 fw-bold text-black">Edit Note</h6>
+          <h6 className="mb-2 pb-1 fw-bold text-black">Add Note</h6>
         </div>
         <Form onSubmit={formik.handleSubmit}>
           <Row>
-            <Col>
+            <Col sm={12} className="mb-3">
               <div className="form-group">
-                <label htmlFor="name">Note</label>
-                <textarea
-                  name="name"
+                <label htmlFor="title" className="form-label fw-medium">Title</label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
                   className={`form-control ${
-                    formik.touched.name && formik.errors.name
+                    formik.touched.title && formik.errors.title
                       ? "is-invalid"
                       : ""
                   }`}
-                  placeholder="Enter Note"
-                  value={formik.values.name}
+                  placeholder="e.g. Clinical Follow-up Instructions"
+                  value={formik.values.title}
                   onChange={formik.handleChange}
                 />
-                {formik.touched.name && formik.errors.name ? (
-                  <div className="invalid-feedback">{formik.errors.name}</div>
+                {formik.touched.title && formik.errors.title ? (
+                  <div className="invalid-feedback">{formik.errors.title}</div>
+                ) : null}
+              </div>
+            </Col>
+            <Col sm={12} className="mb-3">
+              <div className="form-group">
+                <label htmlFor="description" className="form-label fw-medium">Note Description</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  rows={4}
+                  className={`form-control ${
+                    formik.touched.description && formik.errors.description
+                      ? "is-invalid"
+                      : ""
+                  }`}
+                  placeholder="Enter detailed clinical note..."
+                  value={formik.values.description}
+                  onChange={formik.handleChange}
+                />
+                {formik.touched.description && formik.errors.description ? (
+                  <div className="invalid-feedback">{formik.errors.description}</div>
                 ) : null}
               </div>
             </Col>
@@ -73,7 +101,7 @@ const AddNote = () => {
                 disabled={loading}
                 className="btn btn-primary w-100"
               >
-                Save Changes
+                Save Note
               </Button>
             </Col>
           </Row>

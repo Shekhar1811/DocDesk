@@ -132,8 +132,11 @@ const AppointmentDetails = () => {
               handleRecreateAppointment();
               alert.info("Rescheduling appointment");
             } else {
-              alert.success("Diagnosis added successfully");
-              navigate("/appointments");
+              alert.success("Appointment details updated successfully");
+              const updatedApp = res.data?.data && res.data?.data?.patient ? res.data.data : (res.data?.patient ? res.data : null);
+              if (updatedApp) {
+                setAppointment((prev) => ({ ...prev, ...updatedApp }));
+              }
             }
           }
         })
@@ -152,8 +155,14 @@ const AppointmentDetails = () => {
     navigate("/request-appointment", { state: appointment });
   };
 
-  if (loading) return <Loader />;
-  if (!appointment) return <div>No appointment data available.</div>;
+  if (loading && !appointment) {
+    return (
+      <Container className="content-wrapper py-5">
+        <Loader fullPage />
+      </Container>
+    );
+  }
+  if (!appointment) return <div className="p-4 text-center text-muted">No appointment data available.</div>;
   return (
     <Container className="content-wrapper">
       <Row className="justify-content-center">
@@ -214,18 +223,18 @@ const AppointmentDetails = () => {
                   </Row>
                   <br />
                   <h6>Patient Details</h6>
-                  <h5>{appointment.patient?.name}</h5>
+                  <h5>{appointment?.patient?.name || "Patient"}</h5>
                   <Row>
                     <Col md={6}>
                       <div className="detail-item">
                         <label>DOB:</label>
-                        <span>{appointment.patient.date_of_birth}</span>
+                        <span>{appointment?.patient?.date_of_birth || "N/A"}</span>
                       </div>
                     </Col>
                     <Col md={6}>
                       <div className="detail-item">
                         <label>Gender:</label>
-                        <span>{appointment.patient.gender}</span>
+                        <span>{appointment?.patient?.gender || "N/A"}</span>
                       </div>
                     </Col>
                     <Col md={6}>

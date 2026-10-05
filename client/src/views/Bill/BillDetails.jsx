@@ -41,12 +41,13 @@ const Bill = () => {
     const rawMobile = invoice?.patient?.mobile || "";
     const cleanMobile = rawMobile.replace(/[^\d]/g, "");
     const invoiceId = invoice?.id || "";
-    // Create WhatsApp link with real invoice ID
-    const message = `Dear ${invoice?.patient?.name || "Patient"}, Your invoice no. ${invoiceId} of Rs. ${invoice?.amount || 0} is now due. Please make the payment as soon as possible. If you have already paid, please ignore this message. The invoice URL is https://${window.location.host}/print-invoice/${invoiceId}\n\nThank you!`;
+    const invoiceUrl = `${window.location.origin}/print-invoice/${invoiceId}`;
+    const message = `Dear ${invoice?.patient?.name || "Patient"}, Your invoice no. #${invoiceId} of Rs. ${invoice?.amount || 0} is ready. View invoice here: ${invoiceUrl}\n\nThank you!`;
     const encodedMessage = encodeURIComponent(message);
+    const phoneParam = cleanMobile.length >= 10 ? `phone=${cleanMobile}&` : "";
     const whatsappWebUrl = is_mobile
-      ? `https://api.whatsapp.com/send?phone=${cleanMobile}&text=${encodedMessage}`
-      : `https://web.whatsapp.com/send?phone=${cleanMobile}&text=${encodedMessage}`;
+      ? `https://api.whatsapp.com/send?${phoneParam}text=${encodedMessage}`
+      : `https://web.whatsapp.com/send?${phoneParam}text=${encodedMessage}`;
 
     return whatsappWebUrl;
   };

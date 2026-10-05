@@ -10,6 +10,9 @@ const formatDoctor = (d) => {
       email: d.email || "",
       mobile: d.mobile || "",
     },
+    gender: d.gender || "",
+    date_of_birth: d.date_of_birth || "",
+    date_of_join: d.date_of_join || "",
     specialization: d.specialization || "General Physician",
     qualification: d.qualification || "MBBS",
     experience: d.experience || "5+ Years",
@@ -54,7 +57,7 @@ const getDoctorDetails = async (req, res) => {
 const addDoctor = async (req, res) => {
   try {
     const clinicId = req.clinicId || (await prisma.clinic.findFirst())?.id || 1;
-    const { contact, specialization, qualification, experience, address } = req.body;
+    const { contact, specialization, qualification, experience, address, gender, date_of_birth, date_of_join } = req.body;
 
     const newDoctor = await prisma.doctor.create({
       data: {
@@ -63,6 +66,9 @@ const addDoctor = async (req, res) => {
         last_name: contact?.last_name || "",
         email: contact?.email || "",
         mobile: contact?.mobile || "",
+        gender: gender || req.body.gender || "",
+        date_of_birth: date_of_birth ? String(date_of_birth) : (req.body.date_of_birth ? String(req.body.date_of_birth) : null),
+        date_of_join: date_of_join ? String(date_of_join) : (req.body.date_of_join ? String(req.body.date_of_join) : null),
         specialization: specialization || "General Medicine",
         qualification: qualification || "MBBS",
         experience: experience || "",
@@ -83,7 +89,7 @@ const addDoctor = async (req, res) => {
 const editDoctor = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const { contact, specialization, qualification, experience, address } = req.body;
+    const { contact, specialization, qualification, experience, address, gender, date_of_birth, date_of_join } = req.body;
 
     const updated = await prisma.doctor.update({
       where: { id },
@@ -92,6 +98,9 @@ const editDoctor = async (req, res) => {
         last_name: contact?.last_name !== undefined ? contact.last_name : undefined,
         email: contact?.email !== undefined ? contact.email : undefined,
         mobile: contact?.mobile !== undefined ? contact.mobile : undefined,
+        gender: gender !== undefined ? gender : (req.body.gender !== undefined ? req.body.gender : undefined),
+        date_of_birth: date_of_birth !== undefined ? (date_of_birth ? String(date_of_birth) : null) : (req.body.date_of_birth !== undefined ? (req.body.date_of_birth ? String(req.body.date_of_birth) : null) : undefined),
+        date_of_join: date_of_join !== undefined ? (date_of_join ? String(date_of_join) : null) : (req.body.date_of_join !== undefined ? (req.body.date_of_join ? String(req.body.date_of_join) : null) : undefined),
         specialization: specialization !== undefined ? specialization : undefined,
         qualification: qualification !== undefined ? qualification : undefined,
         experience: experience !== undefined ? experience : undefined,

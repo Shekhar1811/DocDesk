@@ -366,7 +366,7 @@ const EditPatient = () => {
                 <Col xs={6} className="form-group">
                   <Form.Label htmlFor="Date">Package End Date </Form.Label>
                   <DatePicker
-                    name="package_start_date"
+                    name="package_end_date"
                     value={moment(formik.values?.package_end_date)}
                     format="DD-MM-YYYY"
                     onChange={(date) => {

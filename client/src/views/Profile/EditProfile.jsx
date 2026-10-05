@@ -57,12 +57,12 @@ const EditProfile = () => {
       id: user?.contact?.id,
       first_name: user?.contact?.first_name,
       last_name: user?.contact?.last_name,
-      mobile: user?.contact?.mobile,
-      date_of_birth: "",
-      gender: user?.gender,
-      line1: user?.line1,
-      city: user?.city,
-      zipcode: user?.zipcode,
+      mobile: user?.contact?.mobile || "",
+      date_of_birth: user?.date_of_birth || "",
+      gender: user?.gender || "",
+      line1: user?.line1 || user?.address?.line1 || "",
+      city: user?.city || user?.address?.city || "",
+      zipcode: user?.zipcode || user?.address?.zipcode || "",
     },
     validationSchema: validationSchema,
     enableReinitialize: true,
@@ -72,7 +72,7 @@ const EditProfile = () => {
         .updateUser(values.id, values)
         .then((res) => {
           if (res.status === 200) {
-            alert.success("Patient details updated successfully");
+            alert.success("Profile details updated successfully");
             const { email, mobile, first_name, last_name, permissions, role } =
               res.data.contact;
             const userData = {

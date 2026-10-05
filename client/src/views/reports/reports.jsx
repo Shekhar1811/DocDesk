@@ -91,11 +91,11 @@ const Reports = () => {
           </Can>
         </Row>
         <Row className="mb-3">
-          <Col xs={6}>
+          <Col md={6} xs={12} className="mb-2 mb-md-0">
             <Form.Group>
               <Form.Label>Start Date:</Form.Label>
               <DatePicker
-                name="dob"
+                name="start_date"
                 value={startDate ? moment(startDate) : moment(new Date())}
                 format="DD-MM-YYYY"
                 maxDate={moment(new Date())}
@@ -106,11 +106,11 @@ const Reports = () => {
               />
             </Form.Group>
           </Col>
-          <Col xs={6}>
+          <Col md={6} xs={12}>
             <Form.Group>
               <Form.Label>End Date:</Form.Label>
               <DatePicker
-                name="dob"
+                name="end_date"
                 value={endDate ? moment(endDate) : moment(new Date())}
                 format="DD-MM-YYYY"
                 maxDate={moment(new Date())}
@@ -122,47 +122,49 @@ const Reports = () => {
             </Form.Group>
           </Col>
         </Row>
-        <Row className="mb-3">
-          <Col sm={6}>
-            <Form.Group className="form-group">
+        <Row className="mb-3 align-items-end">
+          <Col md={5} xs={12} className="mb-2 mb-md-0">
+            <Form.Group className="form-group mb-0">
               <Form.Label>Payment Method</Form.Label>
-              <Form.Check
-                type="radio"
-                inline
-                name="paid_by"
-                value="Cash"
-                id="inlineRadio1"
-                className="me-2"
-                label="Cash"
-                checked={paymentMethod === "CASH"}
-                onChange={() => setPaymentMethod("CASH")}
-              />
-              <Form.Check
-                type="radio"
-                inline
-                name="paid_by"
-                value="Cheque"
-                id="inlineRadio2"
-                className="me-2"
-                label="Cheque"
-                checked={paymentMethod === "CHEQUE"}
-                onChange={() => setPaymentMethod("CHEQUE")}
-              />
-              <Form.Check
-                type="radio"
-                inline
-                name="paid_by"
-                value="Online"
-                id="inlineRadio3"
-                className="me-2"
-                label="Online"
-                checked={paymentMethod === "ONLINE"}
-                onChange={() => setPaymentMethod("ONLINE")}
-              />
+              <div className="d-flex flex-wrap gap-2">
+                <Form.Check
+                  type="radio"
+                  inline
+                  name="paid_by"
+                  value="Cash"
+                  id="inlineRadio1"
+                  className="me-2"
+                  label="Cash"
+                  checked={paymentMethod === "CASH"}
+                  onChange={() => setPaymentMethod("CASH")}
+                />
+                <Form.Check
+                  type="radio"
+                  inline
+                  name="paid_by"
+                  value="Cheque"
+                  id="inlineRadio2"
+                  className="me-2"
+                  label="Cheque"
+                  checked={paymentMethod === "CHEQUE"}
+                  onChange={() => setPaymentMethod("CHEQUE")}
+                />
+                <Form.Check
+                  type="radio"
+                  inline
+                  name="paid_by"
+                  value="Online"
+                  id="inlineRadio3"
+                  className="me-0"
+                  label="Online"
+                  checked={paymentMethod === "ONLINE"}
+                  onChange={() => setPaymentMethod("ONLINE")}
+                />
+              </div>
             </Form.Group>
           </Col>
-          <Col xs={7}>
-            <Form.Group className="form-group">
+          <Col md={4} xs={8} className="mb-2 mb-md-0">
+            <Form.Group className="form-group mb-0">
               <Form.Label>Select Patient</Form.Label>
               <Select
                 id="patient"
@@ -180,20 +182,21 @@ const Reports = () => {
               />
             </Form.Group>
           </Col>
-          <Col xs={4} className="d-flex align-items-center action-btn">
-            <Button
-              variant="outline-primary "
-              onClick={handleFilter}
-              disabled={loading}
-              className="filterBtn me-2"
-            >
-              <span className="material-symbols-outlined">filter_alt</span>
-            </Button>
+          <Col md={3} xs={4} className="d-flex align-items-center gap-2">
             <Button
               variant="outline-primary"
+              onClick={handleFilter}
+              disabled={loading}
+              className="filterBtn flex-grow-1 d-flex align-items-center justify-content-center"
+              title="Apply Filter"
+            >
+              <span className="material-symbols-outlined me-1">filter_alt</span> Filter
+            </Button>
+            <Button
+              variant="outline-secondary"
               onClick={handleClear}
               disabled={loading}
-              className="filterBtn"
+              className="filterBtn flex-grow-1"
             >
               Clear
             </Button>

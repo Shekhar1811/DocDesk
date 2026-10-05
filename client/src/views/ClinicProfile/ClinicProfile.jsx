@@ -12,12 +12,13 @@ import { IMAGE_URL } from "../../constants";
 const ClinicProfile = () => {
   const [clinicData, setClinicData] = useState();
   const [loading, setLoading] = useState(false);
-  const { clinic } = tokenService.getUser();
+  const user = tokenService.getUser();
+  const clinicId = user?.clinic?.id || 1;
   const alert = useAlert();
   useEffect(() => {
     setLoading(true);
     dataServices
-      .getClinic(clinic.id)
+      .getClinic(clinicId)
       .then((res) => {
         if (res.status === 200) {
           setClinicData(res.data);
@@ -28,7 +29,7 @@ const ClinicProfile = () => {
         setLoading(false);
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [clinicId]);
   return (
     <Can I="read" this="Clinic">
       <div className="content-wrapper">
@@ -94,49 +95,55 @@ const ClinicProfile = () => {
                     <p>
                       <span className="text-muted small">Address</span>
                       <br />
-                      {clinicData.address.line1}
-                      {clinicData.address.city}, {clinicData.address.state}-
-                      {clinicData.address.zipcode} (India)
+                      {clinicData?.address?.line1 ? `${clinicData.address.line1}, ` : ""}
+                      {clinicData?.address?.city || ""}{clinicData?.address?.state ? `, ${clinicData.address.state}` : ""}
+                      {clinicData?.address?.zipcode ? ` - ${clinicData.address.zipcode}` : ""}
                     </p>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col">
-                    <p>
-                      <span className="text-muted small">Clinic Logo</span>
-                      <br />
-                      <Image
-                        src={IMAGE_URL + clinicData.logo.url}
-                        rounded
-                        fluid
-                        className="logo-img"
-                      />
-                    </p>
-                  </div>
-                  <div className="col">
-                    <p>
-                      <span className="text-muted small">Clinic Favicon</span>
-                      <br />
-                      <Image
-                        src={IMAGE_URL + clinicData.favicon.url}
-                        rounded
-                        fluid
-                        className="logo-img"
-                      />
-                    </p>
-                  </div>
-                  <div className="col">
-                    <p>
-                      <span className="text-muted small">Clinic Scanner</span>
-                      <br />
-                      <Image
-                        src={IMAGE_URL + clinicData.scanner.url}
-                        rounded
-                        fluid
-                        className="logo-img"
-                      />
-                    </p>
-                  </div>
+                  {clinicData?.logo?.url && (
+                    <div className="col">
+                      <p>
+                        <span className="text-muted small">Clinic Logo</span>
+                        <br />
+                        <Image
+                          src={IMAGE_URL + clinicData.logo.url}
+                          rounded
+                          fluid
+                          className="logo-img"
+                        />
+                      </p>
+                    </div>
+                  )}
+                  {clinicData?.favicon?.url && (
+                    <div className="col">
+                      <p>
+                        <span className="text-muted small">Clinic Favicon</span>
+                        <br />
+                        <Image
+                          src={IMAGE_URL + clinicData.favicon.url}
+                          rounded
+                          fluid
+                          className="logo-img"
+                        />
+                      </p>
+                    </div>
+                  )}
+                  {clinicData?.scanner?.url && (
+                    <div className="col">
+                      <p>
+                        <span className="text-muted small">Clinic Scanner</span>
+                        <br />
+                        <Image
+                          src={IMAGE_URL + clinicData.scanner.url}
+                          rounded
+                          fluid
+                          className="logo-img"
+                        />
+                      </p>
+                    </div>
+                  )}
                 </div>
               </>
             ) : (

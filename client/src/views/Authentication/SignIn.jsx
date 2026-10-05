@@ -56,22 +56,22 @@ function SignIn() {
   });
 
   const getUser = (accessToken) => {
-    dataServices.getUser().then((res) => {
-      if (res.status === 200) {
-        const { email, mobile, first_name, last_name, permissions, role } =
-          res.data.contact;
-        const userData = {
-          username: email,
-          mobile: mobile,
-          role: role,
-          name: first_name + " " + last_name,
-          clinic: {},
-          permissions: transformPermissions(permissions),
-        };
-        dataServices.getClinic(res.data.clinic.id).then((res) => {
-          if (res.status === 200) {
-            const clinic = res.data;
-            userData.clinic = clinic;
+    dataServices.getUser()
+      .then((res) => {
+        if (res.status === 200) {
+          const { email, mobile, first_name, last_name, permissions, role } =
+            res.data.contact || {};
+          const userData = {
+            username: email || "",
+            mobile: mobile || "",
+            role: role || "ADMIN",
+            name: `${first_name || ""} ${last_name || ""}`.trim() || email || "User",
+            clinic: res.data.clinic || {},
+            permissions: transformPermissions(permissions || []),
+          };
+
+          const finalizeLogin = (clinicData) => {
+            if (clinicData) userData.clinic = clinicData;
             TokenService.setUser(userData);
             TokenService.updateLocalAccessToken(accessToken);
             if (role === "DOCTOR") {
@@ -80,10 +80,28 @@ function SignIn() {
               navigate(from, { replace: true });
             }
             window.location.reload();
+          };
+
+          const clinicId = res.data.clinic?.id;
+          if (clinicId) {
+            dataServices
+              .getClinic(clinicId)
+              .then((cRes) => {
+                finalizeLogin(cRes.data);
+              })
+              .catch((err) => {
+                console.warn("Could not fetch clinic details, proceeding:", err);
+                finalizeLogin(res.data.clinic);
+              });
+          } else {
+            finalizeLogin(res.data.clinic);
           }
-        });
-      }
-    });
+        }
+      })
+      .catch((err) => {
+        alert.error(handleValidationError(err) || "Failed to retrieve user session. Please try again.");
+        setLoading(false);
+      });
   };
 
   return (

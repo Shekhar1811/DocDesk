@@ -1,8 +1,6 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 import { useAlert } from "react-alert";
-import { useEffect } from "react";
 import dataServices from "../../apiServices/data.services";
 import { handleValidationError } from "./../../components/CommonFunctions";
 import Loader from "./../../components/Loader/Loader";
@@ -37,22 +35,24 @@ const NoteDetails = () => {
       <Can I="read" a="Note">
         {note ? (
           <div>
-            <div className="bg-white rounded-4 px-3 mt-4 pt-3 overflow-hidden edit-profile-back mb-3">
-              <h6 className="pb-2">Note Info</h6>
-              <div className="d-flex">
-                <div className="col">
-                  <p>{note.name}</p>
+            <div className="bg-white rounded-4 px-4 py-4 mt-4 overflow-hidden edit-profile-back mb-3 shadow-sm">
+              <div className="d-flex justify-content-between align-items-start">
+                <div>
+                  <h5 className="fw-bold mb-2 text-dark">{note.title || note.name}</h5>
+                  <p className="text-secondary mb-0" style={{ whiteSpace: "pre-wrap" }}>
+                    {note.description || note.name || "No description provided."}
+                  </p>
                 </div>
+                <Can I="edit" a="Note">
+                  <Link to={`/edit-note/${note.id}`} className="link-dark ms-3">
+                    <div className="edit-profile-icon bg-primary text-white">
+                      <span className="material-symbols-outlined h2 m-0">
+                        edit
+                      </span>
+                    </div>
+                  </Link>
+                </Can>
               </div>
-              <Can I="edit" a="Note">
-                <a href={`/edit-note/${note.id}`} className="link-dark">
-                  <div className="edit-profile-icon bg-primary text-white">
-                    <span className="material-symbols-outlined h2 m-0">
-                      edit
-                    </span>
-                  </div>
-                </a>
-              </Can>
             </div>
           </div>
         ) : (
