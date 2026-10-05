@@ -19,6 +19,18 @@ const ALL_PERMISSIONS = [
   "listReport", "readReport"
 ];
 
+const EMPLOYEE_PERMISSIONS = [
+  "listHome", "readHome",
+  "listPatient", "readPatient", "addPatient", "editPatient",
+  "listAppointment", "readAppointment", "addAppointment", "editAppointment",
+  "listDoctor", "readDoctor",
+  "listInvoice", "readInvoice", "addInvoice",
+  "listPackage", "readPackage",
+  "listMedicine", "readMedicine",
+  "listNote", "readNote", "addNote",
+  "listProfile", "readProfile", "editProfile"
+];
+
 async function main() {
   console.log("🌱 Starting DocDesk database seeding...");
 
@@ -151,6 +163,29 @@ async function main() {
           "listProfile", "readProfile", "editProfile",
           "listReport", "readReport"
         ]),
+      },
+    });
+  }
+
+  // Create Employee / Front Desk Demo User
+  const employeeEmail = "employee@docdesk.demo";
+  let employeeUser = await prisma.user.findUnique({ where: { email: employeeEmail } });
+  if (!employeeUser) {
+    employeeUser = await prisma.user.create({
+      data: {
+        clinic_id: clinic.id,
+        email: employeeEmail,
+        password: hashedPassword,
+        first_name: "Neha",
+        last_name: "Chopra",
+        mobile: "+91 99999 20003",
+        role: "EMPLOYEE",
+        date_of_birth: "1996-03-15",
+        gender: "FEMALE",
+        address_line1: "Andheri East",
+        city: "Mumbai",
+        zipcode: "400069",
+        permissions: JSON.stringify(EMPLOYEE_PERMISSIONS),
       },
     });
   }

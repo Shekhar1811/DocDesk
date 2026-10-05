@@ -199,7 +199,7 @@ function SignIn() {
               <span className="badge bg-warning text-dark px-2 py-1">Instant Demo</span>
             </div>
             <p className="text-white-50 small mb-2" style={{ fontSize: "12px" }}>
-              Click either role below to prefill demo credentials:
+              Click any role below to prefill demo credentials:
             </p>
             <div className="d-flex gap-2">
               <Button
@@ -225,6 +225,18 @@ function SignIn() {
                 }}
               >
                 🩺 Doctor Demo
+              </Button>
+              <Button
+                type="button"
+                variant="outline-light"
+                size="sm"
+                className="flex-fill fw-bold shadow-sm"
+                onClick={() => {
+                  formik.setFieldValue("email", "employee@docdesk.demo");
+                  formik.setFieldValue("password", "Demo@1234");
+                }}
+              >
+                📋 Staff Demo
               </Button>
             </div>
           </div>
