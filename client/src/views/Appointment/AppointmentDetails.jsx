@@ -169,17 +169,13 @@ const AppointmentDetails = () => {
         <Can I="read" an="Appointment">
           <Col>
             <Card className="bg-white mt-4 rounded-4 mb-3">
-              <a
-                href="#"
-                className="icon-link p-2 btn-outline-primary"
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.history.back();
-                }}
+              <Link
+                to="/appointments"
+                className="icon-link p-2 btn-outline-primary text-decoration-none d-inline-flex align-items-center"
               >
-                <span className="material-symbols-outlined">arrow_back</span>
-                Back
-              </a>
+                <span className="material-symbols-outlined me-1">arrow_back</span>
+                Back to Appointments
+              </Link>
               <Card.Body>
                 <Can not I="edit" a="appointment">
                   <Link to={`/edit-appointment/${id}`} className="link-dark">

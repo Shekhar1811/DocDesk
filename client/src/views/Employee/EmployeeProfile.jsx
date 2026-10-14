@@ -35,7 +35,14 @@ const EmployeeProfile = () => {
       <div>
         {employee ? (
           <Can I="read" an="Employee">
-            <div className="bg-white rounded-4  mt-4 px-3 pt-3 overflow-hidden edit-profile-back   mb-3">
+            <Link
+              to="/employees"
+              className="icon-link p-2 btn-outline-primary text-decoration-none d-inline-flex align-items-center mb-2"
+            >
+              <span className="material-symbols-outlined me-1">arrow_back</span>
+              Back to Employees
+            </Link>
+            <div className="bg-white rounded-4 px-3 pt-3 overflow-hidden edit-profile-back mb-3">
               <h6 className="pb-2">Employee Info</h6>
               <div className="d-flex">
                 <div className="col">

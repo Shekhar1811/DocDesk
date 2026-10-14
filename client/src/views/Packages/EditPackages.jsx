@@ -54,7 +54,11 @@ const EditPackage = () => {
           console.log(res);
           if (res.status === 200) {
             alert.success("Package details updated successfully");
-            navigate(`/packages-details/${id}`);
+            if (window.history.length > 1 && window.history.state && window.history.state.idx > 0) {
+              navigate(-1);
+            } else {
+              navigate(`/packages-details/${id}`, { replace: true });
+            }
           }
         })
         .catch((err) => {

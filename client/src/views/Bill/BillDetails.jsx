@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import dataServices from "../../apiServices/data.services";
 import Loader from "../../components/Loader/Loader";
 import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
@@ -83,7 +83,14 @@ const Bill = () => {
   return (
     <div className="content-wrapper">
       <Can I="read" an="Invoice">
-        <div className="mt-4">
+        <div className="mt-2">
+          <Link
+            to="/invoice"
+            className="icon-link p-2 btn-outline-primary text-decoration-none d-inline-flex align-items-center mb-2"
+          >
+            <span className="material-symbols-outlined me-1">arrow_back</span>
+            Back to Invoices
+          </Link>
           <Card className="rounded-4 px-3 pt-3 overflow-hidden mb-3">
             <Card.Body>
               <Card.Title as="h6" className="pb-2">

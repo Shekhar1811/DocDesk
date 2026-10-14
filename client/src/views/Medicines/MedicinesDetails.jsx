@@ -34,8 +34,15 @@ const MedicinesDetails = () => {
   return (
     <div className="content-wrapper">
       <Can I="read" a="Medicine">
+        <Link
+          to="/medicines"
+          className="icon-link p-2 btn-outline-primary text-decoration-none d-inline-flex align-items-center mb-2"
+        >
+          <span className="material-symbols-outlined me-1">arrow_back</span>
+          Back to Medicines
+        </Link>
         {med ? (
-          <div className="bg-white rounded-4 px-3 mt-4 pt-3 overflow-hidden edit-profile-back mb-3">
+          <div className="bg-white rounded-4 px-3 pt-3 overflow-hidden edit-profile-back mb-3">
             <h6 className="pb-2">Medicines Info</h6>
             <div className="d-flex">
               <div className="col">

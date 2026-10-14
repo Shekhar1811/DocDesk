@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import dataServices from "../../apiServices/data.services";
 import Loader from "../../components/Loader/Loader";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Can } from "../../context/AuthProvider";
 import { handleValidationError } from "../../components/CommonFunctions";
 import { useAlert } from "react-alert";
@@ -34,7 +34,14 @@ const PackagesDetails = () => {
     <div className="content-wrapper">
       <div>
         <Can I="read" this="Package">
-          <div className="bg-white rounded-4 px-3  mt-4 pt-3 overflow-hidden edit-profile-back   mb-3">
+          <Link
+            to="/packages"
+            className="icon-link p-2 btn-outline-primary text-decoration-none d-inline-flex align-items-center mb-2"
+          >
+            <span className="material-symbols-outlined me-1">arrow_back</span>
+            Back to Packages
+          </Link>
+          <div className="bg-white rounded-4 px-3 pt-3 overflow-hidden edit-profile-back mb-3">
             <h6 className="pb-2">Packages Info</h6>
             {servicePackage ? (
               <>
@@ -75,14 +82,14 @@ const PackagesDetails = () => {
                   </div>
                 </div>
                 <Can I="edit" this="Package">
-                  <a
-                    href={`/edit-packages/${servicePackage.id}`}
+                  <Link
+                    to={`/edit-packages/${servicePackage.id}`}
                     className="link-dark"
                   >
                     <div className="edit-profile-icon bg-primary text-white">
                       <span className="material-symbols-outlined h2 m-0">edit</span> 
                     </div>
-                  </a>
+                  </Link>
                 </Can>
               </>
             ) : (

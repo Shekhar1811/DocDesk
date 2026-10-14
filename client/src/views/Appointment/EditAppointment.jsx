@@ -115,7 +115,11 @@ const EditAppointment = () => {
         .then((res) => {
           if (res.status === 200) {
             alert.success("Appointment saved successfully");
-            navigate("/appointment-details/" + id);
+            if (window.history.length > 1 && window.history.state && window.history.state.idx > 0) {
+              navigate(-1);
+            } else {
+              navigate("/appointment-details/" + id, { replace: true });
+            }
           }
         })
         .catch((err) => {

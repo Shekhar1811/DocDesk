@@ -59,7 +59,11 @@ const EditMedicines = () => {
         .then((res) => {
           if (res.status === 200) {
             alert.success("Medicine details updated successfully");
-            navigate(`/medicines-details/${id}`);
+            if (window.history.length > 1 && window.history.state && window.history.state.idx > 0) {
+              navigate(-1);
+            } else {
+              navigate(`/medicines-details/${id}`, { replace: true });
+            }
           }
         })
         .catch((err) => {

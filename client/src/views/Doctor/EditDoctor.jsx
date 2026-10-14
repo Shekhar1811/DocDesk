@@ -81,7 +81,11 @@ const EditDoctor = () => {
         .then((res) => {
           if (res.status === 200) {
             alert.success("Doctor details updated successfully");
-            navigate(`/doctor-profile/${id}`);
+            if (window.history.length > 1 && window.history.state && window.history.state.idx > 0) {
+              navigate(-1);
+            } else {
+              navigate(`/doctor-profile/${id}`, { replace: true });
+            }
           }
         })
         .catch((err) => {

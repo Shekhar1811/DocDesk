@@ -33,9 +33,16 @@ const NoteDetails = () => {
   return (
     <div className="content-wrapper">
       <Can I="read" a="Note">
+        <Link
+          to="/note"
+          className="icon-link p-2 btn-outline-primary text-decoration-none d-inline-flex align-items-center mb-2"
+        >
+          <span className="material-symbols-outlined me-1">arrow_back</span>
+          Back to Notes
+        </Link>
         {note ? (
           <div>
-            <div className="bg-white rounded-4 px-4 py-4 mt-4 overflow-hidden edit-profile-back mb-3 shadow-sm">
+            <div className="bg-white rounded-4 px-4 py-4 overflow-hidden edit-profile-back mb-3 shadow-sm">
               <div className="d-flex justify-content-between align-items-start">
                 <div>
                   <h5 className="fw-bold mb-2 text-dark">{note.title || note.name}</h5>

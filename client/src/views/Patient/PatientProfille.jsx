@@ -57,8 +57,14 @@ const PatientProfile = () => {
 
 
           <Col>
-
-            <Card className="bg-white mt-4 rounded-4 mb-3">
+            <Link
+              to="/patients"
+              className="icon-link p-2 btn-outline-primary text-decoration-none d-inline-flex align-items-center mb-2"
+            >
+              <span className="material-symbols-outlined me-1">arrow_back</span>
+              Back to Patients
+            </Link>
+            <Card className="bg-white rounded-4 mb-3">
               <Card.Body>
 
                 {patient ? (

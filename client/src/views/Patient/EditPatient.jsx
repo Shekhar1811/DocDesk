@@ -100,7 +100,11 @@ const EditPatient = () => {
         .then((res) => {
           if (res.status === 200) {
             alert.success("Patient details updated successfully");
-            navigate(`/patient-profile/${id}`);
+            if (window.history.length > 1 && window.history.state && window.history.state.idx > 0) {
+              navigate(-1);
+            } else {
+              navigate(`/patient-profile/${id}`, { replace: true });
+            }
           }
         })
         .catch((err) => {

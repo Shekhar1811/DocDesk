@@ -32,8 +32,15 @@ const DoctorProfile = () => {
   }, []);
   return (
     <div className="content-wrapper">
-      <div className="bg-white rounded-4  mt-4 px-3 pt-3 overflow-hidden edit-profile-back   mb-3">
-        <Can I="read" a="Doctor">
+      <Can I="read" a="Doctor">
+        <Link
+          to="/doctors"
+          className="icon-link p-2 btn-outline-primary text-decoration-none d-inline-flex align-items-center mb-2"
+        >
+          <span className="material-symbols-outlined me-1">arrow_back</span>
+          Back to Doctors
+        </Link>
+        <div className="bg-white rounded-4 px-3 pt-3 overflow-hidden edit-profile-back mb-3">
           <div>
             {doctor ? (
               <>
@@ -135,8 +142,8 @@ const DoctorProfile = () => {
               loading && <Loader />
             )}
           </div>
-        </Can>
-      </div>
+        </div>
+      </Can>
     </div>
   );
 };
