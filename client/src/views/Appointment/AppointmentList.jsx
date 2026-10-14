@@ -15,13 +15,14 @@ import moment from "moment-timezone";
 
 const AppointmentList = ({ status }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const rangeParam = searchParams.get("range") || "today";
+  const rangeParam = searchParams.get("range") || "all";
 
   const getInitialDays = () => {
+    if (rangeParam === "today") return 1;
     if (rangeParam === "week") return 7;
     if (rangeParam === "month") return 30;
-    if (rangeParam === "custom") return null;
-    return 1;
+    if (rangeParam === "custom") return "custom";
+    return "all";
   };
 
   const [appointments, setAppointments] = useState();
@@ -60,13 +61,23 @@ const AppointmentList = ({ status }) => {
   };
 
   useEffect(() => {
-    getAppointments(null, null, days, status);
+    if (days === "custom") {
+      getAppointments(startDate, endDate, null, status);
+    } else if (days === "all" || !days) {
+      getAppointments(null, null, null, status);
+    } else {
+      getAppointments(null, null, days, status);
+    }
   }, [days, status]);
 
   const updateRangeParam = (newDays, rangeLabel) => {
     setDays(newDays);
     const newParams = new URLSearchParams(searchParams);
-    newParams.set("range", rangeLabel);
+    if (rangeLabel === "all") {
+      newParams.delete("range");
+    } else {
+      newParams.set("range", rangeLabel);
+    }
     setSearchParams(newParams, { replace: true });
   };
 
@@ -89,8 +100,8 @@ const AppointmentList = ({ status }) => {
   };
 
   const handleClear = () => {
-    updateRangeParam(1, "today");
-    getAppointments(null, null, 1, status);
+    updateRangeParam("all", "all");
+    getAppointments(null, null, null, status);
   };
 
   const getStatusBadge = (appStatus) => {
@@ -103,6 +114,13 @@ const AppointmentList = ({ status }) => {
   return (
     <>
       <div className="d-flex flex-wrap gap-2">
+        <Button
+          variant={days === "all" || !days ? "primary" : "outline-primary"}
+          onClick={() => updateRangeParam("all", "all")}
+          className="me-1 fw-medium"
+        >
+          All
+        </Button>
         <Button
           variant={days === 1 ? "primary" : "outline-primary"}
           onClick={() => updateRangeParam(1, "today")}
@@ -125,15 +143,15 @@ const AppointmentList = ({ status }) => {
           This Month
         </Button>
         <Button
-          variant={days === null ? "primary" : "outline-primary"}
-          onClick={() => updateRangeParam(null, "custom")}
+          variant={days === "custom" ? "primary" : "outline-primary"}
+          onClick={() => updateRangeParam("custom", "custom")}
           className="me-1 fw-medium"
         >
           Custom
         </Button>
       </div>
       <br />
-      {days === null && (
+      {days === "custom" && (
         <Row className="mb-3 align-items-end g-2">
           <Col md={5} xs={6}>
             <Form.Group>

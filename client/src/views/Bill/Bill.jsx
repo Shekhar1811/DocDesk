@@ -100,63 +100,65 @@ const Bill = () => {
               </Col>
             </div>
             <br />
-            <div className="list">
-              {invoices && invoices.length > 0 ? (
-                invoices.toReversed().map((bill) => {
-                  const { patient } = bill;
-                  return (
-                    <Can I="read" an="Invoice" passThrough key={bill.id}>
-                      {(allowed) => (
-                        <Link
-                          disabled={!allowed}
-                          to={`/invoice-details/${bill.id}`}
-                          className="list-item text-decoration-none"
-                        >
-                          <div className="w-100">
-                            <div className="small">
-                              <h6 className="mb-1 fs-14 text-dark">{patient?.name || `Patient #${bill.patient_id}`}</h6>
-                              <div className="d-flex justify-content-between">
-                                <div>
-                                  <small className="text-muted">
-                                    <strong>Amount:</strong> ₹{bill.amount}
-                                  </small>
+            {loading ? (
+              <Loader fullPage />
+            ) : (
+              <div className="list">
+                {invoices && invoices.length > 0 ? (
+                  invoices.toReversed().map((bill) => {
+                    const { patient } = bill;
+                    return (
+                      <Can I="read" an="Invoice" passThrough key={bill.id}>
+                        {(allowed) => (
+                          <Link
+                            disabled={!allowed}
+                            to={`/invoice-details/${bill.id}`}
+                            className="list-item text-decoration-none"
+                          >
+                            <div className="w-100">
+                              <div className="small">
+                                <h6 className="mb-1 fs-14 text-dark">{patient?.name || `Patient #${bill.patient_id}`}</h6>
+                                <div className="d-flex justify-content-between">
+                                  <div>
+                                    <small className="text-muted">
+                                      <strong>Amount:</strong> ₹{bill.amount}
+                                    </small>
+                                  </div>
+                                  <div>
+                                    <small className="text-muted">
+                                      <strong>ID:</strong> #{bill.id}
+                                    </small>
+                                  </div>
                                 </div>
-                                <div>
-                                  <small className="text-muted">
-                                    <strong>ID:</strong> #{bill.id}
-                                  </small>
+                                <div className="d-flex justify-content-between">
+                                  <div>
+                                    <small className="text-muted">
+                                      <strong>By:</strong> {bill.paid_by}
+                                    </small>
+                                  </div>
+                                  <div>
+                                    <small className="text-muted">
+                                      <strong>Transaction ID:</strong>{" "}
+                                      {bill.transaction_number || "N/A"}
+                                    </small>
+                                  </div>
                                 </div>
+                                <strong>Date:</strong>{" "}
+                                <span>{bill.payment_date}</span>
                               </div>
-                              <div className="d-flex justify-content-between">
-                                <div>
-                                  <small className="text-muted">
-                                    <strong>By:</strong> {bill.paid_by}
-                                  </small>
-                                </div>
-                                <div>
-                                  <small className="text-muted">
-                                    <strong>Transaction ID:</strong>{" "}
-                                    {bill.transaction_number || "N/A"}
-                                  </small>
-                                </div>
-                              </div>
-                              <strong>Date:</strong>{" "}
-                              <span>{bill.payment_date}</span>
                             </div>
-                          </div>
-                        </Link>
-                      )}
-                    </Can>
-                  );
-                })
-              ) : loading ? (
-                <Loader />
-              ) : (
-                <div className="text-center py-4 text-muted">
-                  <p className="m-0">No invoices found</p>
-                </div>
-              )}
-            </div>
+                          </Link>
+                        )}
+                      </Can>
+                    );
+                  })
+                ) : (
+                  <div className="text-center py-4 text-muted">
+                    <p className="m-0">No invoices found</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </Can>

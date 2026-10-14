@@ -68,7 +68,9 @@ const Medicines = () => {
         </Can>
       </div>
       <Can I="list" a="Medicine">
-        {currentMedicines.length > 0 ? (
+        {loading ? (
+          <Loader fullPage />
+        ) : currentMedicines.length > 0 ? (
           <>
             <Table bordered>
               <thead>
@@ -136,7 +138,9 @@ const Medicines = () => {
             </div>
           </>
         ) : (
-          loading && <Loader />
+          <div className="text-center py-4 text-muted">
+            <p className="m-0">No medicines found</p>
+          </div>
         )}
       </Can>
     </div>

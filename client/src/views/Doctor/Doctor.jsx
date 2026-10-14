@@ -64,10 +64,13 @@ const Doctor = () => {
                 </div>
               </Can>
             </div>
-            <div className="list">
-              {/* Doctor Cards */}
-              {doctors
-                ? doctors.map((doctor, i) => {
+            {loading ? (
+              <Loader fullPage />
+            ) : (
+              <div className="list">
+                {/* Doctor Cards */}
+                {doctors && doctors.length > 0 ? (
+                  doctors.map((doctor, i) => {
                     const { contact } = doctor;
 
                     return (
@@ -111,8 +114,11 @@ const Doctor = () => {
                       </Can>
                     );
                   })
-                : loading && <Loader />}
-            </div>
+                ) : (
+                  <p className="p-3 text-muted">No doctors found</p>
+                )}
+              </div>
+            )}
           </div>
         </Can>
       </div>

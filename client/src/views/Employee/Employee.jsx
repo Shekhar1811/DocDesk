@@ -67,9 +67,12 @@ const Employee = () => {
                 </Can>
               </div>
             </div>
-            <div className="list">
-              {employees
-                ? employees.map((employee, i) => {
+            {loading ? (
+              <Loader fullPage />
+            ) : (
+              <div className="list">
+                {employees && employees.length > 0 ? (
+                  employees.map((employee, i) => {
                     const { contact } = employee;
                     return (
                       <Can I="read" an="Employee" passThrough key={i}>
@@ -125,8 +128,11 @@ const Employee = () => {
                       </Can>
                     );
                   })
-                : loading && <Loader />}
-            </div>
+                ) : (
+                  <p className="p-3 text-muted">No employees found</p>
+                )}
+              </div>
+            )}
           </div>
         </Can>
       </div>

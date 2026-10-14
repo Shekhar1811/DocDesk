@@ -18,13 +18,20 @@ const formatPatient = (p) => {
     package_start_date: p.package_start_date,
     package_end_date: p.package_end_date,
     package_id: p.package_id,
+    available_count:
+      p.available_count !== null && p.available_count !== undefined
+        ? p.available_count
+        : (p.package ? (p.package.available_count ?? p.package.seating_count) : 0),
     package: p.package
       ? {
           id: p.package.id,
           name: p.package.name,
           amount: p.package.amount,
           seating_count: p.package.seating_count,
-          available_count: p.package.available_count ?? p.package.seating_count,
+          available_count:
+            p.available_count !== null && p.available_count !== undefined
+              ? p.available_count
+              : (p.package.available_count ?? p.package.seating_count),
         }
       : null,
     address: {
@@ -58,11 +65,38 @@ const getPatientsSlim = async (req, res) => {
     const clinicId = req.clinicId;
     const patients = await prisma.patient.findMany({
       where: clinicId ? { clinic_id: clinicId } : undefined,
-      select: { id: true, name: true },
+      select: {
+        id: true,
+        name: true,
+        package_id: true,
+        package: true,
+        available_count: true,
+        is_expiring_soon: true,
+      },
       orderBy: { name: "asc" },
     });
 
-    return res.status(200).json(patients);
+    const slimPatients = patients.map((p) => {
+      const avail =
+        p.available_count !== null && p.available_count !== undefined
+          ? p.available_count
+          : (p.package ? (p.package.available_count ?? p.package.seating_count) : 0);
+      return {
+        id: p.id,
+        name: p.name,
+        package_id: p.package_id,
+        available_count: avail,
+        is_expiring_soon: p.is_expiring_soon,
+        package: p.package
+          ? {
+              ...p.package,
+              available_count: avail,
+            }
+          : null,
+      };
+    });
+
+    return res.status(200).json(slimPatients);
   } catch (error) {
     console.error("getPatientsSlim error:", error);
     return res.status(500).json({ error: true, message: "Failed to fetch slim patients" });
@@ -103,6 +137,14 @@ const addPatient = async (req, res) => {
       });
     }
 
+    let initialAvailable = null;
+    if (package_id) {
+      const pkg = await prisma.package.findUnique({ where: { id: parseInt(package_id) } });
+      if (pkg) {
+        initialAvailable = pkg.seating_count;
+      }
+    }
+
     const newPatient = await prisma.patient.create({
       data: {
         clinic_id: clinicId,
@@ -118,6 +160,7 @@ const addPatient = async (req, res) => {
         state: address?.state || "",
         zipcode: address?.zipcode || "",
         package_id: package_id ? parseInt(package_id) : null,
+        available_count: initialAvailable,
         package_start_date: package_start_date ? String(package_start_date) : null,
         package_end_date: package_end_date ? String(package_end_date) : null,
         description: description || "",
@@ -140,7 +183,21 @@ const addPatient = async (req, res) => {
 const editPatient = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const { contact, date_of_birth, registration_date, gender, address, package_id, package_start_date, package_end_date, description, status } = req.body;
+    const { contact, date_of_birth, registration_date, gender, address, package_id, available_count, package_start_date, package_end_date, description, status } = req.body;
+
+    let updatedAvailable = undefined;
+    if (available_count !== undefined) {
+      updatedAvailable = parseInt(available_count);
+    } else if (package_id !== undefined) {
+      const parsedPkgId = package_id ? parseInt(package_id) : null;
+      const currentPatient = await prisma.patient.findUnique({ where: { id } });
+      if (parsedPkgId && parsedPkgId !== currentPatient?.package_id) {
+        const newPkg = await prisma.package.findUnique({ where: { id: parsedPkgId } });
+        updatedAvailable = newPkg ? newPkg.seating_count : 1;
+      } else if (!parsedPkgId) {
+        updatedAvailable = null;
+      }
+    }
 
     const updated = await prisma.patient.update({
       where: { id },
@@ -157,6 +214,7 @@ const editPatient = async (req, res) => {
         state: address?.state !== undefined ? address.state : undefined,
         zipcode: address?.zipcode !== undefined ? address.zipcode : undefined,
         package_id: package_id !== undefined ? (package_id ? parseInt(package_id) : null) : undefined,
+        available_count: updatedAvailable,
         package_start_date: package_start_date !== undefined ? String(package_start_date) : undefined,
         package_end_date: package_end_date !== undefined ? String(package_end_date) : undefined,
         description: description !== undefined ? description : undefined,

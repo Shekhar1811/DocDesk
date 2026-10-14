@@ -73,10 +73,6 @@ const MedicalHistory = ({ formik }) => {
           </Form.Group>
         </Col>
       </Row>
-
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
     </div>
   );
 };

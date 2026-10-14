@@ -58,47 +58,49 @@ const Packages = () => {
           </Can>
         </div>
         <Can I="list" this="Package">
-          <div className="list">
-            {packages ? (
-              packages.map((pkg) => (
-                <div
-                  key={pkg.id}
-                  className="list-item d-flex justify-content-between align-items-center"
-                >
-                  <Can I="read" this="Package" passThrough>
-                    {(allowed) => (
-                      <a
-                        href={`/packages-details/${pkg.id}`}
-                        disabled={!allowed}
-                        className="w-100"
+          {loading ? (
+            <Loader fullPage />
+          ) : (
+            <div className="list">
+              {packages && packages.length > 0 ? (
+                packages.map((pkg) => (
+                  <div
+                    key={pkg.id}
+                    className="list-item d-flex justify-content-between align-items-center"
+                  >
+                    <Can I="read" this="Package" passThrough>
+                      {(allowed) => (
+                        <a
+                          href={`/packages-details/${pkg.id}`}
+                          disabled={!allowed}
+                          className="w-100"
+                        >
+                          <div>
+                            <h6 className="mb-1 fs-14">{pkg.name}</h6>
+                            <small className="text-muted">
+                              {pkg.description}
+                            </small>
+                            <br />
+                            <strong>Price:</strong> <span>{pkg.amount}</span>/-
+                          </div>
+                        </a>
+                      )}
+                    </Can>
+                    <Can I="delete" this="Package">
+                      <Link
+                        className="delete-icon"
+                        onClick={() => showAlert("Package", handleDelete, pkg.id)}
                       >
-                        <div>
-                          <h6 className="mb-1 fs-14">{pkg.name}</h6>
-                          <small className="text-muted">
-                            {pkg.description}
-                          </small>
-                          <br />
-                          <strong>Price:</strong> <span>{pkg.amount}</span>/-
-                        </div>
-                      </a>
-                    )}
-                  </Can>
-                  <Can I="delete" this="Package">
-                    <Link
-                      className="delete-icon"
-                      onClick={() => showAlert("Package", handleDelete, pkg.id)}
-                    >
-                      <span className="material-symbols-outlined">delete</span>
-                    </Link>
-                  </Can>
-                </div>
-              ))
-            ) : loading ? (
-              <Loader />
-            ) : (
-              <p>No packages found</p>
-            )}
-          </div>
+                        <span className="material-symbols-outlined">delete</span>
+                      </Link>
+                    </Can>
+                  </div>
+                ))
+              ) : (
+                <p>No packages found</p>
+              )}
+            </div>
+          )}
         </Can>
       </div>
     </div>

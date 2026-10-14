@@ -141,6 +141,7 @@ model Patient {
   package            Package?      @relation(fields: [package_id], references: [id], onDelete: SetNull)
   package_start_date String?
   package_end_date   String?
+  available_count    Int?
   is_expiring_soon   Boolean       @default(false)
   address_line1      String?
   address_line2      String?

@@ -141,13 +141,23 @@ const FileUpload = ({ id, onSubmit, uploadApi, setReload }) => {
       )}
       {!onSubmit && (
         <Button
+          type="button"
           variant="primary"
-          className="mt-4"
+          className="mt-3 d-inline-flex align-items-center"
           onClick={handleSubmit}
           disabled={files?.length === 0 || loading}
         >
-          {loading ? <Loader size="sm" className="me-2" /> : null}
-          {loading ? "Uploading..." : "Submit Files"}
+          {loading ? (
+            <>
+              <Loader size="sm" className="me-2" />
+              Uploading...
+            </>
+          ) : (
+            <>
+              <span className="material-symbols-outlined me-1 fs-5">upload</span>
+              Upload Selected Files
+            </>
+          )}
         </Button>
       )}
     </Container>

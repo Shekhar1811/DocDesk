@@ -56,48 +56,50 @@ const Note = () => {
         </Can>
       </div>
       <Can I="list" a="Note">
-        <div className="list">
-          {notes && notes.length > 0 ? (
-            notes.map((note) => (
-              <div className="list-item mb-2" key={note.id}>
-                <Can I="read" a="Note" passThrough>
-                  {(allowed) => (
-                    <Link
-                      disabled={!allowed}
-                      to={`/note-details/${note.id}`}
-                      className="d-flex text-decoration-none"
-                    >
-                      <div className="list-item-content">
-                        <div className="d-flex flex-column">
-                          <p className="fw-semibold mb-1 text-dark">{note.title || note.name}</p>
-                          {note.description && (
-                            <small className="text-muted text-truncate d-block">{note.description}</small>
-                          )}
+        {loading ? (
+          <Loader fullPage />
+        ) : (
+          <div className="list">
+            {notes && notes.length > 0 ? (
+              notes.map((note) => (
+                <div className="list-item mb-2" key={note.id}>
+                  <Can I="read" a="Note" passThrough>
+                    {(allowed) => (
+                      <Link
+                        disabled={!allowed}
+                        to={`/note-details/${note.id}`}
+                        className="d-flex text-decoration-none"
+                      >
+                        <div className="list-item-content">
+                          <div className="d-flex flex-column">
+                            <p className="fw-semibold mb-1 text-dark">{note.title || note.name}</p>
+                            {note.description && (
+                              <small className="text-muted text-truncate d-block">{note.description}</small>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  )}
-                </Can>
+                      </Link>
+                    )}
+                  </Can>
 
-                <Can I="delete" a="Note">
-                  <Link
-                    to="#"
-                    className="delete-icon"
-                    onClick={() => showAlert("Note", handleDelete, note.id)}
-                  >
-                    <span className="material-symbols-outlined">delete</span>
-                  </Link>
-                </Can>
+                  <Can I="delete" a="Note">
+                    <Link
+                      to="#"
+                      className="delete-icon"
+                      onClick={() => showAlert("Note", handleDelete, note.id)}
+                    >
+                      <span className="material-symbols-outlined">delete</span>
+                    </Link>
+                  </Can>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-4 text-muted">
+                <p className="m-0">No notes found</p>
               </div>
-            ))
-          ) : loading ? (
-            <Loader />
-          ) : (
-            <div className="text-center py-4 text-muted">
-              <p className="m-0">No notes found</p>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </Can>
     </div>
   );

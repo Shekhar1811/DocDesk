@@ -99,7 +99,7 @@ class DataService {
     if (endDate) {
       url += `end_date=${endDate}&`;
     }
-    if (days) {
+    if (days && days !== "all" && days !== "custom") {
       url += `days=${days}&`;
     }
     if (status && status !== "ALL" && status !== "undefined" && status !== "null") {

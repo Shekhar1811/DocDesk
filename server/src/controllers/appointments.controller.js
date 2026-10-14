@@ -4,6 +4,11 @@ const moment = require("moment");
 const formatAppointment = (a) => {
   if (!a) return null;
   const pkg = a.patient?.package || null;
+  const patientAvailable =
+    a.patient?.available_count !== null && a.patient?.available_count !== undefined
+      ? a.patient.available_count
+      : (pkg ? (pkg.available_count ?? pkg.seating_count) : 0);
+
   return {
     id: a.id,
     patient_id: a.patient_id,
@@ -14,12 +19,13 @@ const formatAppointment = (a) => {
           mobile: a.patient.mobile,
           date_of_birth: a.patient.date_of_birth || "",
           gender: a.patient.gender || "",
+          available_count: patientAvailable,
           package: pkg
             ? {
                 id: pkg.id,
                 name: pkg.name,
                 seating_count: pkg.seating_count,
-                available_count: pkg.available_count ?? pkg.seating_count,
+                available_count: patientAvailable,
                 amount: pkg.amount,
               }
             : null,
@@ -34,7 +40,7 @@ const formatAppointment = (a) => {
           id: pkg.id,
           name: pkg.name,
           seating_count: pkg.seating_count,
-          available_count: pkg.available_count ?? pkg.seating_count,
+          available_count: patientAvailable,
           amount: pkg.amount,
         }
       : null,
@@ -97,14 +103,35 @@ const getAppointments = async (req, res) => {
       where.status = status;
     }
 
-    if (days) {
+    if (days && days !== "all" && days !== "undefined" && days !== "null") {
       const dayCount = parseInt(days);
-      const today = moment().format("YYYY-MM-DD");
-      const targetDate = moment().add(dayCount, "days").format("YYYY-MM-DD");
-      where.date = {
-        gte: today,
-        lte: targetDate,
-      };
+      if (!isNaN(dayCount)) {
+        if (dayCount === 1) {
+          const today = moment().format("YYYY-MM-DD");
+          where.date = today;
+        } else if (dayCount === 7) {
+          const startOfWeek = moment().startOf("week").format("YYYY-MM-DD");
+          const endOfWeek = moment().endOf("week").format("YYYY-MM-DD");
+          where.date = {
+            gte: startOfWeek,
+            lte: endOfWeek,
+          };
+        } else if (dayCount === 30) {
+          const startOfMonth = moment().startOf("month").format("YYYY-MM-DD");
+          const endOfMonth = moment().endOf("month").format("YYYY-MM-DD");
+          where.date = {
+            gte: startOfMonth,
+            lte: endOfMonth,
+          };
+        } else {
+          const today = moment().format("YYYY-MM-DD");
+          const targetDate = moment().add(dayCount, "days").format("YYYY-MM-DD");
+          where.date = {
+            gte: today,
+            lte: targetDate,
+          };
+        }
+      }
     } else if (start_date && end_date) {
       where.date = {
         gte: String(start_date),
@@ -164,6 +191,7 @@ const addAppointment = async (req, res) => {
     const {
       patient_id,
       doctor_id,
+      package_id,
       date,
       time,
       details,
@@ -183,6 +211,60 @@ const addAppointment = async (req, res) => {
       height,
       seating_no,
     } = req.body;
+
+    let calculatedSeatingNo = seating_no ? String(seating_no) : "";
+
+    // Package session handling:
+    // If package_id is provided, utilize a session from the patient's package or enroll if none active
+    if (patient_id && package_id) {
+      const parsedPkgId = parseInt(package_id);
+      const patient = await prisma.patient.findUnique({
+        where: { id: parseInt(patient_id) },
+        include: { package: true },
+      });
+
+      if (patient) {
+        // If patient had NO active package (or previous package had 0 available sessions), enroll them
+        if (!patient.package_id || (patient.package_id !== parsedPkgId && (!patient.available_count || patient.available_count <= 0))) {
+          const newPkg = await prisma.package.findUnique({ where: { id: parsedPkgId } });
+          if (newPkg) {
+            const totalSeatings = newPkg.seating_count || 1;
+            const newAvailable = Math.max(0, totalSeatings - 1);
+            await prisma.patient.update({
+              where: { id: patient.id },
+              data: {
+                package_id: parsedPkgId,
+                package_start_date: moment().format("YYYY-MM-DD"),
+                available_count: newAvailable,
+              },
+            });
+            if (!calculatedSeatingNo) {
+              calculatedSeatingNo = `Session 1 of ${totalSeatings}`;
+            }
+          }
+        } else if (patient.package_id === parsedPkgId && patient.package) {
+          // Patient is using their ACTIVE package
+          const totalSeatings = patient.package.seating_count || 1;
+          const currentAvailable =
+            patient.available_count !== null && patient.available_count !== undefined
+              ? patient.available_count
+              : (patient.package.available_count ?? totalSeatings);
+
+          const newAvailable = Math.max(0, currentAvailable - 1);
+          const sessionIndex = totalSeatings - newAvailable;
+
+          // Deduct from the patient's individual available_count, NOT the shared package template!
+          await prisma.patient.update({
+            where: { id: patient.id },
+            data: { available_count: newAvailable },
+          });
+
+          if (!calculatedSeatingNo) {
+            calculatedSeatingNo = `Session ${sessionIndex} of ${totalSeatings}`;
+          }
+        }
+      }
+    }
 
     const newAppointment = await prisma.appointment.create({
       data: {
@@ -206,7 +288,7 @@ const addAppointment = async (req, res) => {
         bp_detail: bp_detail || "",
         weight: weight !== undefined ? String(weight) : "",
         height: height !== undefined ? String(height) : "",
-        seating_no: seating_no !== undefined ? String(seating_no) : "",
+        seating_no: calculatedSeatingNo,
       },
       include: {
         patient: {
@@ -303,6 +385,29 @@ const editAppointment = async (req, res) => {
 const deleteAppointment = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
+    const appointment = await prisma.appointment.findUnique({
+      where: { id },
+      include: {
+        patient: {
+          include: { package: true },
+        },
+      },
+    });
+
+    if (appointment?.patient?.package_id && appointment?.patient?.package && appointment?.seating_no) {
+      const pkg = appointment.patient.package;
+      const currentAvailable =
+        appointment.patient.available_count !== null && appointment.patient.available_count !== undefined
+          ? appointment.patient.available_count
+          : 0;
+      if (currentAvailable < pkg.seating_count) {
+        await prisma.patient.update({
+          where: { id: appointment.patient.id },
+          data: { available_count: currentAvailable + 1 },
+        });
+      }
+    }
+
     await prisma.appointment.delete({ where: { id } });
     return res.status(200).json({ success: true, message: "Appointment deleted successfully" });
   } catch (error) {

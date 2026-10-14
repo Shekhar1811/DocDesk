@@ -102,9 +102,12 @@ const Patient = () => {
                 }}
               />
             </Form.Group>
-            <div className="list">
-              {patients.length > 0
-                ? patients.toReversed().map((patient) => {
+            {loading ? (
+              <Loader fullPage />
+            ) : (
+              <div className="list">
+                {patients.length > 0 ? (
+                  patients.toReversed().map((patient) => {
                     const { contact } = patient;
                     return (
                       <div key={patient.id} className="list-item">
@@ -156,8 +159,11 @@ const Patient = () => {
                       </div>
                     );
                   })
-                : loading && <Loader />}
-            </div>
+                ) : (
+                  <p className="p-3 text-muted">No patients found</p>
+                )}
+              </div>
+            )}
           </Can>
         </div>
       </div>
