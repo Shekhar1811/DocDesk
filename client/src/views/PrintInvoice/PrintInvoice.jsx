@@ -107,7 +107,7 @@ const PrintInvoice = () => {
             <span className="badge-pill">TAX INVOICE / RECEIPT</span>
             <h3 className="invoice-number">INV-00{invoice.id}</h3>
             <p className="meta-text">
-              Date: <strong>{moment(invoice.payment_date).format("MMMM DD, YYYY")}</strong>
+              Date: <strong>{moment(invoice.payment_date).format("DD-MM-YYYY")}</strong>
             </p>
             <p className="meta-text">
               Payment Mode: <strong className="text-primary">{invoice.paid_by || "CASH"}</strong>

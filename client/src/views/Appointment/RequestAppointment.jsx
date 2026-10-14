@@ -369,6 +369,7 @@ const RequestAppointment = () => {
                         ? moment(`${formik.values.date}T${formik.values.time}`)
                         : null
                     }
+                    format="DD-MM-YYYY hh:mm A"
                     onChange={handleDateTimeChange}
                     className={`form-control ${
                       (formik.touched.date && formik.errors.date) ||

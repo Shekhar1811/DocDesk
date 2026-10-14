@@ -7,6 +7,7 @@ import { Col, Form } from "react-bootstrap";
 import Select from "react-select";
 import { handleValidationError } from "../../components/CommonFunctions";
 import { Link, useSearchParams } from "react-router-dom";
+import moment from "moment-timezone";
 
 const Bill = () => {
   const alert = useAlert();
@@ -144,7 +145,7 @@ const Bill = () => {
                                   </div>
                                 </div>
                                 <strong>Date:</strong>{" "}
-                                <span>{bill.payment_date}</span>
+                                <span>{bill.payment_date ? moment(bill.payment_date).format("DD-MM-YYYY") : "N/A"}</span>
                               </div>
                             </div>
                           </Link>

@@ -82,7 +82,7 @@ const PrescriptionPDFComponent = ({ prescriptions, appointment }) => {
                     marginBottom: "20px",
                   }}
                 >
-                  Date: {moment(new Date()).format("MMMM DD, yyyy")}
+                  Date: {moment(new Date()).format("DD-MM-YYYY")}
                   {/* Date: September 18, 2024 */}
                 </div>
               </div>
@@ -107,7 +107,7 @@ const PrescriptionPDFComponent = ({ prescriptions, appointment }) => {
                 <p style={{ margin: "0" }}>
                   Date of Birth:{" "}
                   {appointment?.patient?.date_of_birth
-                    ? moment(appointment.patient.date_of_birth).format("MMMM DD, yyyy")
+                    ? moment(appointment.patient.date_of_birth).format("DD-MM-YYYY")
                     : "N/A"}
                 </p>
                 <p style={{ margin: "0" }}>

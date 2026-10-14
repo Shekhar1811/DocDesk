@@ -6,6 +6,7 @@ import dataServices from "../../apiServices/data.services";
 import Loader from "./../../components/Loader/Loader";
 import { handleValidationError } from "../../components/CommonFunctions";
 import { useAlert } from "react-alert";
+import moment from "moment-timezone";
 
 const Profile = () => {
   const [userData, setUserData] = useState();
@@ -47,7 +48,7 @@ const Profile = () => {
                   <p>
                     <span className="text-muted small">Date of Birth</span>
                     <br />
-                    {userData?.date_of_birth || "N/A"}
+                    {userData?.date_of_birth ? moment(userData.date_of_birth).format("DD-MM-YYYY") : "N/A"}
                   </p>
                 </div>
               </div>

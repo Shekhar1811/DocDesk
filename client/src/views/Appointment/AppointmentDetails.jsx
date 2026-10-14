@@ -23,6 +23,7 @@ import AddDiagnosis from "./AddDiagnosis";
 import MedicalInformation from "./MedicalInformation";
 import MedicalHistory from "./MedicalHistory";
 import tokenService from "../../apiServices/token.service";
+import moment from "moment-timezone";
 import { useFormik } from "formik";
 
 const AppointmentDetails = () => {
@@ -217,7 +218,7 @@ const AppointmentDetails = () => {
                     <Col md={6}>
                       <div className="detail-item">
                         <label>Date & Time:</label>
-                        <span>{`${appointment.date}, ${appointment.time}`}</span>
+                        <span>{`${appointment.date ? moment(appointment.date).format("DD-MM-YYYY") : ""}, ${appointment.time}`}</span>
                       </div>
                     </Col>
                   </Row>

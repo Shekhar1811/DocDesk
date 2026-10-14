@@ -88,7 +88,7 @@ const PdfViewer = ({ invoice }) => {
                 INV-00{invoice.id}
               </h3>
               <p style={{ margin: "4px 0 0 0", fontSize: "12px", color: "#64748b" }}>
-                Date: <strong>{moment(invoice.payment_date || invoice.createdAt).format("MMMM DD, YYYY")}</strong>
+                Date: <strong>{moment(invoice.payment_date || invoice.createdAt).format("DD-MM-YYYY")}</strong>
               </p>
               <p style={{ margin: "2px 0 0 0", fontSize: "12px", color: "#64748b" }}>
                 Payment Mode: <strong style={{ color: "#0284c7" }}>{invoice.paid_by || "CASH"}</strong>

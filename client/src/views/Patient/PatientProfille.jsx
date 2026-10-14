@@ -355,7 +355,7 @@ const PatientProfile = () => {
                           <div className="list-item-content">
                             <span className="list-item__name">
                               <span className="mdi mdi-calendar-month text-primary me-1"></span>
-                              {appointment.date}, {appointment.time}
+                              {appointment.date ? moment(appointment.date).format("DD-MM-YYYY") : ""}, {appointment.time}
                             </span>
                             <span className="list-item__info">
                               <strong className="text-dark">Note:</strong>

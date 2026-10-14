@@ -240,7 +240,7 @@ const AppointmentList = ({ status }) => {
                           )}
                           <span className="list-item__info d-block text-muted">
                             <span className="mdi mdi-calendar-month text-primary me-1"></span>
-                            {appointment.date}, {appointment.time}
+                            {appointment.date ? moment(appointment.date).format("DD-MM-YYYY") : ""}, {appointment.time}
                           </span>
                           {appointment.diagnosis && (
                             <span className="list-item__info d-block mt-1">

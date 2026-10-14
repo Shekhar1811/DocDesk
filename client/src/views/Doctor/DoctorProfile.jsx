@@ -7,6 +7,7 @@ import Loader from "../../components/Loader/Loader";
 import { Can } from "../../context/AuthProvider";
 import { handleValidationError } from "../../components/CommonFunctions";
 import { useAlert } from "react-alert";
+import moment from "moment-timezone";
 
 const DoctorProfile = () => {
   const { id } = useParams();
@@ -61,7 +62,7 @@ const DoctorProfile = () => {
                     <p>
                       <span className="text-muted small">Date of Birth</span>
                       <br />
-                      {doctor.date_of_birth}
+                      {doctor.date_of_birth ? moment(doctor.date_of_birth).format("DD-MM-YYYY") : "N/A"}
                     </p>
                   </Col>
                 </Row>

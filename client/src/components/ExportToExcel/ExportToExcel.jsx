@@ -1,4 +1,5 @@
 import { utils, writeFile } from "xlsx";
+import moment from "moment-timezone";
 
 export const exportToExcel = (data) => {
   // Convert data to a format suitable for sheet creation
@@ -6,7 +7,7 @@ export const exportToExcel = (data) => {
     SrNo: i + 1,
     Name: report.patient.name,
     Description: report.description,
-    PaymentDate: report.payment_date,
+    PaymentDate: report.payment_date ? moment(report.payment_date).format("DD-MM-YYYY") : "N/A",
     PaidBy: report.paid_by,
     TransactionNumber: report.transaction_number || "N/A",
     Status: report.status,

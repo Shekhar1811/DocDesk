@@ -9,6 +9,7 @@ import { useAlert } from "react-alert";
 import PDFViewerComponent from "../../components/PDFViewer/PdfViewer";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
+import moment from "moment-timezone";
 
 const Bill = () => {
   const { id } = useParams();
@@ -110,7 +111,7 @@ const Bill = () => {
                       <p>
                         <span className="text-muted small">Date</span>
                         <br />
-                        {invoice.payment_date}
+                        {invoice.payment_date ? moment(invoice.payment_date).format("DD-MM-YYYY") : "N/A"}
                       </p>
                     </Col>
                   </Row>

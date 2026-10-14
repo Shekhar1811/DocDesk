@@ -6,6 +6,7 @@ import { Can } from "./../../context/AuthProvider";
 import { Button } from "react-bootstrap";
 import { handleValidationError } from "../../components/CommonFunctions";
 import { useAlert } from "react-alert";
+import moment from "moment-timezone";
 
 const EmployeeProfile = () => {
   const [loading, setLoading] = useState(false);
@@ -58,7 +59,7 @@ const EmployeeProfile = () => {
                   <p>
                     <span className="text-muted small">Date of Birth</span>
                     <br />
-                    {employee?.date_of_birth}
+                    {employee?.date_of_birth ? moment(employee.date_of_birth).format("DD-MM-YYYY") : "N/A"}
                   </p>
                 </div>
               </div>

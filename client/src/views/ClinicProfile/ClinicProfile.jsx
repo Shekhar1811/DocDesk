@@ -8,6 +8,7 @@ import Image from "react-bootstrap/Image";
 import tokenService from "../../apiServices/token.service";
 import { Can } from "./../../context/AuthProvider";
 import { IMAGE_URL } from "../../constants";
+import moment from "moment-timezone";
 
 const ClinicProfile = () => {
   const [clinicData, setClinicData] = useState();
@@ -63,7 +64,7 @@ const ClinicProfile = () => {
                         Registration Date
                       </span>
                       <br />
-                      {clinicData?.registration_date}
+                      {clinicData?.registration_date ? moment(clinicData.registration_date).format("DD-MM-YYYY") : "N/A"}
                     </p>
                   </div>
                   <div className="col">

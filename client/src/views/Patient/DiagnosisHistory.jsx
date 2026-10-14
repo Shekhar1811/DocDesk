@@ -4,6 +4,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import Loader from "../../components/Loader/Loader";
 import { Can } from "../../context/AuthProvider";
 import tokenService from "../../apiServices/token.service";
+import moment from "moment-timezone";
 
 const DiagnosisHistory = () => {
   const [loading, setLoading] = useState(false);
@@ -68,7 +69,7 @@ const DiagnosisHistory = () => {
                                       <strong className="text-dark">
                                         Date Time:{" "}
                                       </strong>
-                                      {appointment.date}, {appointment.time}
+                                      {appointment.date ? moment(appointment.date).format("DD-MM-YYYY") : ""}, {appointment.time}
                                     </span>
                                     <br />
                                     <span className="list-item__info">
