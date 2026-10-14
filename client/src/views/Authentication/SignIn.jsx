@@ -32,28 +32,37 @@ function SignIn() {
         .required("Password is required"),
     }),
     onSubmit: (values) => {
-      setLoading(true);
-      dataServices
-        .signIn(values)
-        .then((res) => {
-          if (res.status === 200) {
-            const accessToken = res.data.access_token;
-            if (accessToken) {
-              TokenService.setUser({
-                username: values.email,
-              });
-              TokenService.updateLocalAccessToken(accessToken);
-              getUser(accessToken);
-            }
-          }
-        })
-        .catch((err) => {
-          alert.error(handleValidationError(err));
-          setLoading(false);
-        })
-        .finally(() => setLoading(false));
+      executeLogin(values);
     },
   });
+
+  const executeLogin = (values) => {
+    setLoading(true);
+    dataServices
+      .signIn(values)
+      .then((res) => {
+        if (res.status === 200) {
+          const accessToken = res.data.access_token;
+          if (accessToken) {
+            TokenService.setUser({
+              username: values.email,
+            });
+            TokenService.updateLocalAccessToken(accessToken);
+            getUser(accessToken);
+          }
+        }
+      })
+      .catch((err) => {
+        alert.error(handleValidationError(err));
+        setLoading(false);
+      });
+  };
+
+  const handleDemoLogin = (email, password) => {
+    formik.setFieldValue("email", email);
+    formik.setFieldValue("password", password);
+    executeLogin({ email, password });
+  };
 
   const getUser = (accessToken) => {
     dataServices.getUser()
@@ -206,11 +215,9 @@ function SignIn() {
                 type="button"
                 variant="light"
                 size="sm"
+                disabled={loading}
                 className="flex-fill fw-bold text-primary shadow-sm"
-                onClick={() => {
-                  formik.setFieldValue("email", "admin@docdesk.demo");
-                  formik.setFieldValue("password", "Demo@1234");
-                }}
+                onClick={() => handleDemoLogin("admin@docdesk.demo", "Demo@1234")}
               >
                 🏥 Administrator
               </Button>
@@ -218,11 +225,9 @@ function SignIn() {
                 type="button"
                 variant="outline-light"
                 size="sm"
+                disabled={loading}
                 className="flex-fill fw-bold shadow-sm"
-                onClick={() => {
-                  formik.setFieldValue("email", "doctor@docdesk.demo");
-                  formik.setFieldValue("password", "Demo@1234");
-                }}
+                onClick={() => handleDemoLogin("doctor@docdesk.demo", "Demo@1234")}
               >
                 🩺 Doctor
               </Button>
@@ -230,11 +235,9 @@ function SignIn() {
                 type="button"
                 variant="outline-light"
                 size="sm"
+                disabled={loading}
                 className="flex-fill fw-bold shadow-sm"
-                onClick={() => {
-                  formik.setFieldValue("email", "employee@docdesk.demo");
-                  formik.setFieldValue("password", "Demo@1234");
-                }}
+                onClick={() => handleDemoLogin("employee@docdesk.demo", "Demo@1234")}
               >
                 📋 Front Desk
               </Button>
