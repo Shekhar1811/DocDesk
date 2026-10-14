@@ -128,7 +128,7 @@ function SignIn() {
                 className=" "
                 id="mail"
               >
-                <span class="material-symbols-outlined mdi-18px text-muted">mail</span> 
+                <span class="material-symbols-outlined mdi-18px text-muted">mail</span>
               </InputGroup.Text>
               <Form.Control
                 type="email"
@@ -155,7 +155,7 @@ function SignIn() {
                 className=""
                 id="password"
               >
-               <span class="material-symbols-outlined mdi-18px text-muted">lock</span> 
+                <span class="material-symbols-outlined mdi-18px text-muted">lock</span>
               </InputGroup.Text>
               <Form.Control
                 type="password"
@@ -183,7 +183,7 @@ function SignIn() {
             {...formik.getFieldProps("rememberMe")}
             checked={formik.values.rememberMe}
           /> */}
-          {/* Recruiter Quick Access Card */}
+          {/* Quick Demo Access Card */}
           <div
             className="rounded-3 p-3 my-3 text-start shadow-sm"
             style={{
@@ -194,12 +194,12 @@ function SignIn() {
           >
             <div className="d-flex align-items-center justify-content-between mb-2">
               <span className="text-white fw-bold small text-uppercase" style={{ letterSpacing: "0.5px" }}>
-                🎯 Recruiter 1-Click Access
+                Quick Demo Access
               </span>
-              <span className="badge bg-warning text-dark px-2 py-1">Instant Demo</span>
+              <span className="badge bg-light text-dark px-2 py-1">1-Click Preview</span>
             </div>
             <p className="text-white-50 small mb-2" style={{ fontSize: "12px" }}>
-              Click any role below to prefill demo credentials:
+              Explore the system with pre-configured role permissions:
             </p>
             <div className="d-flex gap-2">
               <Button
@@ -212,7 +212,7 @@ function SignIn() {
                   formik.setFieldValue("password", "Demo@1234");
                 }}
               >
-                🏥 Admin Demo
+                🏥 Administrator
               </Button>
               <Button
                 type="button"
@@ -224,7 +224,7 @@ function SignIn() {
                   formik.setFieldValue("password", "Demo@1234");
                 }}
               >
-                🩺 Doctor Demo
+                🩺 Doctor
               </Button>
               <Button
                 type="button"
@@ -236,7 +236,7 @@ function SignIn() {
                   formik.setFieldValue("password", "Demo@1234");
                 }}
               >
-                📋 Staff Demo
+                📋 Front Desk
               </Button>
             </div>
           </div>
