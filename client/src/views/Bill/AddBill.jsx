@@ -10,6 +10,7 @@ import { useAlert } from "react-alert";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Can } from "../../context/AuthProvider";
 import { handleValidationError } from "../../components/CommonFunctions";
+import Loader from "../../components/Loader/Loader";
 
 const AddBill = () => {
   const [patients, setPatients] = useState([]);
@@ -71,7 +72,7 @@ const AddBill = () => {
       dataServices
         .addInvoice(values)
         .then((res) => {
-          if (res.status === 201) {
+          if (res.status === 201 || res.status === 200) {
             alert.success("Invoice added successfully");
             navigate("/invoice");
           }
@@ -264,9 +265,16 @@ const AddBill = () => {
               <Button
                 type="submit"
                 disabled={loading}
-                className="btn btn-primary w-100"
+                className="btn btn-primary w-100 d-inline-flex align-items-center justify-content-center"
               >
-                Save Change
+                {loading ? (
+                  <>
+                    <Loader size="sm" className="me-2" />
+                    Generating Invoice...
+                  </>
+                ) : (
+                  "Generate Invoice"
+                )}
               </Button>
             </Col>
           </Row>

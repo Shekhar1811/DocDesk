@@ -5,7 +5,7 @@ import { useAlert } from "react-alert";
 import dataServices from "../../apiServices/data.services";
 import { IMAGE_URL } from "../../constants";
 import { Link } from "react-router-dom";
-import { Loader } from "react-bootstrap-typeahead";
+import Loader from "../Loader/Loader";
 
 const AssetsView = ({ id, assets, editApi = null, setReload }) => {
   const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ const AssetsView = ({ id, assets, editApi = null, setReload }) => {
     const payload = { assets: [{ id: fileId, destroy: true }] };
     dataServices[editApi](id, payload)
       .then((res) => {
-        if (res.status === 200) {
+        if (res.status === 200 || res.status === 201) {
           alert.success("File deleted successfully");
           setReload((prev) => !prev);
         }
@@ -76,18 +76,18 @@ const AssetsView = ({ id, assets, editApi = null, setReload }) => {
                         />
                       )}
                     </Link>
-                    {!loading && editApi && (
+                    {editApi && (
                       <Button
                         variant="danger"
                         size="sm"
-                        className="delete-img-btn"
+                        className="delete-img-btn d-inline-flex align-items-center justify-content-center"
                         onClick={() => removeUploadedFiles(imgObj.id)}
                         disabled={loading}
                         style={{
                           cursor: loading ? "not-allowed" : "pointer",
                         }}
                       >
-                        &times;
+                        {loading ? <Loader size="sm" /> : <span>&times;</span>}
                       </Button>
                     )}
                   </Col>

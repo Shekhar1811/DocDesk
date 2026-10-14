@@ -7,6 +7,7 @@ import { useAlert } from "react-alert";
 import dataServices from "../../apiServices/data.services";
 import { handleValidationError } from "../../components/CommonFunctions";
 import { Can } from "../../context/AuthProvider";
+import Loader from "../../components/Loader/Loader";
 
 const AddNote = () => {
   const alert = useAlert();
@@ -30,7 +31,7 @@ const AddNote = () => {
           name: values.title,
         })
         .then((res) => {
-          if (res.status === 201) {
+          if (res.status === 201 || res.status === 200) {
             alert.success("Note added successfully");
             navigate(`/note`);
           }
@@ -99,9 +100,16 @@ const AddNote = () => {
               <Button
                 type="submit"
                 disabled={loading}
-                className="btn btn-primary w-100"
+                className="btn btn-primary w-100 d-inline-flex align-items-center justify-content-center"
               >
-                Save Note
+                {loading ? (
+                  <>
+                    <Loader size="sm" className="me-2" />
+                    Saving Note...
+                  </>
+                ) : (
+                  "Save Note"
+                )}
               </Button>
             </Col>
           </Row>

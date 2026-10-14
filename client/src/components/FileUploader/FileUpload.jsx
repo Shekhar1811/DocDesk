@@ -4,8 +4,7 @@ import { handleValidationError } from "../CommonFunctions";
 import { useAlert } from "react-alert";
 import dataServices from "../../apiServices/data.services";
 import { IMAGE_URL } from "../../constants";
-import { Link } from "react-router-dom";
-import { Loader } from "react-bootstrap-typeahead";
+import Loader from "../Loader/Loader";
 
 const FileUpload = ({ id, onSubmit, uploadApi, setReload }) => {
   const [files, setFiles] = useState([]);
@@ -47,7 +46,7 @@ const FileUpload = ({ id, onSubmit, uploadApi, setReload }) => {
 
       dataServices[uploadApi](id, formData)
         .then((res) => {
-          if (res.status === 200) {
+          if (res.status === 200 || res.status === 201) {
             alert.success("File uploaded successfully");
             setReload((prev) => !prev);
             setFiles([]);

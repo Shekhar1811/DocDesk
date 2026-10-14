@@ -12,6 +12,7 @@ import { Can } from "../../context/AuthProvider";
 import { useAlert } from "react-alert";
 import { handleValidationError } from "../../components/CommonFunctions";
 import { genderOptions } from "../../constants";
+import Loader from "../../components/Loader/Loader";
 
 const AddDoctor = () => {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ const AddDoctor = () => {
       dataServices
         .addDoctor(values)
         .then((res) => {
-          if (res.status === 201) {
+          if (res.status === 201 || res.status === 200) {
             alert.success("Doctor added successfully");
             navigate("/doctors");
           }
@@ -407,9 +408,16 @@ const AddDoctor = () => {
               type="submit"
               disabled={loading}
               variant="primary"
-              className="w-100"
+              className="w-100 d-inline-flex align-items-center justify-content-center"
             >
-              Save Changes
+              {loading ? (
+                <>
+                  <Loader size="sm" className="me-2" />
+                  Saving Doctor...
+                </>
+              ) : (
+                "Save Doctor"
+              )}
             </Button>
           </div>
         </Form>

@@ -10,6 +10,7 @@ import {
   transformPermissions,
 } from "../../components/CommonFunctions";
 import { useAlert } from "react-alert";
+import Loader from "../../components/Loader/Loader";
 
 function SignIn() {
   const navigate = useNavigate();
@@ -246,10 +247,17 @@ function SignIn() {
 
           <Button
             type="submit"
-            className="btn btn-primary btn-lg w-100 mt-2 mb-3"
+            className="btn btn-primary btn-lg w-100 mt-2 mb-3 d-inline-flex align-items-center justify-content-center"
             disabled={loading}
           >
-            {loading ? "Loading..." : "Login"}
+            {loading ? (
+              <>
+                <Loader size="sm" className="me-2" />
+                Signing In...
+              </>
+            ) : (
+              "Sign In"
+            )}
           </Button>
           {/* <div className="d-flex justify-content-between mt-2">
             <Link

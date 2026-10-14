@@ -13,6 +13,7 @@ import { handleValidationError } from "../../components/CommonFunctions";
 import { useAlert } from "react-alert";
 import { genderOptions } from "../../constants";
 import { Typeahead } from "react-bootstrap-typeahead";
+import Loader from "../../components/Loader/Loader";
 
 const AddPatient = () => {
   const navigate = useNavigate();
@@ -102,7 +103,7 @@ const AddPatient = () => {
         dataServices
           .addPatients(values)
           .then((res) => {
-            if (res.status === 201) {
+            if (res.status === 201 || res.status === 200) {
               alert.success("Patient added successfully");
               navigate("/patients");
             }
@@ -398,9 +399,16 @@ const AddPatient = () => {
             <Button
               type="submit"
               disabled={loading}
-              className="btn btn-primary w-100"
+              className="btn btn-primary w-100 d-inline-flex align-items-center justify-content-center"
             >
-              Save Changes
+              {loading ? (
+                <>
+                  <Loader size="sm" className="me-2" />
+                  Saving Patient...
+                </>
+              ) : (
+                "Save Patient"
+              )}
             </Button>
           </div>
         </Form>

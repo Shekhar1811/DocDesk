@@ -71,7 +71,7 @@ const EditProfile = () => {
       dataServices
         .updateUser(values.id, values)
         .then((res) => {
-          if (res.status === 200) {
+          if (res.status === 200 || res.status === 201) {
             alert.success("Profile details updated successfully");
             const { email, mobile, first_name, last_name, permissions, role } =
               res.data.contact;
@@ -276,9 +276,16 @@ const EditProfile = () => {
             <Button
               type="submit"
               disabled={loading}
-              className="btn btn-primary w-100"
+              className="btn btn-primary w-100 d-inline-flex align-items-center justify-content-center"
             >
-              Save Changes
+              {loading ? (
+                <>
+                  <Loader size="sm" className="me-2" />
+                  Saving Changes...
+                </>
+              ) : (
+                "Save Changes"
+              )}
             </Button>
           </div>
         </Form>

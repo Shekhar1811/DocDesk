@@ -79,7 +79,7 @@ const addDoctor = async (req, res) => {
       },
     });
 
-    return res.status(200).json({ success: true, data: formatDoctor(newDoctor) });
+    return res.status(201).json({ success: true, data: formatDoctor(newDoctor) });
   } catch (error) {
     console.error("addDoctor error:", error);
     return res.status(500).json({ error: true, message: "Failed to add doctor" });

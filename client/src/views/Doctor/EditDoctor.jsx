@@ -79,7 +79,7 @@ const EditDoctor = () => {
       dataServices
         .editDoctor(id, values)
         .then((res) => {
-          if (res.status === 200) {
+          if (res.status === 200 || res.status === 201) {
             alert.success("Doctor details updated successfully");
             if (window.history.length > 1 && window.history.state && window.history.state.idx > 0) {
               navigate(-1);
@@ -392,9 +392,16 @@ const EditDoctor = () => {
                   type="submit"
                   disabled={loading}
                   variant="primary"
-                  className="w-100"
+                  className="w-100 d-inline-flex align-items-center justify-content-center"
                 >
-                  Save Changes
+                  {loading ? (
+                    <>
+                      <Loader size="sm" className="me-2" />
+                      Saving Changes...
+                    </>
+                  ) : (
+                    "Save Changes"
+                  )}
                 </Button>
               </Col>
               </Row>

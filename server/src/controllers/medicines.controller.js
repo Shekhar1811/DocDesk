@@ -43,7 +43,7 @@ const addMedicine = async (req, res) => {
       },
     });
 
-    return res.status(200).json({ success: true, data: newMed });
+    return res.status(201).json({ success: true, data: newMed });
   } catch (error) {
     console.error("addMedicine error:", error);
     return res.status(500).json({ error: true, message: "Failed to add medicine" });
@@ -136,7 +136,7 @@ const addPrescriptions = async (req, res) => {
       },
     });
 
-    return res.status(200).json({ success: true, data: prescription });
+    return res.status(201).json({ success: true, data: prescription });
   } catch (error) {
     console.error("addPrescriptions error:", error);
     return res.status(500).json({ error: true, message: "Failed to create prescription" });

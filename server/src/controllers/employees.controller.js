@@ -78,7 +78,7 @@ const addEmployee = async (req, res) => {
       },
     });
 
-    return res.status(200).json({ success: true, data: formatEmployee(newEmp) });
+    return res.status(201).json({ success: true, data: formatEmployee(newEmp) });
   } catch (error) {
     console.error("addEmployee error:", error);
     return res.status(500).json({ error: true, message: "Failed to add employee" });

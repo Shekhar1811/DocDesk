@@ -56,7 +56,7 @@ const addNote = async (req, res) => {
       },
     });
 
-    return res.status(200).json({ success: true, data: formatNote(newNote) });
+    return res.status(201).json({ success: true, data: formatNote(newNote) });
   } catch (error) {
     console.error("addNote error:", error);
     return res.status(500).json({ error: true, message: "Failed to create note" });

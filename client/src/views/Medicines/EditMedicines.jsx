@@ -57,7 +57,7 @@ const EditMedicines = () => {
       dataServices
         .editMedicine(id, values)
         .then((res) => {
-          if (res.status === 200) {
+          if (res.status === 200 || res.status === 201) {
             alert.success("Medicine details updated successfully");
             if (window.history.length > 1 && window.history.state && window.history.state.idx > 0) {
               navigate(-1);
@@ -140,8 +140,19 @@ const EditMedicines = () => {
                   </Button>
                 </Col>
                 <Col className="footer mt-auto">
-                  <Button type="submit" className="btn btn-primary w-100">
-                    Save Changes
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    className="btn btn-primary w-100 d-inline-flex align-items-center justify-content-center"
+                  >
+                    {loading ? (
+                      <>
+                        <Loader size="sm" className="me-2" />
+                        Saving Changes...
+                      </>
+                    ) : (
+                      "Save Changes"
+                    )}
                   </Button>
                 </Col>
               </Row>

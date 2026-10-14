@@ -11,6 +11,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { Can } from "../../context/AuthProvider";
 import { handleValidationError } from "../../components/CommonFunctions";
 import { useAlert } from "react-alert";
+import Loader from "../../components/Loader/Loader";
 
 const EditAppointment = () => {
   const navigate = useNavigate();
@@ -113,7 +114,7 @@ const EditAppointment = () => {
       dataServices
         .editAppointments(id, values)
         .then((res) => {
-          if (res.status === 200) {
+          if (res.status === 200 || res.status === 201) {
             alert.success("Appointment saved successfully");
             if (window.history.length > 1 && window.history.state && window.history.state.idx > 0) {
               navigate(-1);
@@ -322,9 +323,16 @@ const EditAppointment = () => {
                 variant="primary"
                 disabled={loading}
                 type="submit"
-                className="w-100"
+                className="w-100 d-inline-flex align-items-center justify-content-center"
               >
-                Save Appointment
+                {loading ? (
+                  <>
+                    <Loader size="sm" className="me-2" />
+                    Saving Appointment...
+                  </>
+                ) : (
+                  "Save Appointment"
+                )}
               </Button>
             </Col>
           </Row>

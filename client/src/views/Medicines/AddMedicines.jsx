@@ -9,6 +9,7 @@ import { useAlert } from "react-alert";
 import { handleValidationError } from "../../components/CommonFunctions";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { Can } from "./../../context/AuthProvider";
+import Loader from "../../components/Loader/Loader";
 
 // Define the options for the Select component
 const typeOptions = [
@@ -61,10 +62,11 @@ const EditMedicines = () => {
       type: Yup.string().required("Medicines Type is required"),
     }),
     onSubmit: (values) => {
+      setLoading(true);
       dataServices
         .addMedicine(values)
         .then((res) => {
-          if (res.status === 201) {
+          if (res.status === 201 || res.status === 200) {
             alert.success("Medicine added successfully");
             navigate(`/medicines`);
           }
@@ -139,9 +141,16 @@ const EditMedicines = () => {
               <Button
                 type="submit"
                 disabled={loading}
-                className="btn btn-primary w-100"
+                className="btn btn-primary w-100 d-inline-flex align-items-center justify-content-center"
               >
-                Save Changes
+                {loading ? (
+                  <>
+                    <Loader size="sm" className="me-2" />
+                    Saving Medicine...
+                  </>
+                ) : (
+                  "Save Medicine"
+                )}
               </Button>
             </Col>
           </Row>

@@ -86,7 +86,7 @@ const EditBill = () => {
       dataServices
         .editInvoice(id, values)
         .then((res) => {
-          if (res.status === 200) {
+          if (res.status === 200 || res.status === 201) {
             alert.success("Invoice updated successfully");
             navigate("/invoice");
           }
@@ -291,9 +291,16 @@ const EditBill = () => {
                   <Button
                     type="submit"
                     disabled={loading}
-                    className="btn btn-primary w-100"
+                    className="btn btn-primary w-100 d-inline-flex align-items-center justify-content-center"
                   >
-                    Save Change
+                    {loading ? (
+                      <>
+                        <Loader size="sm" className="me-2" />
+                        Saving Invoice...
+                      </>
+                    ) : (
+                      "Save Invoice"
+                    )}
                   </Button>
                 </Col>
               </Row>

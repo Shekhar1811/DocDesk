@@ -6,6 +6,7 @@ import dataServices from "../../apiServices/data.services";
 import { useAlert } from "react-alert";
 import { handleValidationError } from "../../components/CommonFunctions";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader/Loader";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -120,9 +121,16 @@ const SignUp = () => {
           <Button
             type="submit"
             disabled={loading}
-            className="btn btn-primary w-100 rounded-4 mb-3"
+            className="btn btn-primary w-100 rounded-4 mb-3 d-inline-flex align-items-center justify-content-center"
           >
-            {loading ? "Creating Account..." : "Create Account"}
+            {loading ? (
+              <>
+                <Loader size="sm" className="me-2" />
+                Creating Account...
+              </>
+            ) : (
+              "Create Account"
+            )}
           </Button>
           <p className="text-muted text-center small">
             Already have an account?{" "}

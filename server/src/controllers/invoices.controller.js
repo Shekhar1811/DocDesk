@@ -109,7 +109,7 @@ const addInvoice = async (req, res) => {
       },
     });
 
-    return res.status(200).json({ success: true, data: formatInvoice(newInvoice) });
+    return res.status(201).json({ success: true, data: formatInvoice(newInvoice) });
   } catch (error) {
     console.error("addInvoice error:", error);
     return res.status(500).json({ error: true, message: "Failed to create invoice" });

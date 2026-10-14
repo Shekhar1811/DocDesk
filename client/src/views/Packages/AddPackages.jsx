@@ -7,6 +7,7 @@ import { useAlert } from "react-alert";
 import { useNavigate } from "react-router-dom";
 import { Can } from "../../context/AuthProvider";
 import { handleValidationError } from "../../components/CommonFunctions";
+import Loader from "../../components/Loader/Loader";
 
 const AddPackages = () => {
   const alert = useAlert();
@@ -32,7 +33,7 @@ const AddPackages = () => {
     dataServices
       .addPackage(values)
       .then((res) => {
-        if (res.status === 201) {
+        if (res.status === 201 || res.status === 200) {
           alert.success("Package added successfully");
           navigate("/packages");
         }
@@ -142,9 +143,16 @@ const AddPackages = () => {
                     <Button
                       type="submit"
                       disabled={loading}
-                      className="btn btn-primary w-100"
+                      className="btn btn-primary w-100 d-inline-flex align-items-center justify-content-center"
                     >
-                      Save Changes
+                      {loading ? (
+                        <>
+                          <Loader size="sm" className="me-2" />
+                          Saving Package...
+                        </>
+                      ) : (
+                        "Save Package"
+                      )}
                     </Button>
                   </Col>
                 </Row>

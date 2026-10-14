@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { Can } from "./../../context/AuthProvider";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
+import Loader from "../../components/Loader/Loader";
 
 const Prescription = ({ appointment }) => {
   const [masterMedicines, setMasterMedicines] = useState();
@@ -100,10 +101,10 @@ const Prescription = ({ appointment }) => {
       }
       dataServices[api](...payload)
         .then((res) => {
-          if (res.status === 201) {
+          if (!editMode && (res.status === 201 || res.status === 200)) {
             alert.success("Prescription added successfully");
             setPrescription([...prescription, formik.values]);
-          } else if (res.status === 200) {
+          } else if (editMode && (res.status === 200 || res.status === 201)) {
             alert.success("Prescription updated successfully");
             setEditMode(false);
             const updatedPrescription = prescription.filter(
@@ -441,12 +442,34 @@ const Prescription = ({ appointment }) => {
                 </Col>
               </Row>
               {!editMode ? (
-                <Button type="submit" disabled={loading} className="">
-                  Add
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="btn btn-primary d-inline-flex align-items-center"
+                >
+                  {loading ? (
+                    <>
+                      <Loader size="sm" className="me-2" />
+                      Adding Prescription...
+                    </>
+                  ) : (
+                    "Add Prescription"
+                  )}
                 </Button>
               ) : (
-                <Button type="submit" disabled={loading} className="">
-                  Save
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="btn btn-primary d-inline-flex align-items-center"
+                >
+                  {loading ? (
+                    <>
+                      <Loader size="sm" className="me-2" />
+                      Saving Changes...
+                    </>
+                  ) : (
+                    "Save Changes"
+                  )}
                 </Button>
               )}
             </Form>

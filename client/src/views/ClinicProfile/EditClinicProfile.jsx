@@ -130,7 +130,7 @@ const EditClinicProfile = () => {
         dataServices
           .uploadClinicDocs(formik.values.id, asset.url, asset.image)
           .then((res) => {
-            if (res.status === 200) {
+            if (res.status === 200 || res.status === 201) {
               alert.success("Documents uploaded successfully");
             }
           })
@@ -148,7 +148,7 @@ const EditClinicProfile = () => {
         dataServices
           .editClinic(values.id, values)
           .then((res) => {
-            if (res.status === 200) {
+            if (res.status === 200 || res.status === 201) {
               alert.success("Clinic details updated successfully");
             }
           })
@@ -328,9 +328,16 @@ const EditClinicProfile = () => {
               <Button
                 type="submit"
                 disabled={loading}
-                className="btn btn-primary w-100"
+                className="btn btn-primary w-100 d-inline-flex align-items-center justify-content-center"
               >
-                Save Changes
+                {loading ? (
+                  <>
+                    <Loader size="sm" className="me-2" />
+                    Saving Changes...
+                  </>
+                ) : (
+                  "Save Changes"
+                )}
               </Button>
             </div>
           </Form>

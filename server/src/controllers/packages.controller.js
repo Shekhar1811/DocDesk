@@ -44,7 +44,7 @@ const addPackage = async (req, res) => {
       },
     });
 
-    return res.status(200).json({ success: true, data: newPkg });
+    return res.status(201).json({ success: true, data: newPkg });
   } catch (error) {
     console.error("addPackage error:", error);
     return res.status(500).json({ error: true, message: "Failed to create package" });
